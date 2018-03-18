@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--statusbarutil-->
+    <item name="statusbarutil_fake_status_bar_view" type="id" />
+    <item name="statusbarutil_translucent_view" type="id" />
+
+    <!--scaner-->
+    <item name="auto_focus" type="id" />
+    <item name="decode" type="id" />
+    <item name="decode_failed" type="id" />
+    <item name="decode_succeeded" type="id" />
+    <item name="encode_failed" type="id" />
+    <item name="encode_succeeded" type="id" />
+    <item name="quit" type="id" />
+    <item name="restart_preview" type="id" />
+
+</resources>

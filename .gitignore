@@ -1,1 +1,5 @@
-/build
+/node_modules
+/.temp
+/.idea
+build
+.DS_Store

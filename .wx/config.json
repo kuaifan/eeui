@@ -1,0 +1,23 @@
+{
+  "android": {
+    "AppName": "WeexApp",
+    "AppId": "com.alibaba.weex",
+    "SplashText": "Hello\nWeex",
+    "WeexBundle": "index.js"
+  },
+  "ios": {
+    "AppId": "com.alibaba.weex",
+    "AppName": "WeexApp",
+    "Version": "1.0.0",
+    "BuildVersion": "1.0.0",
+    "WeexBundle": "index.js",
+    "CodeSign": "",
+    "Profile": ""
+  },
+  "name": "weiui",
+  "description": "A weex project",
+  "version": "1.0.0",
+  "author": "tiantian",
+  "unit": false,
+  "autoInstall": "npm"
+}

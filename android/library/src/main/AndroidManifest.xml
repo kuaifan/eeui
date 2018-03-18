@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="vip.kuaifan.weiui" >
+
+    <application>
+
+        <activity
+            android:name=".PageActivity"
+            android:theme="@style/transparentTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+    </application>
+
+</manifest>
