@@ -13,14 +13,22 @@ import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
+import com.taobao.weex.dom.flex.CSSFlexDirection;
+import com.taobao.weex.dom.flex.CSSJustify;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
+import com.taobao.weex.utils.WXUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.R;
+import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import vip.kuaifan.weiui.extend.module.utilcode.util.ScreenUtils;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
+import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.sidePanel.view.SlidingMenu;
 
 /**
@@ -34,22 +42,35 @@ public class SidePanel extends WXVContainer<ViewGroup> {
 
     private View mView;
 
-    private int viewTop;
-
     private SlidingMenu v_sliding;
 
     private LinearLayout v_sliding_menu;
 
-    private FrameLayout v_container;
+    private LinearLayout v_container;
+
+    private int menuNum;
+
+    int getMenuNum() {
+        return menuNum;
+    }
+
+    void menuNumPlusOne() {
+        menuNum++;
+    }
 
     public SidePanel(WXSDKInstance instance, WXDomObject node, WXVContainer parent) {
         super(instance, node, parent);
+        node.setFlexDirection(CSSFlexDirection.ROW);
     }
 
     @Override
     protected ViewGroup initComponentHostView(@NonNull Context context) {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_side_panel, null);
         initPagerView();
+        //
+        if (getContext() instanceof PageActivity) {
+            ((PageActivity) getContext()).setSwipeBackEnable(false);
+        }
         //
         return (ViewGroup) mView;
     }
@@ -71,21 +92,43 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     @Override
+    protected boolean setProperty(String key, Object param) {
+        switch (key) {
+            case "weiui":
+                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
+                if (uiObject.size() > 0) {
+                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
+                        switch (entry.getKey()) {
+                            case "width":
+                                setMenuWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 380));
+                                break;
+
+                            case "scrollbar":
+                                setMenuScrollbar(WXUtils.getBoolean(entry.getValue(), false));
+                                break;
+
+                            case "backgroundColor":
+                                setMenuBackgroundColor(WXUtils.getString(entry.getValue(), "#ffffff"));
+                                break;
+                        }
+                    }
+                }
+                return true;
+        }
+        return super.setProperty(key, param);
+    }
+
+    @Override
     public ViewGroup.LayoutParams getChildLayoutParams(WXComponent child, View childView, int width, int height, int left, int right, int top, int bottom) {
         ViewGroup.LayoutParams lp = childView == null ? null : childView.getLayoutParams();
         if (lp == null) {
-            lp = new FrameLayout.LayoutParams(width, height);
+            lp = new FrameLayout.LayoutParams(width, FrameLayout.LayoutParams.WRAP_CONTENT);
         } else {
             lp.width = width;
-            lp.height = height;
+            lp.height = FrameLayout.LayoutParams.WRAP_CONTENT;
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
-            if (child instanceof SidePanelMenu) {
-                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, 0, right, bottom);
-            } else {
-                ((ViewGroup.MarginLayoutParams) lp).setMargins(left, viewTop, right, bottom);
-                viewTop+= height;
-            }
+            ((ViewGroup.MarginLayoutParams) lp).setMargins(0, top, right, bottom);
         }
         return lp;
     }
@@ -96,20 +139,24 @@ public class SidePanel extends WXVContainer<ViewGroup> {
         v_container = mView.findViewById(R.id.v_container);
     }
 
-    public View.OnClickListener menuClick = (view) -> {
+    View.OnClickListener menuClick = (view) -> {
         menuHide();
         int position = (int) view.getTag();
-        if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_CLICK)) {
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_CLICK)
+                && view instanceof SidePanelMenuView) {
             Map<String, Object> data = new HashMap<>();
+            data.put("name", ((SidePanelMenuView) view).getName());
             data.put("position", position);
             fireEvent(weiuiConstants.Event.ITEM_CLICK, data);
         }
     };
 
-    public View.OnLongClickListener menuLongClick = (view) -> {
+    View.OnLongClickListener menuLongClick = (view) -> {
         int position = (int) view.getTag();
-        if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_LONG_CLICK)) {
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_LONG_CLICK)
+                && view instanceof SidePanelMenuView) {
             Map<String, Object> data = new HashMap<>();
+            data.put("name", ((SidePanelMenuView) view).getName());
             data.put("position", position);
             fireEvent(weiuiConstants.Event.ITEM_LONG_CLICK, data);
         }
@@ -121,7 +168,7 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     /***************************************************************************************************/
 
     /**
-     * 显示菜单
+     * 显示侧边栏
      */
     @JSMethod
     public void menuShow() {
@@ -131,7 +178,7 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     /**
-     * 隐藏菜单
+     * 隐藏侧边栏
      */
     @JSMethod
     public void menuHide() {
@@ -141,7 +188,7 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     /**
-     * 切换菜单显示/隐藏
+     * 切换侧边栏显示/隐藏
      */
     @JSMethod
     public void menuToggle() {
@@ -151,27 +198,16 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     /**
-     * 菜单是否显示
+     * 侧边栏是否显示
      * @return
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public boolean getMenuShow() {
         return v_sliding != null && v_sliding.getLeftShow();
     }
 
     /**
-     * 设置菜单是否显示滚动条
-     * @param scrollbar
-     */
-    @JSMethod
-    public void setMenuScrollbar(Boolean scrollbar) {
-        if (v_sliding != null) {
-            v_sliding.setLeftVerticalScrollBarEnabled(scrollbar);
-        }
-    }
-
-    /**
-     * 设置菜单的宽度
+     * 设置侧边栏的宽度
      * @param width
      */
     @JSMethod
@@ -182,7 +218,18 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     /**
-     * 设置菜单的背景颜色
+     * 设置侧边栏是否显示滚动条
+     * @param scrollbar
+     */
+    @JSMethod
+    public void setMenuScrollbar(Boolean scrollbar) {
+        if (v_sliding != null) {
+            v_sliding.setLeftVerticalScrollBarEnabled(scrollbar);
+        }
+    }
+
+    /**
+     * 设置侧边栏的背景颜色
      * @param color
      */
     @JSMethod

@@ -147,6 +147,12 @@ public class SlidingMenu extends ViewGroup {
                 float moveX = event.getX();
                 float moveY = event.getY();
 
+                if (moveX > mDownX) {
+                    mMoveSide = "right";
+                }else{
+                    mMoveSide = "left";
+                }
+
                 int diffX = (int) (mDownX - moveX + 0.5f);// 四舍五入
 
                 int scrollX = getScrollX() + diffX;
@@ -170,12 +176,12 @@ public class SlidingMenu extends ViewGroup {
                 if (System.currentTimeMillis() - mDownTime < 200 && mMoveSide != null) {
                     if (isLeftShow) {
                         if (mMoveSide.equals("left")) {
-                            switchMenu(false, 300);
+                            moveSwitchMenu(false, 300);
                             return true;
                         }
                     }else{
                         if (mMoveSide.equals("right")) {
-                            switchMenu(true, 300);
+                            moveSwitchMenu(true, 300);
                             return true;
                         }
                     }
@@ -184,10 +190,10 @@ public class SlidingMenu extends ViewGroup {
                 int width = mLeftView.getMeasuredWidth();
                 if (isLeftShow) {
                     float middle = Math.min(-width / 2f, -(width - widthPixels / 5f));
-                    switchMenu(currentX <= middle, 600);
+                    moveSwitchMenu(currentX <= middle, 600);
                 }else{
                     float middle = Math.max(-width / 2f, -widthPixels / 5f);
-                    switchMenu(currentX <= middle, 600);
+                    moveSwitchMenu(currentX <= middle, 600);
                 }
                 break;
 
@@ -197,8 +203,15 @@ public class SlidingMenu extends ViewGroup {
         return true;
     }
 
-    private void switchMenu(boolean showLeft, int duration) {
+    private void moveSwitchMenu(boolean showLeft, int duration) {
+        int currentX = getScrollX();
+        if (currentX == 0 && isLeftShow == showLeft) {
+            return;
+        }
+        switchMenu(showLeft, duration);
+    }
 
+    private void switchMenu(boolean showLeft, int duration) {
         isLeftShow = showLeft;
         int width = mLeftView.getMeasuredWidth();
         int currentX = getScrollX();

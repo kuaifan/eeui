@@ -1,11 +1,12 @@
 package vip.kuaifan.weiui.ui.component.tabbar;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -27,6 +28,7 @@ import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.dom.flex.CSSFlexDirection;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.utils.WXUtils;
 import vip.kuaifan.weiui.R;
@@ -46,7 +48,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@SuppressLint("UseSparseArrays")
 @WeexComponent(names = {"weiui_tabbar"})
 public class Tabbar extends WXVContainer<ViewGroup> {
 
@@ -70,8 +71,9 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     private Map<String, WXSDKBean> WXSDKList = new HashMap<>();
 
-    public Tabbar(WXSDKInstance instance, WXDomObject dom, WXVContainer parent) {
-        super(instance, dom, parent);
+    public Tabbar(WXSDKInstance instance, WXDomObject node, WXVContainer parent) {
+        super(instance, node, parent);
+        node.setFlexDirection(CSSFlexDirection.ROW);
     }
 
     @Override
@@ -106,7 +108,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             lp.height = height;
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ((ViewGroup.MarginLayoutParams) lp).setMargins(left, 0, right, bottom);
+            ((ViewGroup.MarginLayoutParams) lp).setMargins(0, top, right, bottom);
         }
         return lp;
     }
@@ -114,21 +116,21 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     @Override
     protected boolean setProperty(String key, Object param) {
         switch (key) {
-            case "pages":
             case "items":
+            case "pages":
+            case "tabPages":
                 JSONArray pagesArray = weiuiJson.parseArray(WXUtils.getString(param, null));
                 if (pagesArray.size() > 0) {
                     for (int i = 0; i < pagesArray.size(); i++) {
                         JSONObject item = pagesArray.getJSONObject(i);
-                        TabbarBean barBean = new TabbarBean();
-                        barBean.setName(weiuiJson.getString(item, "name"));
-                        barBean.setTitle(weiuiJson.getString(item, "title"));
-                        barBean.setView(weiuiJson.getString(item, "url"));
-                        barBean.setSelectedIcon(weiuiJson.getString(item, "selectedIcon"));
-                        barBean.setUnSelectedIcon(weiuiJson.getString(item, "unSelectedIcon"));
-                        barBean.setMessage(weiuiJson.getInt(item, "message"));
-                        barBean.setDot(weiuiJson.getBoolean(item, "dot"));
-                        addPageView(barBean);
+                        if (item != null) {
+                            TabbarBean barBean = new TabbarBean();
+                            for (Map.Entry<String, Object> entry : item.entrySet()) {
+                                barBean = TabbarPage.setBarAttr(barBean, entry.getKey(), entry.getValue());
+                            }
+                            barBean.setView(weiuiJson.getString(item, "url"));
+                            addPageView(barBean);
+                        }
                     }
                     setTabData();
                 }
@@ -180,8 +182,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
                             case "indicatorColor":
                             case "setIndicatorColor":
-                                mTabLayoutTop.setIndicatorColor(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorColor(WXUtils.getNumberInt(entry.getValue(), 0));
+                                mTabLayoutTop.setIndicatorColor(Color.parseColor(String.valueOf(entry.getValue())));
+                                mTabLayoutBottom.setIndicatorColor(Color.parseColor(String.valueOf(entry.getValue())));
                                 break;
 
                             case "indicatorHeight":
@@ -204,8 +206,13 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
                             case "indicatorGravity":
                             case "setIndicatorGravity":
-                                mTabLayoutTop.setIndicatorGravity(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorGravity(WXUtils.getNumberInt(entry.getValue(), 0));
+                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
+                                    mTabLayoutTop.setIndicatorGravity(Gravity.TOP);
+                                    mTabLayoutBottom.setIndicatorGravity(Gravity.TOP);
+                                }else{
+                                    mTabLayoutTop.setIndicatorGravity(Gravity.BOTTOM);
+                                    mTabLayoutBottom.setIndicatorGravity(Gravity.BOTTOM);
+                                }
                                 break;
 
                             case "indicatorAnimDuration":
@@ -228,8 +235,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
                             case "underlineColor":
                             case "setUnderlineColor":
-                                mTabLayoutTop.setUnderlineColor(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setUnderlineColor(WXUtils.getNumberInt(entry.getValue(), 0));
+                                mTabLayoutTop.setUnderlineColor(Color.parseColor(String.valueOf(entry.getValue())));
+                                mTabLayoutBottom.setUnderlineColor(Color.parseColor(String.valueOf(entry.getValue())));
                                 break;
 
                             case "underlineHeight":
@@ -240,14 +247,19 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
                             case "underlineGravity":
                             case "setUnderlineGravity":
-                                mTabLayoutTop.setUnderlineGravity(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setUnderlineGravity(WXUtils.getNumberInt(entry.getValue(), 0));
+                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
+                                    mTabLayoutTop.setUnderlineGravity(Gravity.TOP);
+                                    mTabLayoutBottom.setUnderlineGravity(Gravity.TOP);
+                                }else{
+                                    mTabLayoutTop.setUnderlineGravity(Gravity.BOTTOM);
+                                    mTabLayoutBottom.setUnderlineGravity(Gravity.BOTTOM);
+                                }
                                 break;
 
                             case "dividerColor":
                             case "setDividerColor":
-                                mTabLayoutTop.setDividerColor(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setDividerColor(WXUtils.getNumberInt(entry.getValue(), 0));
+                                mTabLayoutTop.setDividerColor(Color.parseColor(String.valueOf(entry.getValue())));
+                                mTabLayoutBottom.setDividerColor(Color.parseColor(String.valueOf(entry.getValue())));
                                 break;
 
                             case "dividerWidth":
@@ -289,8 +301,13 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
                             case "iconGravity":
                             case "setIconGravity":
-                                mTabLayoutTop.setIconGravity(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setIconGravity(WXUtils.getNumberInt(entry.getValue(), 0));
+                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
+                                    mTabLayoutTop.setIconGravity(Gravity.TOP);
+                                    mTabLayoutBottom.setIconGravity(Gravity.TOP);
+                                }else{
+                                    mTabLayoutTop.setIconGravity(Gravity.BOTTOM);
+                                    mTabLayoutBottom.setIconGravity(Gravity.BOTTOM);
+                                }
                                 break;
 
                             case "iconWidth":
@@ -416,20 +433,20 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         sdkBean.setView(barBean.getView());
         if (barBean.getView() instanceof String) {
             sdkBean.setType("urlView");
-            WXSDKList.put(barBean.getName(), sdkBean);
-            addWXSDKView(barBean.getName());
+            WXSDKList.put(barBean.getTabName(), sdkBean);
+            addWXSDKView(barBean.getTabName());
         }else if (barBean.getView() instanceof TabbarPageView) {
             sdkBean.setType("pageView");
-            WXSDKList.put(barBean.getName(), sdkBean);
-            addWXPageView(barBean.getName());
+            WXSDKList.put(barBean.getTabName(), sdkBean);
+            addWXPageView(barBean.getTabName());
         }
         //
         if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
             sdkBean.getSwipeRefresh().setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
             sdkBean.getSwipeRefresh().setOnRefreshListener(() -> {
                 Map<String, Object> data = new HashMap<>();
-                data.put("name", barBean.getName());
-                data.put("position", getTabPosition(barBean.getName()));
+                data.put("tabName", barBean.getTabName());
+                data.put("position", getTabPosition(barBean.getTabName()));
                 fireEvent(weiuiConstants.Event.REFRESH_LISTENER, data);
             });
             sdkBean.setSwipeRefreshEnable(true);
@@ -446,10 +463,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 添加、刷新 浏览器页面
-     * @param name
+     * @param tabName
      */
-    private void addWXSDKView(String name) {
-        WXSDKBean sdkBean = WXSDKList.get(name);
+    private void addWXSDKView(String tabName) {
+        WXSDKBean sdkBean = WXSDKList.get(tabName);
         if (sdkBean == null || !sdkBean.getType().equals("urlView")) {
             return;
         }
@@ -474,7 +491,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 //
                 if (getDomObject().getEvents().contains(weiuiConstants.Event.VIEW_CREATED)) {
                     Map<String, Object> data = new HashMap<>();
-                    data.put("name", name);
+                    data.put("tabName", tabName);
                     data.put("url", url);
                     fireEvent(weiuiConstants.Event.VIEW_CREATED, data);
                 }
@@ -498,8 +515,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             public void onScrolled(View view, int x, int y) {
                 if (getDomObject().getEvents().contains(weiuiConstants.Event.SCROLLED)) {
                     Map<String, Object> data = new HashMap<>();
-                    data.put("name", name);
-                    data.put("view", view);
+                    data.put("tabName", tabName);
                     data.put("x", x);
                     data.put("y", y);
                     fireEvent(weiuiConstants.Event.SCROLLED, data);
@@ -510,8 +526,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             public void onScrollStateChanged(View view, int x, int y, int newState) {
                 if (getDomObject().getEvents().contains(weiuiConstants.Event.SCROLL_STATE_CHANGED)) {
                     Map<String, Object> data = new HashMap<>();
-                    data.put("name", name);
-                    data.put("view", view);
+                    data.put("tabName", tabName);
                     data.put("x", x);
                     data.put("y", y);
                     data.put("newState", newState);
@@ -529,15 +544,15 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         //
         Map<String, Object> options = new HashMap<>();
         options.put(WXSDKInstance.BUNDLE_URL, url);
-        sdkBean.getInstance().renderByUrl("Tabbar:" + name, url, options, null, WXRenderStrategy.APPEND_ASYNC);
+        sdkBean.getInstance().renderByUrl("Tabbar:" + tabName, url, options, null, WXRenderStrategy.APPEND_ASYNC);
     }
 
     /**
      * 添加子页面
-     * @param name
+     * @param tabName
      */
-    private void addWXPageView(String name) {
-        WXSDKBean sdkBean = WXSDKList.get(name);
+    private void addWXPageView(String tabName) {
+        WXSDKBean sdkBean = WXSDKList.get(tabName);
         if (sdkBean == null || !sdkBean.getType().equals("pageView")) {
             return;
         }
@@ -556,7 +571,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         //
         if (getDomObject().getEvents().contains(weiuiConstants.Event.VIEW_CREATED)) {
             Map<String, Object> data = new HashMap<>();
-            data.put("name", name);
+            data.put("tabName", tabName);
             data.put("url", null);
             fireEvent(weiuiConstants.Event.VIEW_CREATED, data);
         }
@@ -572,16 +587,16 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         if (mTabEntity != null && mTabEntity.size() > 0) {
             for (int i = 0; i < mTabEntity.size(); i++) {
                 CustomTabEntity temp = mTabEntity.get(i);
-                String name = temp.getTabName();
+                String tabName = temp.getTabName();
                 int message = temp.getTabMessage();
                 if (message > 0) {
-                    showMsg(name, message);
+                    showMsg(tabName, message);
                 } else {
                     boolean dot = temp.isTabDot();
                     if (dot) {
-                        showDot(name);
+                        showDot(tabName);
                     } else {
-                        hideMsg(name);
+                        hideMsg(tabName);
                     }
                 }
             }
@@ -594,15 +609,15 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 根据名称获取位置
-     * @param name
+     * @param tabName
      * @return
      */
     @JSMethod(uiThread = false)
-    public int getTabPosition(String name) {
+    public int getTabPosition(String tabName) {
         if (mTabEntity != null && mTabEntity.size() > 0) {
             for (int i = 0; i < mTabEntity.size(); i++) {
                 String temp = mTabEntity.get(i).getTabName();
-                if (temp != null && temp.equals(name)) {
+                if (temp != null && temp.equals(tabName)) {
                     return i;
                 }
             }
@@ -629,12 +644,12 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 显示未读信息
-     * @param name
+     * @param tabName
      * @param message
      */
     @JSMethod
-    public void showMsg(String name, int message) {
-        int position = getTabPosition(name);
+    public void showMsg(String tabName, int message) {
+        int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.showMsg(position, message);
             mTabLayoutBottom.showMsg(position, message);
@@ -643,11 +658,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 显示未读红点
-     * @param name
+     * @param tabName
      */
     @JSMethod
-    public void showDot(String name){
-        int position = getTabPosition(name);
+    public void showDot(String tabName){
+        int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.showDot(position);
             mTabLayoutBottom.showDot(position);
@@ -656,11 +671,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 隐藏未读信息、未读红点
-     * @param name
+     * @param tabName
      */
     @JSMethod
-    public void hideMsg(String name){
-        int position = getTabPosition(name);
+    public void hideMsg(String tabName){
+        int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.hideMsg(position);
             mTabLayoutBottom.hideMsg(position);
@@ -683,11 +698,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 删除指定页面
-     * @param name
+     * @param tabName
      */
     @JSMethod
-    public void removePageAt(String name) {
-        int position = getTabPosition(name);
+    public void removePageAt(String tabName) {
+        int position = getTabPosition(tabName);
         if (position > -1) {
             if (mViewPager.getCurrentItem() >= mTabEntity.size() - 1) {
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
@@ -704,11 +719,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 切换页面
-     * @param name
+     * @param tabName
      */
     @JSMethod
-    public void setCurrentItem(String name) {
-        int position = getTabPosition(name);
+    public void setCurrentItem(String tabName) {
+        int position = getTabPosition(tabName);
         if (position > -1) {
             mViewPager.setCurrentItem(position);
         }
@@ -716,12 +731,12 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 设置下拉刷新状态
-     * @param name
+     * @param tabName
      * @param refreshing
      */
     @JSMethod
-    public void setRefreshing(String name, boolean refreshing){
-        WXSDKBean temp = WXSDKList.get(name);
+    public void setRefreshing(String tabName, boolean refreshing){
+        WXSDKBean temp = WXSDKList.get(tabName);
         if (temp != null) {
             temp.getSwipeRefresh().setRefreshing(refreshing);
         }
@@ -729,26 +744,26 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     /**
      * 跳转页面
-     * @param name
+     * @param tabName
      * @param url
      */
     @JSMethod
-    public void goUrl(String name, String url) {
-        WXSDKBean bean = WXSDKList.get(name);
+    public void goUrl(String tabName, String url) {
+        WXSDKBean bean = WXSDKList.get(tabName);
         if (bean != null) {
             bean.setView(url);
-            WXSDKList.put(name, bean);
-            addWXSDKView(name);
+            WXSDKList.put(tabName, bean);
+            addWXSDKView(tabName);
         }
     }
 
     /**
      * 刷新页面
-     * @param name
+     * @param tabName
      */
     @JSMethod
-    public void reload(String name) {
-        addWXSDKView(name);
+    public void reload(String tabName) {
+        addWXSDKView(tabName);
     }
 
     /**

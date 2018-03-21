@@ -79,9 +79,10 @@ public class Icon extends WXComponent<IconTextView> {
 
             case "iconSize":
             case "textSize":
-                setIconSize(WXUtils.getNumberInt(val, 0));
+                setIconSize(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
+            case "color":
             case "iconColor":
             case "textColor":
                 setIconColor(WXUtils.getString(val, null));

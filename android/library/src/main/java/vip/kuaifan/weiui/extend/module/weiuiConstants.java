@@ -33,10 +33,10 @@ public class weiuiConstants {
         //下拉刷新
         String REFRESH_LISTENER = "refreshListener";
 
-        //页面滑动时调用，滑动被停止之前一直调用
+        //页面切换时调用，滑动被停止之前一直调用
         String PAGE_SCROLLED = "pageScrolled";
 
-        //页面跳转完后调用
+        //页面切换完成调用
         String PAGE_SELECTED = "pageSelected";
 
         //页面状态改变的时候调用

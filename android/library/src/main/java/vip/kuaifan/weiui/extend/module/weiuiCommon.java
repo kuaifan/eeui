@@ -21,7 +21,6 @@ import android.widget.ListView;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 import com.taobao.weex.bridge.JSCallback;
-import com.taobao.weex.utils.WXUtils;
 
 import vip.kuaifan.weiui.PageActivity;
 
@@ -768,20 +767,22 @@ public class weiuiCommon {
     /**
      * 跨域异步请求 AJAX
      * @param context
-     * @param obj
+     * @param json
      * @param callback
      */
-    public static void ajax(Context context, JSONObject obj, JSCallback callback) {
-        if (obj == null || obj.getString("url") == null) {
+    public static void ajax(Context context, JSONObject json, JSCallback callback) {
+        if (json == null || json.getString("url") == null) {
             return;
         }
         //
-        String url = WXUtils.getString(obj.getString("url"), "");
-        String name = WXUtils.getString(obj.getString("name"), "");
-        String method = WXUtils.getString(obj.getString("method"), "get").toLowerCase();
-        String dataType = WXUtils.getString(obj.getString("dataType"), "json").toLowerCase();
-        JSONObject data = weiuiJson.parseObject(obj.getString("data"));
-        JSONObject headers = weiuiJson.parseObject(obj.getString("headers"));
+        String url = weiuiJson.getString(json, "url", "");
+        String name = weiuiJson.getString(json, "name", "");
+        String method = weiuiJson.getString(json, "method", "get").toLowerCase();
+        String dataType = weiuiJson.getString(json, "dataType", "json").toLowerCase();
+        int timeout = weiuiJson.getInt(json, "timeout", 15000);
+        JSONObject headers = weiuiJson.parseObject(json.getString("headers"));
+        JSONObject data = weiuiJson.parseObject(json.getString("data"));
+        JSONObject files = weiuiJson.parseObject(json.getString("files"));
         //
         if (name.isEmpty()) {
             if (context instanceof PageActivity) {
@@ -792,14 +793,20 @@ public class weiuiCommon {
         }
         //
         Map<String, Object> mData = new HashMap<>();
+        mData.put("setting:timeout", timeout);
+        if (headers.size() > 0) {
+            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+                mData.put("header:" + entry.getKey(), entry.getValue());
+            }
+        }
         if (data.size() > 0) {
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 mData.put(entry.getKey(), entry.getValue());
             }
         }
-        if (headers.size() > 0) {
+        if (files.size() > 0) {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                mData.put("header:" + entry.getKey(), entry.getValue());
+                mData.put("file:" + entry.getKey(), entry.getValue());
             }
         }
         //
@@ -853,6 +860,18 @@ public class weiuiCommon {
             weiuiIhttp.post(name, url, mData, mResultCall);
         }else{
             weiuiIhttp.get(name, url, mData, mResultCall);
+        }
+    }
+
+    /**
+     * 取消跨域异步请求
+     * @param name
+     */
+    public static void ajaxCancel(String name) {
+        if (name == null || name.isEmpty()) {
+            weiuiIhttp.cancel();
+        }else{
+            weiuiIhttp.cancel(name);
         }
     }
 }

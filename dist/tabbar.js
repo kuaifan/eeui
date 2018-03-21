@@ -62,33 +62,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */,
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+/******/ ({
+
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(9)
+__vue_styles__.push(__webpack_require__(36)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(10)
+__vue_exports__ = __webpack_require__(37)
 
 /* template */
-var __vue_template__ = __webpack_require__(11)
+var __vue_template__ = __webpack_require__(38)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -100,10 +93,10 @@ __vue_options__ = __vue_exports__ = __vue_exports__.default
 if (typeof __vue_options__ === "function") {
   __vue_options__ = __vue_options__.options
 }
-__vue_options__.__file = "/Users/WEIDONGMING/wwwroot/weex_plugin/weiui/src/tabbar.vue"
+__vue_options__.__file = "/Users/WEIDONGMING/wwwroot/weex_weiui/src/tabbar.vue"
 __vue_options__.render = __vue_template__.render
 __vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-__vue_options__._scopeId = "data-v-31adeb70"
+__vue_options__._scopeId = "data-v-0d7e390e"
 __vue_options__.style = __vue_options__.style || {}
 __vue_styles__.forEach(function (module) {
   for (var name in module) {
@@ -122,17 +115,43 @@ new Vue(module.exports)
 
 
 /***/ }),
-/* 9 */
+
+/***/ 36:
 /***/ (function(module, exports) {
 
 module.exports = {
-  "wrapper": {
+  "app": {
     "flex": 1
+  },
+  "tabbar": {
+    "width": "750",
+    "flex": 1
+  },
+  "page-content": {
+    "width": "750",
+    "flex": 1,
+    "justifyContent": "center",
+    "alignItems": "center"
+  },
+  "page-navbar": {
+    "width": "750",
+    "height": "90"
+  },
+  "page-navbar-title": {
+    "color": "#ffffff",
+    "fontSize": "28"
+  },
+  "page-content-image": {
+    "width": "480",
+    "height": "480",
+    "marginTop": "30",
+    "marginBottom": "30"
   }
 }
 
 /***/ }),
-/* 10 */
+
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -164,82 +183,161 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var weiui = weex.requireModule('weiui');
+
 exports.default = {
-    data: function data() {},
-    mounted: function mounted() {
-        setTimeout(function () {
-
-            /*weiui.ajax({
-                url: 'http://jsfiddle.net/echo/jsonp/?callback=anything&result=content_in_response',
-            }, (ret)=>{
-                console.log("aaaaaaaaaaaR", ret);
-            });*/
-
-            /*weiui.openQR(null, (ret)=>{
-                console.log("aaaaaaaaaaaQ", ret);
-            });*/
-
-        }, 2000);
-
-        /*setTimeout(() => {
-            weiui.openWin({
-                url: 'http://www.kuaifan.net',
-                type: 'web',
-                statusBarType: 'immersion',
-                swipeBack: true,
-            });
-        }, 4000);*/
-    },
-
     methods: {
-        goTabbar: function goTabbar() {
-            weiui.openWin({
-                url: 'http://192.168.2.134:8081/dist/tabbar.js'
-            });
+        tabSelect: function tabSelect(params) {
+            weiui.toast("切换到第" + (params.position + 1) + "个标签页");
+        },
+        tabReselect: function tabReselect(params) {
+            weiui.toast("第" + (params.position + 1) + "个标签页被再次点击");
+        },
+        refreshListener: function refreshListener(params) {
+            var _this = this;
+
+            setTimeout(function () {
+                weiui.toast("刷新成功：第" + (params.position + 1) + "个标签页");
+                _this.$refs.reflectName.setRefreshing(params['tabName'], false);
+            }, 1000);
         }
     }
 };
 
 /***/ }),
-/* 11 */
+
+/***/ 38:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: ["wrapper"]
-  }, [_c('weiui_navbar', [_c('weiui_navbar_item', {
+    staticClass: ["app"]
+  }, [_c('weiui_tabbar', {
+    ref: "reflectName",
+    staticClass: ["tabbar"],
     attrs: {
-      "type": "middle"
-    }
-  }, [_c('text', {
-    staticStyle: {
-      color: "#ffffff"
-    }
-  }, [_vm._v("你妹的")])]), _c('weiui_navbar_item', {
-    staticStyle: {
-      paddingLeft: "10px"
-    },
-    attrs: {
-      "type": "right"
-    }
-  }, [_c('text', [_vm._v("右边")])])], 1), _c('text', {
-    staticStyle: {
-      height: "80px",
-      lineHeight: "80px",
-      width: "750px",
-      backgroundColor: "#ff0000",
-      marginTop: "20px"
+      "weiui": {
+        tabType: 'bottom'
+      }
     },
     on: {
-      "click": function($event) {
-        _vm.goTabbar()
+      "tabSelect": _vm.tabSelect,
+      "tabReselect": _vm.tabReselect,
+      "refreshListener": _vm.refreshListener
+    }
+  }, [_c('weiui_tabbar_page', {
+    attrs: {
+      "weiui": {
+        tabName: 'name_1',
+        title: '首页',
+        selectedIcon: 'home'
       }
     }
-  }, [_vm._v("click")])], 1)
+  }, [_c('weiui_navbar', {
+    staticClass: ["page-navbar"]
+  }, [_c('weiui_navbar_item', {
+    attrs: {
+      "type": "title"
+    }
+  }, [_c('text', {
+    staticClass: ["page-navbar-title"]
+  }, [_vm._v("首页")])])], 1), _c('div', {
+    staticClass: ["page-content"]
+  }, [_c('text', [_vm._v("页签里面可以放任何子组件，感谢你对weiui的支持")]), _c('image', {
+    staticClass: ["page-content-image"],
+    attrs: {
+      "src": "http://demo.sc.chinaz.com/Files/pic/icons/6430/m2.png"
+    }
+  })])], 1), _c('weiui_tabbar_page', {
+    attrs: {
+      "weiui": {
+        tabName: 'name_2',
+        title: '好友',
+        message: 3,
+        selectedIcon: 'http://demo.sc.chinaz.com/Files/pic/icons/6749/g7.png',
+        unSelectedIcon: 'http://demo.sc.chinaz.com/Files/pic/icons/6749/g4.png'
+      }
+    }
+  }, [_c('div', {
+    staticClass: ["page-content"]
+  }, [_c('text', [_vm._v("page 2，图标支持网络图片")])])]), _c('weiui_tabbar_page', {
+    attrs: {
+      "weiui": {
+        tabName: 'name_3',
+        title: '圈子',
+        message: 99,
+        selectedIcon: 'aperture 26sp'
+      }
+    }
+  }, [_c('div', {
+    staticClass: ["page-content"]
+  }, [_c('text', [_vm._v("page 3")])])]), _c('weiui_tabbar_page', {
+    attrs: {
+      "weiui": {
+        tabName: 'name_4',
+        title: '设置',
+        dot: true,
+        selectedIcon: 'gear-a'
+      }
+    }
+  }, [_c('div', {
+    staticClass: ["page-content"]
+  }, [_c('text', [_vm._v("page 4")])])])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 
 /***/ })
-/******/ ]);
+
+/******/ });

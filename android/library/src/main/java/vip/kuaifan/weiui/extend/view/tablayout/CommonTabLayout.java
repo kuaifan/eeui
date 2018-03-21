@@ -306,7 +306,7 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
                 boolean isCurrent = i == mCurrentTab;
                 CustomTabEntity tabEntity = mTabEntitys.get(i);
                 String iconUrl = isCurrent ? tabEntity.getTabSelectedIconUrl() : tabEntity.getTabUnselectedIconUrl();
-                if (iconUrl.startsWith("ion-")) {
+                if (isFontIcon(iconUrl)) {
                     iv_tab_icontext.setVisibility(View.VISIBLE);
                     iv_tab_icon.setVisibility(View.GONE);
                 } else {
@@ -1009,8 +1009,11 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
             iconResid = tabEntity.getTabUnselectedIcon();
         }
         if (iconUrl != null) {
-            if (iconUrl.startsWith("ion-")) {
-                if (!iconUrl.contains(" ")) {
+            if (isFontIcon(iconUrl)) {
+                if (!iconUrl.startsWith("ion-")) {
+                    iconUrl = "ion-" + iconUrl;
+                }
+                if (!iconUrl.contains("#") || !iconUrl.contains("rgb")) {
                     iconUrl += " " + weiuiColorUtils.int2Hex(isCurrent ? mTextSelectColor : mTextUnselectColor);
                 }
                 icontext.setText("{" + iconUrl + "}");
@@ -1040,5 +1043,9 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         }else{
             return mContext.getResources().getDrawable(tabEntity.getTabSelectedIcon()).getIntrinsicHeight();
         }
+    }
+
+    private boolean isFontIcon(String var) {
+        return var != null && !var.contains("//");
     }
 }

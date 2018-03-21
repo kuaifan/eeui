@@ -9,7 +9,6 @@
 
         <!-- 左侧菜单 -->
         <ScrollView
-            android:id="@+id/v_sliding_main"
             android:layout_width="230dp"
             android:layout_height="match_parent"
             android:background="#ffffff" >
@@ -27,9 +26,19 @@
 
         <!-- 右侧内容 -->
         <FrameLayout
-            android:id="@+id/v_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/v_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </vip.kuaifan.weiui.ui.component.sidePanel.view.SlidingMenu>
 

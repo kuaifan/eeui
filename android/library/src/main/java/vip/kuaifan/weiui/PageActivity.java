@@ -893,6 +893,14 @@ public class PageActivity extends AppCompatActivity {
         return mPageInfo;
     }
 
+    public void setSwipeBackEnable(Boolean var) {
+        if (mPageInfo == null || mSwipeBackHelper == null) {
+            return;
+        }
+        mPageInfo.setSwipeBack(var);
+        mSwipeBackHelper.setSwipeBackEnable(var);
+    }
+
     public void onBackPressedSkipBackPressedClose() {
         mPageInfo.setBackPressedClose(true);
         onBackPressed();

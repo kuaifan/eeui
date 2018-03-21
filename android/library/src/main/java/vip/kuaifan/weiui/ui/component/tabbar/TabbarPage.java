@@ -9,12 +9,12 @@ import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.ui.component.tabbar.bean.TabbarBean;
 
 
@@ -48,7 +48,7 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
                 Object value = attr.get(key);
                 switch (key) {
                     case "weiui":
-                        JSONObject json = weiuiJson.parseObject(WXUtils.getString(value, null));
+                        JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(value, null));
                         if (json.size() > 0) {
                             Map<String, Object> data = new HashMap<>();
                             for (Map.Entry<String, Object> entry : json.entrySet()) {
@@ -57,33 +57,42 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
                             formatAttrs(data);
                         }
                         break;
-
-                    case "name":
-                        barBean.setName(WXUtils.getString(value, barBean.getName()));
-                        break;
-
-                    case "title":
-                        barBean.setTitle(WXUtils.getString(value, barBean.getTitle()));
-                        break;
-
-                    case "selectedIcon":
-                        barBean.setSelectedIcon(WXUtils.getString(value, ""));
-                        break;
-
-                    case "unSelectedIcon":
-                        barBean.setUnSelectedIcon(WXUtils.getString(value, ""));
-                        break;
-
-                    case "message":
-                        barBean.setMessage(WXUtils.getNumberInt(value, 0));
-                        break;
-
-                    case "dot":
-                        barBean.setDot(WXUtils.getBoolean(value, false));
-                        break;
                 }
+                barBean = setBarAttr(barBean, key, value);
             }
             mView.setBarBean(barBean);
         }
+    }
+
+    public static TabbarBean setBarAttr(TabbarBean barBean, String key, Object value) {
+        if (barBean == null) {
+            barBean = new TabbarBean();
+        }
+        switch (key) {
+            case "tabName":
+                barBean.setTabName(weiuiParse.parseStr(value, barBean.getTabName()));
+                break;
+
+            case "title":
+                barBean.setTitle(weiuiParse.parseStr(value, barBean.getTitle()));
+                break;
+
+            case "unSelectedIcon":
+                barBean.setUnSelectedIcon(weiuiParse.parseStr(value, ""));
+                break;
+
+            case "selectedIcon":
+                barBean.setSelectedIcon(weiuiParse.parseStr(value, ""));
+                break;
+
+            case "message":
+                barBean.setMessage(weiuiParse.parseInt(value, 0));
+                break;
+
+            case "dot":
+                barBean.setDot(weiuiParse.parseBool(value, false));
+                break;
+        }
+        return barBean;
     }
 }

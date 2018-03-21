@@ -37,7 +37,7 @@ import vip.kuaifan.weiui.ui.component.recyler.listener.RecylerOnBottomScrollList
 import vip.kuaifan.weiui.ui.component.recyler.view.SwipeItemLayout;
 
 
-@WeexComponent(names = {"weiui_recyler"})
+@WeexComponent(names = {"weiui_recyler", "weiui_list"})
 public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "Recyler";
@@ -270,18 +270,6 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     /***************************************************************************************************/
 
     /**
-     * 设置是否有更多
-     * @param var
-     */
-    @JSMethod
-    public void setHasMore(boolean var){
-        hasMore = var;
-        if (mAdapter != null) {
-            mAdapter.updateList(null, hasMore);
-        }
-    }
-
-    /**
      * 设置下拉刷新状态
      * @param var
      */
@@ -298,19 +286,31 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     }
 
     /**
-     * 上拉加载结束回调
-     */
-    @JSMethod
-    public void pullloaded() {
-        isLoading = false;
-    }
-
-    /**
-     * 下拉刷新结束回调
+     * 下拉刷新结束标记
      */
     @JSMethod
     public void refreshed() {
         isLoading = false;
         v_swipeRefresh.setRefreshing(false);
+    }
+
+    /**
+     * 设置是否有上拉加载更多的数据
+     * @param var
+     */
+    @JSMethod
+    public void setHasMore(boolean var){
+        hasMore = var;
+        if (mAdapter != null) {
+            mAdapter.updateList(null, hasMore);
+        }
+    }
+
+    /**
+     * 上拉加载结束标记
+     */
+    @JSMethod
+    public void pullloaded() {
+        isLoading = false;
     }
 }

@@ -8,7 +8,7 @@ import vip.kuaifan.weiui.extend.module.weiuiCommon;
 
 public class TabbarBean {
 
-    private String name = weiuiCommon.randomString(8);
+    private String tabName = weiuiCommon.randomString(8);
     private String title = "New Page";
     private String selectedIcon = "";
     private String unSelectedIcon = "";
@@ -16,12 +16,12 @@ public class TabbarBean {
     private boolean dot = false;
     private Object view;
 
-    public String getName() {
-        return name;
+    public String getTabName() {
+        return tabName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTabName(String tabName) {
+        this.tabName = tabName;
     }
 
     public String getTitle() {
@@ -34,7 +34,7 @@ public class TabbarBean {
 
     public String getSelectedIcon() {
         if (selectedIcon.isEmpty()) {
-            return unSelectedIcon.isEmpty() ? "ion-home" : unSelectedIcon;
+            return unSelectedIcon.isEmpty() ? "home" : unSelectedIcon;
         }
         return selectedIcon;
     }
@@ -45,7 +45,7 @@ public class TabbarBean {
 
     public String getUnSelectedIcon() {
         if (unSelectedIcon.isEmpty()) {
-            return selectedIcon.isEmpty() ? "ion-home" : selectedIcon;
+            return selectedIcon.isEmpty() ? "home" : selectedIcon;
         }
         return unSelectedIcon;
     }

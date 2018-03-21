@@ -13,7 +13,7 @@ public class TabbarEntity implements CustomTabEntity {
 
     @Override
     public String getTabName() {
-        return mTabbarBean.getName();
+        return mTabbarBean.getTabName();
     }
 
     @Override

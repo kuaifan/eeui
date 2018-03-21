@@ -157,7 +157,7 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
     /**
      * 获取滚动状态
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public boolean isStarting() {
         return v_autotext.isStarting;
     }
@@ -166,7 +166,7 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
      * 获取文本
      * @return
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public String getText() {
         return mText;
     }

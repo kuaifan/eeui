@@ -55,8 +55,8 @@ public class weiuiIhttp {
      */
     private static RequestParams requestParams(String url, Map<String, Object> data) {
         RequestParams params = new RequestParams(url + "");
-        params.setConnectTimeout(8 * 1000);
-        params.setReadTimeout(8 * 1000);
+        params.setConnectTimeout(8000);
+        params.setReadTimeout(8000);
         params.addHeader("platform", "Android");
         params.addHeader("platform-imei", platformImei);
         params.addHeader("platform-release", platformRelease);
@@ -68,10 +68,23 @@ public class weiuiIhttp {
                 if (value instanceof File) {
                     isMultipart = true;
                     params.addBodyParameter(key, (File) value);
-                }else{
-                    if (weiuiCommon.leftExists(key.toLowerCase(), "header:")) {
+                }else if (value != null){
+                    if (weiuiCommon.leftExists(key.toLowerCase(), "setting:")) {
+                        key = key.substring(8).trim();
+                        if (key.equals("timeout")) {
+                            params.setConnectTimeout(weiuiParse.parseInt(value, 8000));
+                            params.setReadTimeout(weiuiParse.parseInt(value, 8000));
+                        }
+                    }else if (weiuiCommon.leftExists(key.toLowerCase(), "header:")) {
                         key = key.substring(7).trim();
                         params.addHeader(key, String.valueOf(value));
+                    }else if (weiuiCommon.leftExists(key.toLowerCase(), "file:")) {
+                        key = key.substring(5).trim();
+                        File tempFile = new File(String.valueOf(value));
+                        if (!tempFile.exists()) {
+                            isMultipart = true;
+                            params.addBodyParameter(key, tempFile);
+                        }
                     }else{
                         params.addQueryStringParameter(key, String.valueOf(value));
                     }

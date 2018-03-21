@@ -22,6 +22,7 @@ import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.extend.bean.OpenWinBean;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
 import vip.kuaifan.weiui.extend.module.utilcode.utilcodeModule;
+import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.view.loading.LoadingDialog;
@@ -99,72 +100,58 @@ public class weiuiModule extends WXModule {
     /***************************************************************************************************/
 
     /**
-     * 显示等待图标
-     * @param var           参数
-     * @param callback      返回键或点击空白处取消回调事件
-     */
-    @JSMethod(uiThread = false)
-    public String loading(String var, JSCallback callback) {
-        return LoadingDialog.init(mWXSDKInstance.getContext(), var, callback);
-    }
-
-    /**
-     * 关闭等待图标
-     */
-    @JSMethod
-    public void loadingClose(String var) {
-        LoadingDialog.close(var);
-    }
-
-    /**
      * 打开页面 或 打开网页（内置浏览器）
-     * @param obj
+     * @param object
      * @param callback
      */
     @JSMethod
-    public void openWin(JSONObject obj, JSCallback callback) {
-        if (obj == null || obj.getString("url") == null) {
+    public void openPage(String object, JSCallback callback) {
+        JSONObject json = weiuiJson.parseObject(object);
+        if (json.size() == 0) {
+            json.put("url", object);
+        }
+        if (json.getString("url") == null || json.getString("url").isEmpty()) {
             return;
         }
         OpenWinBean mBean = new OpenWinBean();
 
         //网址
-        mBean.setUrl(obj.getString("url"));
+        mBean.setUrl(json.getString("url"));
         //名称（默认：随机生成）
-        if (obj.getString("pageName") != null) {
-            mBean.setPageName(obj.getString("pageName"));
+        if (json.getString("pageName") != null) {
+            mBean.setPageName(json.getString("pageName"));
         }
         //类型（默认：weex）
-        if (obj.getString("pageType") != null) {
-            mBean.setPageType(obj.getString("pageType"));
+        if (json.getString("pageType") != null) {
+            mBean.setPageType(json.getString("pageType"));
         }
         //是否显示等待（默认：true）
-        if (obj.getBoolean("loading") != null) {
-            mBean.setLoading(obj.getBoolean("loading"));
+        if (json.getBoolean("loading") != null) {
+            mBean.setLoading(json.getBoolean("loading"));
         }
         //是否支持滑动返回（默认：true）
-        if (obj.getBoolean("swipeBack") != null) {
-            mBean.setSwipeBack(obj.getBoolean("swipeBack"));
+        if (json.getBoolean("swipeBack") != null) {
+            mBean.setSwipeBack(json.getBoolean("swipeBack"));
         }
         //状态栏样式（可选，等于fullscreen|immersion时statusBarType、statusBarAlpha无效）
-        if (obj.getString("statusBarType") != null) {
-            mBean.setStatusBarType(obj.getString("statusBarType"));
+        if (json.getString("statusBarType") != null) {
+            mBean.setStatusBarType(json.getString("statusBarType"));
         }
         //状态栏颜色值（默认：#3EB4FF）
-        if (obj.getString("statusBarColor") != null) {
-            mBean.setStatusBarColor(obj.getString("statusBarColor"));
+        if (json.getString("statusBarColor") != null) {
+            mBean.setStatusBarColor(json.getString("statusBarColor"));
         }
         //状态栏透明度（默认：0）
-        if (obj.getInteger("statusBarAlpha") != null) {
-            mBean.setStatusBarAlpha(obj.getInteger("statusBarAlpha"));
+        if (json.getInteger("statusBarAlpha") != null) {
+            mBean.setStatusBarAlpha(json.getInteger("statusBarAlpha"));
         }
         //页面背景颜色（默认：#f4f8f9）
-        if (obj.getString("backgroundColor") != null) {
-            mBean.setBackgroundColor(obj.getString("backgroundColor"));
+        if (json.getString("backgroundColor") != null) {
+            mBean.setBackgroundColor(json.getString("backgroundColor"));
         }
         //返回键关闭（默认：true）
-        if (obj.getBoolean("backPressedClose") != null) {
-            mBean.setBackPressedClose(obj.getBoolean("backPressedClose"));
+        if (json.getBoolean("backPressedClose") != null) {
+            mBean.setBackPressedClose(json.getBoolean("backPressedClose"));
         }
 
         //JS回调事件
@@ -177,15 +164,20 @@ public class weiuiModule extends WXModule {
 
     /**
      * 关闭页面 或 关闭网页（内置浏览器）
-     * @param obj
+     * @param object
      */
     @JSMethod
-    public void closeWin(JSONObject obj) {
-        if (obj == null) {
+    public void closePage(String object) {
+        JSONObject json = weiuiJson.parseObject(object);
+        if (json.size() == 0) {
+            json.put("pageName", object);
+        }
+        String pageName = json.getString("pageName");
+        if (pageName == null || pageName.isEmpty()) {
             ((Activity) mWXSDKInstance.getContext()).finish();
             return;
         }
-        closeWin(obj.getString("name"));
+        closeWin(pageName);
     }
 
     /**
@@ -204,16 +196,6 @@ public class weiuiModule extends WXModule {
     }
 
     /**
-     * 打开滑动验证码
-     * @param imgUrl
-     * @param callback
-     */
-    @JSMethod
-    public void swipeCaptcha(String imgUrl, JSCallback callback) {
-        PageActivity.startSwipeCaptcha(mWXSDKInstance.getContext(), imgUrl, callback);
-    }
-
-    /**
      * 获取状态栏高度（屏幕像素）
      */
     @JSMethod(uiThread = false)
@@ -222,7 +204,7 @@ public class weiuiModule extends WXModule {
     }
 
     /**
-     * 获取状态栏高度（PX单位）
+     * 获取状态栏高度（weexPX单位）
      */
     @JSMethod(uiThread = false)
     public int getStatusBarHeightPx() {
@@ -356,24 +338,68 @@ public class weiuiModule extends WXModule {
         return weiuiScreenUtils.weexDp2px(mWXSDKInstance, var);
     }
 
+
+
     /**
-     * 打开二维码扫描
-     * @param var
+     * 显示等待图标
+     * @param object        参数
+     * @param callback      返回键或点击空白处取消回调事件
+     * @return
+     */
+    @JSMethod(uiThread = false)
+    public String loading(String object, JSCallback callback) {
+        return LoadingDialog.init(mWXSDKInstance.getContext(), object, callback);
+    }
+
+    /**
+     * 关闭等待图标
+     */
+    @JSMethod
+    public void loadingClose(String var) {
+        LoadingDialog.close(var);
+    }
+
+    /**
+     * 打开滑动验证码
+     * @param imgUrl
      * @param callback
      */
     @JSMethod
-    public void openScaner(String var, JSCallback callback) {
-        PageActivity.startScanerCode(mWXSDKInstance.getContext(), var, callback);
+    public void swipeCaptcha(String imgUrl, JSCallback callback) {
+        PageActivity.startSwipeCaptcha(mWXSDKInstance.getContext(), imgUrl, callback);
+    }
+
+    /**
+     * 打开二维码扫描
+     * @param object
+     * @param callback
+     */
+    @JSMethod
+    public void openScaner(String object, JSCallback callback) {
+        PageActivity.startScanerCode(mWXSDKInstance.getContext(), object, callback);
     }
 
     /**
      * 跨域异步请求
-     * @param obj
+     * @param object
      * @param callback
      */
     @JSMethod
-    public void ajax(JSONObject obj, JSCallback callback) {
-        weiuiCommon.ajax(mWXSDKInstance.getContext(), obj, callback);
+    public void ajax(String object, JSCallback callback) {
+        JSONObject json = weiuiJson.parseObject(object);
+        if (json.size() == 0) {
+            json.put("url", object);
+        }
+        weiuiCommon.ajax(mWXSDKInstance.getContext(), json, callback);
+    }
+
+    /**
+     * 取消跨域异步请求
+     * @param name
+     */
+    @JSMethod
+    public void ajaxCancel(String name) {
+        weiuiCommon.ajaxCancel(name);
     }
 
     /**
@@ -402,6 +428,23 @@ public class weiuiModule extends WXModule {
             }
         }
         return null;
+    }
+
+    /**
+     * 吐司(Toast)显示
+     * @param object
+     */
+    @JSMethod
+    public void toast(String object) {
+        utilcodeModule.Toast(mWXSDKInstance, object);
+    }
+
+    /**
+     * 吐司(Toast)隐藏
+     */
+    @JSMethod
+    public void toastClose() {
+        utilcodeModule.ToastClose();
     }
 
     /**
@@ -510,22 +553,5 @@ public class weiuiModule extends WXModule {
     @JSMethod
     public void vibrateTool(String method, Object var0, Object var1) {
         rxtoolsModule.RxVibrateTool(mWXSDKInstance.getContext(), method, objectGroup(var0, var1));
-    }
-
-    /**
-     * 吐司(Toast)显示
-     * @param obj
-     */
-    @JSMethod
-    public void toast(String obj) {
-        utilcodeModule.Toast(mWXSDKInstance, obj);
-    }
-
-    /**
-     * 吐司(Toast)隐藏
-     */
-    @JSMethod
-    public void toastClose() {
-        utilcodeModule.ToastClose();
     }
 }

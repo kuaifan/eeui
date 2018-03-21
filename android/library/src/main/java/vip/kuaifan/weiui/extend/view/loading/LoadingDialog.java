@@ -210,7 +210,7 @@ public class LoadingDialog extends weiuiDialog {
             obj.put("titleColor", weiuiJson.getString(obj, "titleColor", "#ffffff"));
         }else{
             SpinKitView view = new SpinKitView(getContext(), null, R.style.SpinKitView, style);
-            view.setColor(Color.parseColor(weiuiJson.getString(obj, "color", "#5F97F1")));
+            view.setColor(Color.parseColor(weiuiJson.getString(obj, "styleColor", "#5F97F1")));
             v_body.addView(view);
         }
         //

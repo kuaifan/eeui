@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.alibaba.weex.plugin.annotation.WeexModule;
+import com.luck.picture.lib.weiui.library.PictureSelectionModel;
 import com.luck.picture.lib.weiui.library.PictureSelector;
 import com.luck.picture.lib.weiui.library.config.PictureConfig;
 import com.luck.picture.lib.weiui.library.config.PictureMimeType;
@@ -89,11 +90,17 @@ public class weiuiPictureModule extends WXModule {
                             tempMedia.setPictureType(tempJson.getString("pictureType"));
                             selected.add(tempMedia);
                         }
-                        PictureSelector.create(mBean.getActivity())
-                                .openGallery(weiuiJson.getInt(json, "gallery", PictureMimeType.ofAll()))// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
-                                .maxSelectNum(weiuiJson.getInt(json, "maxNum", 9))                      // 最大图片选择数量 int
+                        PictureSelectionModel model;
+                        if (weiuiJson.getString(json, "type", "gallery").equals("camera")) {
+                            model = PictureSelector.create(mBean.getActivity())
+                                    .openCamera(weiuiJson.getInt(json, "gallery", PictureMimeType.ofAll())); // 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        }else{
+                            model = PictureSelector.create(mBean.getActivity())
+                                    .openGallery(weiuiJson.getInt(json, "gallery", PictureMimeType.ofAll())); // 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                        }
+                        model.maxSelectNum(weiuiJson.getInt(json, "maxNum", 9))                         // 最大选择数量 int
                                 .minSelectNum(weiuiJson.getInt(json, "minNum", 0))                      // 最小选择数量 int
-                                .imageSpanCount(weiuiJson.getInt(json, "count", 4))                     // 每行显示个数 int
+                                .imageSpanCount(weiuiJson.getInt(json, "spanCount", 4))                 // 每行显示个数 int
                                 .selectionMode(weiuiJson.getInt(json, "mode", PictureConfig.MULTIPLE))  // 多选 or 单选 PictureConfig.MULTIPLE or PictureConfig.SINGLE
                                 .previewImage(weiuiJson.getBoolean(json, "previewImage", true))         // 是否可预览图片 true or false
                                 .previewVideo(weiuiJson.getBoolean(json, "previewVideo", true))         // 是否可预览视频 true or false
@@ -190,7 +197,7 @@ public class weiuiPictureModule extends WXModule {
     }
 
     /**
-     * 包括裁剪和压缩后的缓存，要在上传成功后调用，注意：需要系统sd卡权限
+     * 缓存清除，包括裁剪和压缩后的缓存，要在上传成功后调用，注意：需要系统sd卡权限
      */
     @JSMethod
     public void deleteCache() {

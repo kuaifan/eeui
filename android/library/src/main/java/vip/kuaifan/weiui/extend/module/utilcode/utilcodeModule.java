@@ -215,10 +215,10 @@ public class utilcodeModule {
             case "getPermissions":
                 return PermissionUtils.getPermissions();
 
-            case "getMatches":
+            case "isGranted":
                 return PermissionUtils.isGranted(weiuiParams.getParamString(0, var));
 
-            case "openAppSettings":
+            case "launchAppDetailsSettings":
                 PermissionUtils.launchAppDetailsSettings();
                 break;
         }
