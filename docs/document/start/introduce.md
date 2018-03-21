@@ -10,10 +10,6 @@
 
 * 在你的公司或个人项目中使用 weiui
 * 如果你觉得 weui 还不错，可以通过 Star 来表示你的喜欢
-* <details>
-  <summary>加入钉钉聊天群帮忙解答 Weex 技术问题</summary>
-  <img alt="Join the chat at dingtalk" src="https://img.alicdn.com/tfs/TB1DSvMg2DH8KJjy1XcXXcpdXXa-750-850.jpg" width="240"/>
-</details>
 
 ## 贡献
 

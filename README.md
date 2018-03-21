@@ -1,38 +1,26 @@
-## Commands
+# 开始使用
 
-### npm start
+> 一个基于 [Weex](https://github.com/apache/incubator-weex) 的富交互、轻量级、高性能的 UI 组件库（目前仅支持安卓端）
 
-Starts the development server for you to preview your weex page on browser.
-You can also scan the QR code using weex playground to preview weex page on native.
+## 教程
 
-### npm run dev
+详细接入教程请移步至，[http://kuaifan.vip/weiui](http://kuaifan.vip/weiui)
 
-Open the code compilation task in watch mode.
+## 预览
 
-### npm run ios
+正在搭建....
 
-(Mac only, requires Xcode)
-Starts the development server and loads your app in an iOS simulator.
+## 支持
 
-### npm run android
+* 在你的公司或个人项目中使用 weiui
+* 如果你觉得 weui 还不错，可以通过 Star 来表示你的喜欢
 
-(Requires Android build tools)
-Starts the development server and loads your app on a connected Android device or emulator.
+## 贡献
 
-### npm run pack:ios
+感谢给 Weex Ui 贡献代码的你们！
 
-(Mac only, requires Xcode)
-Packaging ios project into ipa package.
+## 协议
 
-### npm run pack:android
+* 遵循 [MIT 协议](http://opensource.org/licenses/MIT)
+* 请自由地享受和参与开源
 
-(Requires Android build tools)
-Packaging android project into apk package.
-
-### npm run pack:web
-
-Packaging html5 project into `web/build` folder.
-
-### npm run test
-
-Starts the test runner.
