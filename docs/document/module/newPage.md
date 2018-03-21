@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 # weiui.openPage
 
 > 打开新`Weex Js页面` 或 打开新`Web页面`
@@ -57,6 +63,7 @@ weiui.openPage({params}, callback(result))
 #### 简单示例
 
 ```js
+const weiui = weex.requireModule('weiui');
 //示例①
 weiui.openPage({
     url: 'http://dotwe.org/raw/dist/ad0045a7cff0b3a680d9de6dd4806e81.bundle.wx',

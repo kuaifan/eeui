@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### 判断设备是否 rooted
 ```js
 /**

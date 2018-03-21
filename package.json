@@ -6,6 +6,7 @@
     "scripts": {
         "start": "npm run serve",
         "start docs": "docsify serve ./docs",
+        "copy docs": "cp -r docs/. ../kuaifan_blog/public/weiui",
         "build": "webpack --env.NODE_ENV=common",
         "build:prod": "webpack --env.NODE_ENV=production",
         "build:plugin": "webpack --env.NODE_ENV=plugin",

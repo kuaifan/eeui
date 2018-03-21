@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### 打开闪光灯
 ```js
 /**

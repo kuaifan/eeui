@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### 打开网络设置界面
 ```js
 /**

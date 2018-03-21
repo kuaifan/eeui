@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### weex px转屏幕像素
 ```js
 /**

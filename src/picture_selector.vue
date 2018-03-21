@@ -63,6 +63,7 @@
         },
         methods: {
             openPicture() {
+                const weiui_picture = weex.requireModule('weiui_picture');
                 weiui_picture.create({
                     gallery: 1,
                     selected: this.lists

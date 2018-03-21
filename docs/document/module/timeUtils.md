@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### 获取当前毫秒时间戳
 ```js
 /**

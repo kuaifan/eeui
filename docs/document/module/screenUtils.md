@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 #### 获取屏幕的宽度（单位：屏幕像素）
 ```js
 /**

@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui_picture = weex.requireModule('weiui_picture');
+```
+
 # weiui_picture.create
 
 > 启动相册或启动拍照。效果及示例代码请[点击这里查看](module/third/pictureSelector/install?id=预览效果)

@@ -1,10 +1,10 @@
-# weiui_picture
+## weiui_picture
 
 fork from [https://github.com/LuckSiege/PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 一款针对android平台下的图片选择器，支持从相册或拍照选择图片或视频、音频，支持动态权限获取、裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能、适配android 6.0+系统的开源图片选择框架。
 
-## Android 接入
+### Android 接入
 
 > 集成，添加 Gradle 依赖
 
@@ -17,10 +17,10 @@ dependencies {
 }
 ```
 
-## iOS 接入
+### iOS 接入
 > 暂不支持iOS系统
 
-## H5 接入
+### H5 接入
 > 暂不支持H5系统
 
 ## 预览效果

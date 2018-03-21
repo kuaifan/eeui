@@ -1,3 +1,9 @@
+#### 需要的模块
+
+```js
+const weiui = weex.requireModule('weiui');
+```
+
 # weiui.swipeCaptcha
 
 > 显示滑动验证码弹窗

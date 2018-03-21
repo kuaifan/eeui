@@ -235,6 +235,7 @@ exports.default = {
         openPicture: function openPicture() {
             var _this = this;
 
+            var weiui_picture = weex.requireModule('weiui_picture');
             weiui_picture.create({
                 gallery: 1,
                 selected: this.lists
