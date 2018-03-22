@@ -9,7 +9,7 @@ const weiui = weex.requireModule('weiui');
 > 跨域请求
 
 * 支持自定义header
-* 支持上传文件，选择文件请参考模块[pictureSelector](module/third/pictureSelector)
+* 支持上传文件，选择文件请参考模块[pictureSelector](module/third/pictureSelector/install)
 
 ```js
 /**

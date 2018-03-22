@@ -71,7 +71,11 @@
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('weiui_navbar', {
+  return _c('div', [_c('weiui_icon', {
+    attrs: {
+      "icon": "refresh"
+    }
+  }), _c('weiui_navbar', {
     staticClass: ["navbar"]
   }, [_c('weiui_navbar_item', {
     attrs: {
@@ -215,7 +219,6 @@ new Vue(module.exports)
 module.exports = {
   "navbar": {
     "width": "750",
-    "height": "100",
     "marginBottom": "50"
   },
   "icon": {

@@ -26,7 +26,6 @@ import java.util.Map;
 
 import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.R;
-import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
@@ -49,17 +48,14 @@ public class Navbar extends WXVContainer<ViewGroup> {
 
     private LinearLayout v_left, v_middle, v_right;
 
-    private int navHeight;
-
     private int leftBoxWidth, rightBoxWidth, maxBoxWidth;
-
-    private WXDomObject mWXDomObject;
 
     public Navbar(WXSDKInstance instance, WXDomObject node, WXVContainer parent) {
         super(instance, node, parent);
-        mWXDomObject = node;
-        mWXDomObject.setFlexDirection(CSSFlexDirection.ROW);
-        setHeight(100);
+        node.setFlexDirection(CSSFlexDirection.ROW);
+        if (Float.isNaN(node.getStyleHeight())) {
+            node.setStyleHeight(weiuiScreenUtils.weexPx2dp(getInstance(), 100));
+        }
     }
 
     @Override
@@ -121,19 +117,11 @@ public class Navbar extends WXVContainer<ViewGroup> {
     @Override
     protected boolean setProperty(String key, Object param) {
         switch (key) {
-            case "height":
-                setHeight(param);
-                return true;
-
             case "weiui":
                 JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
                 if (uiObject.size() > 0) {
                     for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
                         switch (entry.getKey()) {
-                            case "height":
-                                setHeight(entry.getValue());
-                                break;
-
                             case "type":
                             case "titleType":
                             case "middleType":
@@ -221,19 +209,6 @@ public class Navbar extends WXVContainer<ViewGroup> {
     @JSMethod
     public void hideBack() {
         v_back.setVisibility(View.GONE);
-    }
-
-    /**
-     * 设置高度
-     * @param height
-     */
-    @JSMethod
-    public void setHeight(Object height) {
-        navHeight = weiuiScreenUtils.weexPx2dp(getInstance(), height, 100);
-        mWXDomObject.setStyleHeight(navHeight);
-        if (getHostView() != null) {
-            weiuiCommon.setViewWidthHeight(getHostView(), -1, navHeight);
-        }
     }
 
     /**

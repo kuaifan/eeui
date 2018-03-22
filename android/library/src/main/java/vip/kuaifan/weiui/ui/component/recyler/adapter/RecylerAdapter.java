@@ -37,7 +37,7 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private int normalType = 0;
     private int footType = 1;
-    private boolean hasMore = true;
+    private boolean hasMore = false;
     private boolean fadeFooter = false;
     private OnItemClickListener mOnItemClickListener;
     private List<SwipeButtonBean> mSwipeItems = new ArrayList<>();
@@ -80,12 +80,13 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } else if (holder instanceof FootHolder) {
             FootHolder footHolder = ((FootHolder) holder);
-            footHolder.l_footer.setVisibility(View.VISIBLE);
-            if (pullTips) {
-                footHolder.v_tips.setVisibility(View.VISIBLE);
-            }else{
-                footHolder.v_tips.setVisibility(View.GONE);
+            if (!pullTips) {
+                fadeFooter = true;
+                footHolder.l_footer.setVisibility(View.GONE);
+                return;
             }
+            //
+            footHolder.l_footer.setVisibility(View.VISIBLE);
             if (hasMore) {
                 fadeFooter = false;
                 footHolder.v_progress.setVisibility(View.VISIBLE);
@@ -102,6 +103,9 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         fadeFooter = true;
                         footHolder.l_footer.setVisibility(View.GONE);
                     }
+                }else{
+                    fadeFooter = true;
+                    footHolder.l_footer.setVisibility(View.GONE);
                 }
             }
         }

@@ -8,12 +8,13 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
-import vip.kuaifan.weiui.extend.integration.iconify.widget.IconTextView;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
+import com.taobao.weex.dom.flex.CSSAlign;
+import com.taobao.weex.dom.flex.CSSJustify;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
 import com.taobao.weex.utils.WXUtils;
@@ -29,29 +30,46 @@ import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
  */
 @SuppressLint("SetTextI18n")
 @WeexComponent(names = {"weiui_icon"})
-public class Icon extends WXComponent<IconTextView> {
+public class Icon extends WXComponent<IconView> {
 
     private static final String TAG = "Icon";
 
-    private IconTextView mIconTextView;
+    private IconView mIconView;
 
     private int mIconColor;
 
     private int mIconClickColor;
 
+    private int iconWidth;
+
+    private int iconHeight;
+
     public Icon(WXSDKInstance instance, WXDomObject dom, WXVContainer parent) {
         super(instance, dom, parent);
+        initDom(dom);
     }
 
     public Icon(WXSDKInstance instance, WXDomObject dom, WXVContainer parent, int type) {
         super(instance, dom, parent, type);
+        initDom(dom);
+    }
+
+    private void initDom(WXDomObject dom) {
+        dom.setJustifyContent(CSSJustify.CENTER);
+        dom.setAlignItems(CSSAlign.CENTER);
+        if (Float.isNaN(dom.getStyleWidth())) {
+            dom.setStyleWidth(weiuiScreenUtils.weexPx2dp(getInstance(), 50));
+        }
+        if (Float.isNaN(dom.getStyleHeight())) {
+            dom.setStyleHeight(weiuiScreenUtils.weexPx2dp(getInstance(), 50));
+        }
     }
 
     @Override
-    protected IconTextView initComponentHostView(@NonNull Context context) {
-        mIconTextView = new IconTextView(context);
+    protected IconView initComponentHostView(@NonNull Context context) {
+        mIconView = new IconView(context);
         appleStyleAfterCreated();
-        return mIconTextView;
+        return mIconView;
     }
 
     @Override
@@ -72,6 +90,14 @@ public class Icon extends WXComponent<IconTextView> {
 
     private boolean initProperty(String key, Object val) {
         switch (key) {
+            case "width":
+                iconWidth = weiuiScreenUtils.weexPx2dp(getInstance(), val, 0);
+                break;
+
+            case "height":
+                iconHeight = weiuiScreenUtils.weexPx2dp(getInstance(), val, 0);
+                break;
+
             case "icon":
             case "text":
                 setIcon(WXUtils.getString(val, null));
@@ -98,7 +124,7 @@ public class Icon extends WXComponent<IconTextView> {
     }
 
     private void appleStyleAfterCreated() {
-        mIconTextView.setGravity(Gravity.CENTER);
+        mIconView.setGravity(Gravity.CENTER);
         setIcon("home");
         setIconSize(16);
         setIconColor("#242424");
@@ -118,13 +144,13 @@ public class Icon extends WXComponent<IconTextView> {
             return;
         }
         if (var.isEmpty()) {
-            mIconTextView.setText("");
+            mIconView.setText("");
             return;
         }
         if (!var.startsWith("ion-")) {
             var = "ion-" + var;
         }
-        mIconTextView.setText("{" + var + "}");
+        mIconView.setText("{" + var + "}");
     }
 
     /**
@@ -133,7 +159,7 @@ public class Icon extends WXComponent<IconTextView> {
      */
     @JSMethod
     public void setIconSize(int var) {
-        mIconTextView.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var));
+        mIconView.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var));
     }
 
     /**
@@ -146,7 +172,7 @@ public class Icon extends WXComponent<IconTextView> {
             return;
         }
         mIconColor = Color.parseColor(var);
-        mIconTextView.setTextColor(mIconColor);
+        mIconView.setTextColor(mIconColor);
     }
 
     /**
@@ -160,18 +186,18 @@ public class Icon extends WXComponent<IconTextView> {
         }
         int color = Color.parseColor(var);
         if (mIconClickColor == 0) {
-            mIconTextView.setClickable(true);
-            mIconTextView.setFocusable(true);
-            mIconTextView.setOnTouchListener((view, event) -> {
+            mIconView.setClickable(true);
+            mIconView.setFocusable(true);
+            mIconView.setOnTouchListener((view, event) -> {
                 switch (event.getAction()) {
                     //离开
                     case MotionEvent.ACTION_UP:
-                        mIconTextView.setTextColor(mIconColor);
+                        mIconView.setTextColor(mIconColor);
                         break;
 
                     //按下
                     case MotionEvent.ACTION_DOWN:
-                        mIconTextView.setTextColor(mIconClickColor);
+                        mIconView.setTextColor(mIconClickColor);
                         break;
                 }
                 return false;

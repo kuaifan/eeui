@@ -2,6 +2,9 @@
 
     <div>
 
+        <weiui_icon icon="refresh"></weiui_icon>
+
+
         <!--样式①-->
         <weiui_navbar class="navbar">
 
@@ -86,7 +89,6 @@
 <style>
     .navbar {
         width: 750px;
-        height: 100px;
         margin-bottom: 50px;
     }
     .icon {

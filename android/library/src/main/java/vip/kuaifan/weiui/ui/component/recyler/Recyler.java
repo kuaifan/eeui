@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
@@ -72,6 +73,21 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             return;
         }
         mAdapter.updateList(view, hasMore);
+    }
+
+    @Override
+    public ViewGroup.LayoutParams getChildLayoutParams(WXComponent child, View childView, int width, int height, int left, int right, int top, int bottom) {
+        ViewGroup.LayoutParams lp = childView == null ? null : childView.getLayoutParams();
+        if (lp == null) {
+            lp = new FrameLayout.LayoutParams(width, height);
+        } else {
+            lp.width = width;
+            lp.height = height;
+        }
+        if (lp instanceof ViewGroup.MarginLayoutParams) {
+            ((ViewGroup.MarginLayoutParams) lp).setMargins(left, 0, right, bottom);
+        }
+        return lp;
     }
 
     @Override

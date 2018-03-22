@@ -26,9 +26,9 @@ public class NavbarItem extends WXVContainer<NavbarItemView> {
     @Override
     protected NavbarItemView initComponentHostView(@NonNull Context context) {
         if (getParent() instanceof Navbar) {
-            NavbarItemView view = new NavbarItemView(context);
-            view.setType(String.valueOf(getDomObject().getAttrs().get("type")));
-            return view;
+            NavbarItemView mNavbarItemView = new NavbarItemView(context);
+            mNavbarItemView.setType(String.valueOf(getDomObject().getAttrs().get("type")));
+            return mNavbarItemView;
         }
         return null;
     }

@@ -44,3 +44,4 @@
         - [create 启动相册拍照](module/third/pictureSelector/create)
         - [preview 预览图片视频](module/third/pictureSelector/preview)
         - [deleteCache 缓存清除](module/third/pictureSelector/deleteCache)
+
