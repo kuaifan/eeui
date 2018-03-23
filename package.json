@@ -6,9 +6,6 @@
     "scripts": {
         "start": "npm run serve",
         "start:docs": "docsify serve ./docs",
-        "copy:docs": "rm -rf ../kuaifan_blog/public/weiui && cp -r docs/. ../kuaifan_blog/public/weiui",
-        "copy:dist": "rm -rf ../kuaifan_blog/public/weiui/dist && cp -r dist/. ../kuaifan_blog/public/weiui/dist",
-        "copy:docs&dist": "npm run copy:docs && npm run copy:dist",
         "build": "webpack --env.NODE_ENV=common",
         "build:prod": "webpack --env.NODE_ENV=production",
         "build:plugin": "webpack --env.NODE_ENV=plugin",
@@ -22,7 +19,11 @@
         "android": "weex run android",
         "pack:ios": "npm run clean && weex build ios",
         "pack:android": "npm run clean && weex build android",
-        "pack:web": "npm run clean && npm run build:prod"
+        "pack:web": "npm run clean && npm run build:prod",
+
+        "copy:docs": "rm -rf ../kuaifan_blog/public/weiui && cp -r docs/. ../kuaifan_blog/public/weiui",
+        "copy:dist": "rm -rf ../kuaifan_blog/public/weiui/dist && cp -r dist/. ../kuaifan_blog/public/weiui/dist",
+        "copy:docs&dist": "npm run copy:docs && npm run copy:dist"
     },
     "keywords": [
         "weex"

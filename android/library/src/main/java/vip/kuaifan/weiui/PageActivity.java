@@ -947,15 +947,17 @@ public class PageActivity extends AppCompatActivity {
             if (info != null) {
                 try {
                     URL tmp = new URL(info.getUrl());
+                    String newUrl = tmp.getProtocol() + "://" + tmp.getHost();
+                    newUrl+= (tmp.getPort() > -1 && tmp.getPort() != 80) ? (":" + tmp.getPort()) : "";
                     if (url.startsWith("/")) {
-                        return tmp.getProtocol() + "://" + tmp.getHost() + ":" + tmp.getPort() + url;
+                        return newUrl + url;
                     }else{
                         String path = "/";
                         int lastIndex = tmp.getPath().lastIndexOf("/");
                         if (lastIndex > -1){
                             path = tmp.getPath().substring(0, lastIndex + 1);
                         }
-                        return tmp.getProtocol() + "://" + tmp.getHost() + ":"  + tmp.getPort() + path + url;
+                        return newUrl + path + url;
                     }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
