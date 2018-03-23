@@ -2,13 +2,13 @@
 
 > 一个基于 [Weex](https://github.com/apache/incubator-weex) 的富交互、轻量级、高性能的 UI 组件库（目前仅支持安卓端）
 
-## 教程
+## 演示
 
-详细接入教程请移步至，[http://kuaifan.vip/weiui](http://kuaifan.vip/weiui)
+<a href="http://kuaifan.vip/weiui/app/android.apk" target="_blank"><img src="http://kuaifan.vip/weiui/app/android.png" width="220px"></a>
 
-## 预览
+<a href="javascript:alert('iOS玩命开发中，请下载Android体验！');"><img src="http://kuaifan.vip/weiui/app/ios.png" width="220px"></a>
 
-正在搭建....
+<img src="http://kuaifan.vip/weiui/app/demo.png" width="640px">
 
 ## 支持
 
