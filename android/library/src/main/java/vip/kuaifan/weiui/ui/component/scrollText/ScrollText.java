@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 
@@ -14,7 +15,6 @@ import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +23,7 @@ import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.AutoScrollTextView;
 
@@ -38,6 +39,8 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
     private View mView;
 
     private String mText = "";
+
+    private LinearLayout v_body;
 
     private AutoScrollTextView v_autotext;
 
@@ -60,48 +63,50 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
 
     @Override
     protected boolean setProperty(String key, Object param) {
+        return initProperty(key, param) || super.setProperty(key, param);
+    }
+
+    private boolean initProperty(String key, Object val) {
         switch (key) {
             case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "text":
-                                setText(WXUtils.getString(entry.getValue(), ""));
-                                v_autotext.startScroll();
-                                break;
-
-                            case "speed":
-                                setSpeed(WXUtils.getFloat(entry.getValue(), 2f));
-                                break;
-
-                            case "fontSize":
-                                setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 12));
-                                break;
-
-                            case "color":
-                                setTextColor(WXUtils.getString(entry.getValue(), "#000000"));
-                                break;
-
-                            case "backgroundColor":
-                                setBackgroundColor(WXUtils.getString(entry.getValue(), "#00ffffff"));
-                                break;
-                        }
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
                     }
                 }
-                setText(null);
-                v_autotext.startScroll();
                 return true;
 
             case "text":
-                setText(WXUtils.getString(param, ""));
+                setText(weiuiParse.parseStr(val, ""));
                 v_autotext.startScroll();
                 return true;
+
+            case "speed":
+                setSpeed(weiuiParse.parseFloat(val, 2f));
+                return true;
+
+            case "fontSize":
+            case "font-size":
+                setTextSize(val);
+                return true;
+
+            case "color":
+                setTextColor(weiuiParse.parseStr(val, "#000000"));
+                return true;
+
+            case "backgroundColor":
+            case "background-color":
+                setBackgroundColor(weiuiParse.parseStr(val, "#00ffffff"));
+                return true;
+
+            default:
+                return false;
         }
-        return super.setProperty(key, param);
     }
 
     private void initPagerView() {
+        v_body = mView.findViewById(R.id.v_body);
         v_autotext = mView.findViewById(R.id.v_autotext);
         v_autotext.setOnClickListener(this);
         setText(null);
@@ -136,6 +141,18 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
         }
         v_autotext.setText(mText);
         v_autotext.init(((Activity) getContext()).getWindowManager());
+    }
+
+    /**
+     * 添加文本
+     * @param var
+     */
+    @JSMethod
+    public void addText(String var) {
+        if (var == null) {
+            return;
+        }
+        setText(mText + var);
     }
 
     /**
@@ -185,8 +202,8 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
      * @param var
      */
     @JSMethod
-    public void setTextSize(int var) {
-        v_autotext.setTextSize(var);
+    public void setTextSize(Object var) {
+        v_autotext.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var, 12));
     }
 
     /**
@@ -204,6 +221,6 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
      */
     @JSMethod
     public void setBackgroundColor(String var) {
-        v_autotext.setBackgroundColor(Color.parseColor(var));
+        v_body.setBackgroundColor(Color.parseColor(var));
     }
 }

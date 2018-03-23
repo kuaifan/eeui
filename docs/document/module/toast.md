@@ -24,6 +24,8 @@ weiui.toast({params})
 | messageColor | `String` | - | 提示文本颜色代码 | #FFFFFF |
 | backgroundColor | `String` | - | 提示背景颜色代码 | #FEFFFFFF |
 | long | `Boolean` | - | 是否比较长时间显示 | false |
+| x | `Number` | - | x轴偏移像素 | 0 |
+| y | `Number` | - | y轴偏移像素 | 0 |
 
 #### 简单示例
 

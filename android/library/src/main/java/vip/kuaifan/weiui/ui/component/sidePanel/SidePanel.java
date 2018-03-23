@@ -16,7 +16,6 @@ import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.dom.flex.CSSFlexDirection;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +25,7 @@ import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.sidePanel.view.SlidingMenu;
 
@@ -91,29 +91,36 @@ public class SidePanel extends WXVContainer<ViewGroup> {
 
     @Override
     protected boolean setProperty(String key, Object param) {
+        return initProperty(key, param) || super.setProperty(key, param);
+    }
+
+    private boolean initProperty(String key, Object val) {
         switch (key) {
             case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "width":
-                                setMenuWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 380));
-                                break;
-
-                            case "scrollbar":
-                                setMenuScrollbar(WXUtils.getBoolean(entry.getValue(), false));
-                                break;
-
-                            case "backgroundColor":
-                                setMenuBackgroundColor(WXUtils.getString(entry.getValue(), "#ffffff"));
-                                break;
-                        }
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
                     }
                 }
                 return true;
+
+            case "width":
+                setMenuWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 380));
+                return true;
+
+            case "scrollbar":
+                setMenuScrollbar(weiuiParse.parseBool(val, false));
+                return true;
+
+            case "backgroundColor":
+            case "background-color":
+                setMenuBackgroundColor(weiuiParse.parseStr(val, "#ffffff"));
+                return true;
+
+            default:
+                return false;
         }
-        return super.setProperty(key, param);
     }
 
     @Override
@@ -135,6 +142,24 @@ public class SidePanel extends WXVContainer<ViewGroup> {
         v_sliding = mView.findViewById(R.id.v_sliding);
         v_sliding_menu = mView.findViewById(R.id.v_sliding_menu);
         v_container = mView.findViewById(R.id.v_container);
+        //
+        v_sliding.setOnSwitchListener(isShow -> {
+            if (getDomObject().getEvents().contains(weiuiConstants.Event.SWITCH_LISTENER)) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("show", isShow);
+                fireEvent(weiuiConstants.Event.SWITCH_LISTENER, data);
+            }
+        });
+        //
+        if (getContext() instanceof PageActivity) {
+            ((PageActivity) getContext()).setOnBackPressed(() -> {
+                if (getMenuShow()) {
+                    menuHide();
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     View.OnClickListener menuClick = (view) -> {

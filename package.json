@@ -5,8 +5,10 @@
     "main": "index.js",
     "scripts": {
         "start": "npm run serve",
-        "start docs": "docsify serve ./docs",
-        "copy docs": "cp -r docs/. ../kuaifan_blog/public/weiui",
+        "start:docs": "docsify serve ./docs",
+        "copy:docs": "rm -rf ../kuaifan_blog/public/weiui && cp -r docs/. ../kuaifan_blog/public/weiui",
+        "copy:dist": "rm -rf ../kuaifan_blog/public/weiui/dist && cp -r dist/. ../kuaifan_blog/public/weiui/dist",
+        "copy:docs&dist": "npm run copy:docs && npm run copy:dist",
         "build": "webpack --env.NODE_ENV=common",
         "build:prod": "webpack --env.NODE_ENV=production",
         "build:plugin": "webpack --env.NODE_ENV=plugin",

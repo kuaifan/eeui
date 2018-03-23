@@ -17,12 +17,12 @@ import com.taobao.weex.dom.flex.CSSAlign;
 import com.taobao.weex.dom.flex.CSSJustify;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.Map;
 
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 
 /**
@@ -39,10 +39,6 @@ public class Icon extends WXComponent<IconView> {
     private int mIconColor;
 
     private int mIconClickColor;
-
-    private int iconWidth;
-
-    private int iconHeight;
 
     public Icon(WXSDKInstance instance, WXDomObject dom, WXVContainer parent) {
         super(instance, dom, parent);
@@ -74,53 +70,46 @@ public class Icon extends WXComponent<IconView> {
 
     @Override
     protected boolean setProperty(String key, Object param) {
-        switch (key) {
-            case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        initProperty(entry.getKey(), entry.getValue());
-                    }
-                }
-                return true;
-
-        }
         return initProperty(key, param) || super.setProperty(key, param);
     }
 
     private boolean initProperty(String key, Object val) {
         switch (key) {
-            case "width":
-                iconWidth = weiuiScreenUtils.weexPx2dp(getInstance(), val, 0);
-                break;
-
-            case "height":
-                iconHeight = weiuiScreenUtils.weexPx2dp(getInstance(), val, 0);
-                break;
+            case "weiui":
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
+                    }
+                }
+                return true;
 
             case "icon":
             case "text":
-                setIcon(WXUtils.getString(val, null));
+                setIcon(weiuiParse.parseStr(val, null));
                 return true;
 
             case "iconSize":
             case "textSize":
+            case "fontSize":
+            case "font-size":
                 setIconSize(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "color":
             case "iconColor":
             case "textColor":
-                setIconColor(WXUtils.getString(val, null));
+                setIconColor(weiuiParse.parseStr(val, null));
                 return true;
 
             case "iconClickColor":
             case "textClickColor":
-                setIconClickColor(WXUtils.getString(val, null));
+                setIconClickColor(weiuiParse.parseStr(val, null));
                 return true;
 
+            default:
+                return false;
         }
-        return false;
     }
 
     private void appleStyleAfterCreated() {

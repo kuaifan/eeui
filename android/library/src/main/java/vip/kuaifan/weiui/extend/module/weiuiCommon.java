@@ -340,10 +340,10 @@ public class weiuiCommon {
      */
     public static String getMiddle(String string, String start, String end) {
         String text = string;
-        if (!start.equals("") && weiuiCommon.leftExists(text, start)) {
+        if (start != null && !start.equals("") && weiuiCommon.leftExists(text, start)) {
             text = text.substring(text.length() - start.length());
         }
-        if (!end.equals("") && weiuiCommon.rightExists(text, end)) {
+        if (end != null && !end.equals("") && weiuiCommon.rightExists(text, end)) {
             text = text.substring(0, end.length());
         }
         return text;

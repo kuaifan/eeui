@@ -20,7 +20,6 @@ import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.dom.flex.CSSFlexDirection;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 
 /**
@@ -116,24 +116,31 @@ public class Navbar extends WXVContainer<ViewGroup> {
 
     @Override
     protected boolean setProperty(String key, Object param) {
+        return initProperty(key, param) || super.setProperty(key, param);
+    }
+
+    private boolean initProperty(String key, Object val) {
         switch (key) {
             case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "type":
-                            case "titleType":
-                            case "middleType":
-                                setTitleType(WXUtils.getString(entry.getValue(), "center"));
-                                break;
-                        }
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
                     }
                 }
                 return true;
+
+            case "type":
+            case "titleType":
+            case "middleType":
+                setTitleType(weiuiParse.parseStr(val, "center"));
+                return true;
+
+            default:
+                return false;
         }
-        return super.setProperty(key, param);
     }
+
 
     @Override
     public void destroy() {

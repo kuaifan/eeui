@@ -144,7 +144,7 @@ public class AutoScrollTextView extends android.support.v7.widget.AppCompatTextV
         if (!isStarting) {
             return;
         }
-        step += speed;    //文字滚动速度。
+        step += speed;
         if (step > temp_view_plus_two_text_length) {
             step = textLength;
         }
@@ -158,6 +158,13 @@ public class AutoScrollTextView extends android.support.v7.widget.AppCompatTextV
         } else {
             startScroll();
         }
+    }
+
+    public void setTextColor(int color) {
+        if (paint == null) {
+            return;
+        }
+        paint.setColor(color);
     }
 
     public void setSpeed(float var) {

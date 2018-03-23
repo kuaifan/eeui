@@ -2,8 +2,12 @@ package vip.kuaifan.weiui.extend.bean;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.ArrayMap;
 
 import com.taobao.weex.bridge.JSCallback;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 
@@ -13,6 +17,21 @@ import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 
 public class OpenWinBean {
 
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> temp = new HashMap<>();
+        temp.put("url", getUrl());
+        temp.put("pageName", getPageName());
+        temp.put("pageType", getPageType());
+        temp.put("loading", isLoading());
+        temp.put("swipeBack", isSwipeBack());
+        temp.put("statusBarType", getStatusBarType());
+        temp.put("statusBarColor", getStatusBarColor());
+        temp.put("statusBarAlpha", getStatusBarAlpha());
+        temp.put("backgroundColor", getBackgroundColor());
+        temp.put("backPressedClose", isBackPressedClose());
+        return temp;
+    }
 
     /**
      * url :                网址
@@ -151,4 +170,5 @@ public class OpenWinBean {
     public void setOtherObject(JSONObject otherObject) {
         this.otherObject = otherObject;
     }
+
 }

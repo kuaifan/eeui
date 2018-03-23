@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 
 import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 
@@ -76,6 +77,41 @@ public class weiuiModule extends WXModule {
         context.startActivity(intent);
     }
 
+    public static OpenWinBean getWinInfo(String name) {
+        if (name == null) {
+            return null;
+        }
+        OpenWinBean mBean = getOpenWinBean(name);
+        if (mBean == null) {
+            return null;
+        }
+        Activity activity = mBean.getActivity();
+        if (activity == null) {
+            return null;
+        }
+        if (activity instanceof PageActivity) {
+            return  ((PageActivity) activity).getPageInfo();
+        }
+        return null;
+    }
+
+    public static void reloadWin(String name) {
+        if (name == null) {
+            return;
+        }
+        OpenWinBean mBean = getOpenWinBean(name);
+        if (mBean == null) {
+            return;
+        }
+        Activity activity = mBean.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (activity instanceof PageActivity) {
+            ((PageActivity) activity).reload();
+        }
+    }
+
     public static void closeWin(String name) {
         if (name == null) {
             return;
@@ -116,7 +152,7 @@ public class weiuiModule extends WXModule {
         OpenWinBean mBean = new OpenWinBean();
 
         //网址
-        mBean.setUrl(json.getString("url"));
+        mBean.setUrl(PageActivity.rewriteUrl(mWXSDKInstance.getContext(), json.getString("url")));
         //名称（默认：随机生成）
         if (json.getString("pageName") != null) {
             mBean.setPageName(json.getString("pageName"));
@@ -160,6 +196,47 @@ public class weiuiModule extends WXModule {
         }
 
         openWin(mWXSDKInstance.getContext(), mBean);
+    }
+
+    /**
+     * 获取页面信息
+     * @param object
+     * @return
+     */
+    @JSMethod(uiThread = false)
+    public Object getPageInfo(String object) {
+        JSONObject json = weiuiJson.parseObject(object);
+        if (json.size() == 0) {
+            json.put("pageName", object);
+        }
+        String pageName = json.getString("pageName");
+        if (pageName == null || pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                return ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().toMap();
+            }
+            return null;
+        }
+        return getWinInfo(pageName).toMap();
+    }
+
+    /**
+     * 重新加载页面（刷新）
+     * @param object
+     */
+    @JSMethod
+    public void reloadPage(String object) {
+        JSONObject json = weiuiJson.parseObject(object);
+        if (json.size() == 0) {
+            json.put("pageName", object);
+        }
+        String pageName = json.getString("pageName");
+        if (pageName == null || pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                ((PageActivity) mWXSDKInstance.getContext()).reload();
+            }
+            return;
+        }
+        reloadWin(pageName);
     }
 
     /**

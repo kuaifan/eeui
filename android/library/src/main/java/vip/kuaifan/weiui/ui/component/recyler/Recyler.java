@@ -20,7 +20,6 @@ import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +30,7 @@ import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.recyler.adapter.RecylerAdapter;
 import vip.kuaifan.weiui.ui.component.recyler.bean.SwipeButtonBean;
@@ -101,50 +101,25 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
 
     @Override
     protected boolean setProperty(String key, Object param) {
+        return initProperty(key, param) || super.setProperty(key, param);
+    }
+
+    private boolean initProperty(String key, Object val) {
         switch (key) {
             case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "row":
-                                gridRow = WXUtils.getNumberInt(entry.getValue(), 1);
-                                mLayoutManager.setSpanCount(gridRow);
-                                break;
-
-                            case "pullTips":
-                                mAdapter.setPullTips(WXUtils.getBoolean(entry.getValue(), true));
-                                break;
-
-                            case "pullTipsDefault":
-                                mAdapter.setPullTipsDefault(WXUtils.getString(entry.getValue(), ""));
-                                break;
-
-                            case "pullTipsLoad":
-                                mAdapter.setPullTipsLoad(WXUtils.getString(entry.getValue(), ""));
-                                break;
-
-                            case "pullTipsNo":
-                                mAdapter.setPullTipsNo(WXUtils.getString(entry.getValue(), ""));
-                                break;
-
-                            case "dividerColor":
-                                mAdapter.setDividerColor(WXUtils.getString(entry.getValue(), ""));
-                                break;
-
-                            case "dividerHeight":
-                                mAdapter.setDividerHeight(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-                        }
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
                     }
                 }
                 return true;
 
             case "swipe":
                 List<SwipeButtonBean> swipes = new ArrayList<>();
-                JSONArray swipeArray = weiuiJson.parseArray(WXUtils.getString(param, null));
+                JSONArray swipeArray = weiuiJson.parseArray(weiuiParse.parseStr(val, null));
                 for (int i = 0; i < swipeArray.size(); i++) {
-                    JSONObject swipeObject = weiuiJson.parseObject(WXUtils.getString(swipeArray.get(i), null));
+                    JSONObject swipeObject = weiuiJson.parseObject(weiuiParse.parseStr(swipeArray.get(i), null));
                     SwipeButtonBean bean = new SwipeButtonBean();
                     for (Map.Entry<String, Object> entry : swipeObject.entrySet()) {
                         switch (entry.getKey()) {
@@ -153,7 +128,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                                 break;
 
                             case "text":
-                                bean.setText(WXUtils.getString(entry.getValue(), "按钮" + i));
+                                bean.setText(weiuiParse.parseStr(entry.getValue(), "按钮" + i));
                                 break;
 
                             case "size":
@@ -165,11 +140,11 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                                 break;
 
                             case "color":
-                                bean.setColor(WXUtils.getString(entry.getValue(), "#000000"));
+                                bean.setColor(weiuiParse.parseStr(entry.getValue(), "#000000"));
                                 break;
 
                             case "backgroundColor":
-                                bean.setBackgroundColor(WXUtils.getString(entry.getValue(), "#ffffff"));
+                                bean.setBackgroundColor(weiuiParse.parseStr(entry.getValue(), "#ffffff"));
                                 break;
                         }
                     }
@@ -178,8 +153,39 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                 mAdapter.setSwipeItems(swipes);
                 v_recyler.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getContext()));
                 return true;
+
+            case "row":
+                gridRow = weiuiParse.parseInt(val, 1);
+                mLayoutManager.setSpanCount(gridRow);
+                return true;
+
+            case "pullTips":
+                mAdapter.setPullTips(weiuiParse.parseBool(val, true));
+                return true;
+
+            case "pullTipsDefault":
+                mAdapter.setPullTipsDefault(weiuiParse.parseStr(val, ""));
+                return true;
+
+            case "pullTipsLoad":
+                mAdapter.setPullTipsLoad(weiuiParse.parseStr(val, ""));
+                return true;
+
+            case "pullTipsNo":
+                mAdapter.setPullTipsNo(weiuiParse.parseStr(val, ""));
+                return true;
+
+            case "dividerColor":
+                mAdapter.setDividerColor(weiuiParse.parseStr(val, ""));
+                return true;
+
+            case "dividerHeight":
+                mAdapter.setDividerHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            default:
+                return false;
         }
-        return super.setProperty(key, param);
     }
 
     private void initPagerView() {

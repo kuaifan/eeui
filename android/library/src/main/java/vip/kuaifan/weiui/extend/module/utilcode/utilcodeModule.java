@@ -443,6 +443,11 @@ public class utilcodeModule {
             ToastClose();
             return;
         }
+        //
+        ToastUtils.setGravity(-1, -1, -1);
+        ToastUtils.setMsgColor(0xFEFFFFFF);
+        ToastUtils.setBgColor(0xFEFFFFFF);
+        //
         JSONObject param = weiuiJson.parseObject(obj);
         String message = param.getString("message");
         String gravity = param.getString("gravity");

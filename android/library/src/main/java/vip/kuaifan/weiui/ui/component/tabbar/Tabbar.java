@@ -30,7 +30,6 @@ import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.dom.flex.CSSFlexDirection;
 import com.taobao.weex.ui.component.WXComponent;
-import com.taobao.weex.utils.WXUtils;
 import vip.kuaifan.weiui.R;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXDomObject;
@@ -115,11 +114,22 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     @Override
     protected boolean setProperty(String key, Object param) {
+        return initProperty(key, param) || super.setProperty(key, param);
+    }
+
+    private boolean initProperty(String key, Object val) {
         switch (key) {
-            case "items":
-            case "pages":
+            case "weiui":
+                JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
+                if (json.size() > 0) {
+                    for (Map.Entry<String, Object> entry : json.entrySet()) {
+                        initProperty(entry.getKey(), entry.getValue());
+                    }
+                }
+                return true;
+
             case "tabPages":
-                JSONArray pagesArray = weiuiJson.parseArray(WXUtils.getString(param, null));
+                JSONArray pagesArray = weiuiJson.parseArray(weiuiParse.parseStr(val, null));
                 if (pagesArray.size() > 0) {
                     for (int i = 0; i < pagesArray.size(); i++) {
                         JSONObject item = pagesArray.getJSONObject(i);
@@ -136,213 +146,201 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 }
                 return true;
 
-            case "type":
-                setTabType(param);
+            case "tabType":
+                setTabType(val);
                 return true;
 
-            case "weiui":
-                JSONObject uiObject = weiuiJson.parseObject(WXUtils.getString(param, null));
-                if (uiObject.size() > 0) {
-                    for (Map.Entry<String, Object> entry : uiObject.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "tabType":
-                                setTabType(entry.getValue());
-                                break;
+            case "setHeight":
+            case "tabHeight":
+            case "setTabHeight":
+                setTabHeight(val);
+                return true;
 
-                            case "height":
-                            case "setHeight":
-                            case "tabHeight":
-                            case "setTabHeight":
-                                setTabHeight(entry.getValue());
-                                break;
+            case "indicatorStyle":
+            case "setIndicatorStyle":
+                mTabLayoutTop.setIndicatorStyle(weiuiParse.parseInt(val, 0));
+                mTabLayoutBottom.setIndicatorStyle(weiuiParse.parseInt(val, 0));
+                return true;
 
-                            case "indicatorStyle":
-                            case "setIndicatorStyle":
-                                mTabLayoutTop.setIndicatorStyle(WXUtils.getNumberInt(entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorStyle(WXUtils.getNumberInt(entry.getValue(), 0));
-                                break;
+            case "tabPadding":
+            case "setTabPadding":
+                mTabLayoutTop.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
 
-                            case "tabPadding":
-                            case "setTabPadding":
-                                mTabLayoutTop.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
+            case "tabSpaceEqual":
+            case "setTabSpaceEqual":
+                mTabLayoutTop.setTabSpaceEqual(weiuiParse.parseBool(val, false));
+                mTabLayoutBottom.setTabSpaceEqual(weiuiParse.parseBool(val, false));
+                return true;
 
-                            case "tabSpaceEqual":
-                            case "setTabSpaceEqual":
-                                mTabLayoutTop.setTabSpaceEqual(WXUtils.getBoolean(entry.getValue(), false));
-                                mTabLayoutBottom.setTabSpaceEqual(WXUtils.getBoolean(entry.getValue(), false));
-                                break;
+            case "tabWidth":
+            case "setTabWidth":
+                mTabLayoutTop.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
 
-                            case "tabWidth":
-                            case "setTabWidth":
-                                mTabLayoutTop.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
+            case "indicatorColor":
+            case "setIndicatorColor":
+                mTabLayoutTop.setIndicatorColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutBottom.setIndicatorColor(Color.parseColor(String.valueOf(val)));
+                return true;
 
-                            case "indicatorColor":
-                            case "setIndicatorColor":
-                                mTabLayoutTop.setIndicatorColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                mTabLayoutBottom.setIndicatorColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                break;
+            case "indicatorHeight":
+            case "setIndicatorHeight":
+                mTabLayoutTop.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
 
-                            case "indicatorHeight":
-                            case "setIndicatorHeight":
-                                mTabLayoutTop.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
+            case "indicatorWidth":
+            case "setIndicatorWidth":
+                mTabLayoutTop.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
 
-                            case "indicatorWidth":
-                            case "setIndicatorWidth":
-                                mTabLayoutTop.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
+            case "indicatorCornerRadius":
+            case "setIndicatorCornerRadius":
+                mTabLayoutTop.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
 
-                            case "indicatorCornerRadius":
-                            case "setIndicatorCornerRadius":
-                                mTabLayoutTop.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "indicatorGravity":
-                            case "setIndicatorGravity":
-                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
-                                    mTabLayoutTop.setIndicatorGravity(Gravity.TOP);
-                                    mTabLayoutBottom.setIndicatorGravity(Gravity.TOP);
-                                }else{
-                                    mTabLayoutTop.setIndicatorGravity(Gravity.BOTTOM);
-                                    mTabLayoutBottom.setIndicatorGravity(Gravity.BOTTOM);
-                                }
-                                break;
-
-                            case "indicatorAnimDuration":
-                            case "setIndicatorAnimDuration":
-                                mTabLayoutTop.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(entry.getValue())));
-                                mTabLayoutBottom.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(entry.getValue())));
-                                break;
-
-                            case "indicatorAnimEnable":
-                            case "setIndicatorAnimEnable":
-                                mTabLayoutTop.setIndicatorAnimEnable(WXUtils.getBoolean(entry.getValue(), true));
-                                mTabLayoutBottom.setIndicatorAnimEnable(WXUtils.getBoolean(entry.getValue(), true));
-                                break;
-
-                            case "indicatorBounceEnable":
-                            case "setIndicatorBounceEnable":
-                                mTabLayoutTop.setIndicatorBounceEnable(WXUtils.getBoolean(entry.getValue(), true));
-                                mTabLayoutBottom.setIndicatorBounceEnable(WXUtils.getBoolean(entry.getValue(), true));
-                                break;
-
-                            case "underlineColor":
-                            case "setUnderlineColor":
-                                mTabLayoutTop.setUnderlineColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                mTabLayoutBottom.setUnderlineColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                break;
-
-                            case "underlineHeight":
-                            case "setUnderlineHeight":
-                                mTabLayoutTop.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "underlineGravity":
-                            case "setUnderlineGravity":
-                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
-                                    mTabLayoutTop.setUnderlineGravity(Gravity.TOP);
-                                    mTabLayoutBottom.setUnderlineGravity(Gravity.TOP);
-                                }else{
-                                    mTabLayoutTop.setUnderlineGravity(Gravity.BOTTOM);
-                                    mTabLayoutBottom.setUnderlineGravity(Gravity.BOTTOM);
-                                }
-                                break;
-
-                            case "dividerColor":
-                            case "setDividerColor":
-                                mTabLayoutTop.setDividerColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                mTabLayoutBottom.setDividerColor(Color.parseColor(String.valueOf(entry.getValue())));
-                                break;
-
-                            case "dividerWidth":
-                            case "setDividerWidth":
-                                mTabLayoutTop.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "dividerPadding":
-                            case "setDividerPadding":
-                                mTabLayoutTop.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "textsize":
-                            case "setTextsize":
-                                setTabTextsize(entry.getValue());
-                                break;
-
-                            case "textSelectColor":
-                            case "setTextSelectColor":
-                                setTabTextSelectColor(entry.getValue());
-                                break;
-
-                            case "textUnselectColor":
-                            case "setTextUnselectColor":
-                                setTabTextUnselectColor(entry.getValue());
-                                break;
-
-                            case "textBold":
-                            case "setTextBold":
-                                setTabTextBold(entry.getValue());
-                                break;
-
-                            case "iconVisible":
-                            case "setIconVisible":
-                                setTabIconVisible(entry.getValue());
-                                break;
-
-                            case "iconGravity":
-                            case "setIconGravity":
-                                if (WXUtils.getNumberInt(entry.getValue(), 0) == 1) {
-                                    mTabLayoutTop.setIconGravity(Gravity.TOP);
-                                    mTabLayoutBottom.setIconGravity(Gravity.TOP);
-                                }else{
-                                    mTabLayoutTop.setIconGravity(Gravity.BOTTOM);
-                                    mTabLayoutBottom.setIconGravity(Gravity.BOTTOM);
-                                }
-                                break;
-
-                            case "iconWidth":
-                            case "setIconWidth":
-                                setTabIconWidth(entry.getValue());
-                                break;
-
-                            case "iconHeight":
-                            case "setIconHeight":
-                                setTabIconHeight(entry.getValue());
-                                break;
-
-                            case "iconMargin":
-                            case "setIconMargin":
-                                mTabLayoutTop.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                mTabLayoutBottom.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "textAllCaps":
-                            case "setTextAllCaps":
-                                mTabLayoutTop.setTextAllCaps(WXUtils.getBoolean(entry.getValue(), false));
-                                mTabLayoutBottom.setTextAllCaps(WXUtils.getBoolean(entry.getValue(), false));
-                                break;
-                        }
-                    }
+            case "indicatorGravity":
+            case "setIndicatorGravity":
+                if (weiuiParse.parseInt(val, 0) == 1) {
+                    mTabLayoutTop.setIndicatorGravity(Gravity.TOP);
+                    mTabLayoutBottom.setIndicatorGravity(Gravity.TOP);
+                }else{
+                    mTabLayoutTop.setIndicatorGravity(Gravity.BOTTOM);
+                    mTabLayoutBottom.setIndicatorGravity(Gravity.BOTTOM);
                 }
+                return true;
+
+            case "indicatorAnimDuration":
+            case "setIndicatorAnimDuration":
+                mTabLayoutTop.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(val)));
+                mTabLayoutBottom.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(val)));
+                return true;
+
+            case "indicatorAnimEnable":
+            case "setIndicatorAnimEnable":
+                mTabLayoutTop.setIndicatorAnimEnable(weiuiParse.parseBool(val, true));
+                mTabLayoutBottom.setIndicatorAnimEnable(weiuiParse.parseBool(val, true));
+                return true;
+
+            case "indicatorBounceEnable":
+            case "setIndicatorBounceEnable":
+                mTabLayoutTop.setIndicatorBounceEnable(weiuiParse.parseBool(val, true));
+                mTabLayoutBottom.setIndicatorBounceEnable(weiuiParse.parseBool(val, true));
+                return true;
+
+            case "underlineColor":
+            case "setUnderlineColor":
+                mTabLayoutTop.setUnderlineColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutBottom.setUnderlineColor(Color.parseColor(String.valueOf(val)));
+                return true;
+
+            case "underlineHeight":
+            case "setUnderlineHeight":
+                mTabLayoutTop.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "underlineGravity":
+            case "setUnderlineGravity":
+                if (weiuiParse.parseInt(val, 0) == 1) {
+                    mTabLayoutTop.setUnderlineGravity(Gravity.TOP);
+                    mTabLayoutBottom.setUnderlineGravity(Gravity.TOP);
+                }else{
+                    mTabLayoutTop.setUnderlineGravity(Gravity.BOTTOM);
+                    mTabLayoutBottom.setUnderlineGravity(Gravity.BOTTOM);
+                }
+                return true;
+
+            case "dividerColor":
+            case "setDividerColor":
+                mTabLayoutTop.setDividerColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutBottom.setDividerColor(Color.parseColor(String.valueOf(val)));
+                return true;
+
+            case "dividerWidth":
+            case "setDividerWidth":
+                mTabLayoutTop.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "dividerPadding":
+            case "setDividerPadding":
+                mTabLayoutTop.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "textsize":
+            case "setTextsize":
+                setTabTextsize(val);
+                return true;
+
+            case "textSelectColor":
+            case "setTextSelectColor":
+                setTabTextSelectColor(val);
+                return true;
+
+            case "textUnselectColor":
+            case "setTextUnselectColor":
+                setTabTextUnselectColor(val);
+                return true;
+
+            case "textBold":
+            case "setTextBold":
+                setTabTextBold(val);
+                return true;
+
+            case "iconVisible":
+            case "setIconVisible":
+                setTabIconVisible(val);
+                return true;
+
+            case "iconGravity":
+            case "setIconGravity":
+                if (weiuiParse.parseInt(val, 0) == 1) {
+                    mTabLayoutTop.setIconGravity(Gravity.TOP);
+                    mTabLayoutBottom.setIconGravity(Gravity.TOP);
+                }else{
+                    mTabLayoutTop.setIconGravity(Gravity.BOTTOM);
+                    mTabLayoutBottom.setIconGravity(Gravity.BOTTOM);
+                }
+                return true;
+
+            case "iconWidth":
+            case "setIconWidth":
+                setTabIconWidth(val);
+                return true;
+
+            case "iconHeight":
+            case "setIconHeight":
+                setTabIconHeight(val);
+                return true;
+
+            case "iconMargin":
+            case "setIconMargin":
+                mTabLayoutTop.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutBottom.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "textAllCaps":
+            case "setTextAllCaps":
+                mTabLayoutTop.setTextAllCaps(weiuiParse.parseBool(val, false));
+                mTabLayoutBottom.setTextAllCaps(weiuiParse.parseBool(val, false));
                 return true;
 
             case "@styleScope":
                 if (tabbarType == null) {
                     setTabType("bottom");
                 }
+                return false;
 
+            default:
+                return false;
         }
-        return super.setProperty(key, param);
     }
 
     /**
@@ -772,7 +770,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabType(Object var) {
-        String tabType = WXUtils.getString(var, "bottom");
+        String tabType = weiuiParse.parseStr(var, "bottom");
         tabbarType = tabType.toLowerCase();
         mTabLayoutTop.setVisibility(View.GONE);
         mTabLayoutBottom.setVisibility(View.GONE);
@@ -791,8 +789,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabHeight(Object var) {
-        weiuiCommon.setViewWidthHeight(mTabLayoutTop, -1, weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
-        weiuiCommon.setViewWidthHeight(mTabLayoutBottom, -1, weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
+        weiuiCommon.setViewWidthHeight(mTabLayoutTop, -1, weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+        weiuiCommon.setViewWidthHeight(mTabLayoutBottom, -1, weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
     }
 
     /**
@@ -801,8 +799,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextsize(Object var) {
-        mTabLayoutTop.setTextsize(WXUtils.getFloat(var, 0f));
-        mTabLayoutBottom.setTextsize(WXUtils.getFloat(var, 0f));
+        mTabLayoutTop.setTextsize(weiuiParse.parseFloat(var, 0f));
+        mTabLayoutBottom.setTextsize(weiuiParse.parseFloat(var, 0f));
     }
 
     /**
@@ -811,8 +809,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextBold(Object var) {
-        mTabLayoutTop.setTextBold(WXUtils.getNumberInt(var, 0));
-        mTabLayoutBottom.setTextBold(WXUtils.getNumberInt(var, 0));
+        mTabLayoutTop.setTextBold(weiuiParse.parseInt(var, 0));
+        mTabLayoutBottom.setTextBold(weiuiParse.parseInt(var, 0));
     }
 
     /**
@@ -821,8 +819,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextUnselectColor(Object var) {
-        mTabLayoutTop.setTextUnselectColor(WXUtils.getNumberInt(var, 0));
-        mTabLayoutBottom.setTextUnselectColor(WXUtils.getNumberInt(var, 0));
+        mTabLayoutTop.setTextUnselectColor(weiuiParse.parseInt(var, 0));
+        mTabLayoutBottom.setTextUnselectColor(weiuiParse.parseInt(var, 0));
     }
 
     /**
@@ -831,8 +829,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextSelectColor(Object var) {
-        mTabLayoutTop.setTextSelectColor(WXUtils.getNumberInt(var, 0));
-        mTabLayoutBottom.setTextSelectColor(WXUtils.getNumberInt(var, 0));
+        mTabLayoutTop.setTextSelectColor(weiuiParse.parseInt(var, 0));
+        mTabLayoutBottom.setTextSelectColor(weiuiParse.parseInt(var, 0));
     }
 
     /**
@@ -841,8 +839,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabIconVisible(Object var) {
-        mTabLayoutTop.setIconVisible(WXUtils.getBoolean(var, true));
-        mTabLayoutBottom.setIconVisible(WXUtils.getBoolean(var, true));
+        mTabLayoutTop.setIconVisible(weiuiParse.parseBool(var, true));
+        mTabLayoutBottom.setIconVisible(weiuiParse.parseBool(var, true));
     }
 
     /**
@@ -851,8 +849,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabIconWidth(Object var) {
-        mTabLayoutTop.setIconWidth(weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
-        mTabLayoutBottom.setIconWidth(weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
+        mTabLayoutTop.setIconWidth(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+        mTabLayoutBottom.setIconWidth(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
     }
 
     /**
@@ -861,7 +859,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabIconHeight(Object var) {
-        mTabLayoutTop.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
-        mTabLayoutBottom.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), WXUtils.getNumberInt(var, 0)));
+        mTabLayoutTop.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+        mTabLayoutBottom.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
     }
 }

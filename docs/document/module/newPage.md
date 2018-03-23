@@ -89,6 +89,78 @@ weiui.openPage({
 });
 ```
 
+# weiui.getPageInfo
+
+> 获取页面信息
+
+```js
+/**
+ * @param params    详细参数
+ */
+weiui.getPageInfo({params})
+```
+
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空获取当前页面（不建议） | - |
+
+#### 简单示例
+
+```js
+//示例①
+let variable = weiui.getPageInfo({
+    pageName: 'pageName_1',
+});
+
+//示例②
+let variable = weiui.getPageInfo('pageName_1');
+
+//variable返回示例
+{
+　　"backgroundColor":"#f4f8f9",
+　　"pageType":"weex",
+　　"swipeBack":true,
+　　"statusBarColor":"#3EB4FF",
+　　"backPressedClose":true,
+　　"statusBarAlpha":0,
+　　"loading":true,
+　　"statusBarType":"default",
+　　"pageName":"open_qGRQ9fHP",
+　　"url":"http://....../dist/index.js"
+}
+```
+
+# weiui.reloadPage
+
+> 重新加载`Weex Js页面` 或 `Web页面`
+
+```js
+/**
+ * @param params    详细参数
+ */
+weiui.reloadPage({params})
+```
+
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空重载当前页面（不建议） | - |
+
+#### 简单示例
+
+```js
+//示例①
+weiui.reloadPage({
+    pageName: 'pageName_1',
+});
+
+//示例②
+weiui.reloadPage('pageName_1');
+```
+
 # weiui.closePage
 
 > 关闭`Weex Js页面` 或 `Web页面`

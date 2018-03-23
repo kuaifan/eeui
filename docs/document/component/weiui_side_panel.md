@@ -24,7 +24,8 @@
                         scrollbar: false,
                         backgroundColor: '#26c9ff'
                     }"
-                @itemClick="itemClick">
+                @itemClick="itemClick"
+                @switchListener="switchListener">
 
             <!--侧滑菜单部分-->
             <weiui_side_panel_menu class="panel_menu" name="菜单1">
@@ -122,6 +123,9 @@
             itemClick(params) {
                 weiui.toast("点击了" + (params.position + 1) + "项，name：" + params.name);
             },
+            switchListener(params) {
+                weiui.toast("侧边栏：" + (params.show?"显示了":"隐藏了"));
+            },
             menuToggle() {
                 this.$refs.reflectName.menuToggle();
             },
@@ -166,6 +170,12 @@
  * 返回参数：data = {name: 'pageName', position: 1}
  */
 @itemLongClick = function(data) { ... }
+
+/**
+ * 侧边栏状态改变事件
+ * 返回参数：data = {show: true}
+ */
+@switchListener = function(data) { ... }
 ```
 
 ### 调用方法 `methods`

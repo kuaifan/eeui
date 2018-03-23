@@ -8,7 +8,7 @@
 
 ## 预览效果
 
->说明：gif图片压缩，原效果非常流畅。
+> 说明：gif图片压缩，原效果非常流畅。
 
 ![](media/ezgif-5-0c1dca77a0.gif)
 
@@ -132,6 +132,12 @@
  * 参数一：滚动文字
  */
 this.$refs.reflectName.setText('滚动文字');
+
+/**
+ * 添加滚动的文字
+ * 参数一：添加的滚动文字
+ */
+this.$refs.reflectName.addText('滚动文字');
 
 /**
  * 设置为滚动状态

@@ -25,7 +25,7 @@
                 ref="reflectName"
                 class="tabbar"
                 :weiui="{ tabType: 'bottom' }"
-                @tabSelect="tabSelect"
+                @pageSelected="pageSelected"
                 @tabReselect="tabReselect"
                 @refreshListener="refreshListener">
 
@@ -97,7 +97,7 @@
 
     export default {
         methods: {
-            tabSelect(params) {
+            pageSelected(params) {
                 weiui.toast("切换到第" + (params.position + 1) + "个标签页");
             },
             tabReselect(params) {
@@ -171,6 +171,21 @@
 | message |`Number`  | tab未读信息数         | 0       |
 | dot |`Boolean`  | 是否显示tab未读红点         | false       |
 | url |`String`  | Weex Js文件`url`地址         | -       |
+
+> 例如：
+
+```vue
+<weiui_tabbar
+    ref="reflectName"
+    :tabPages="[ {
+                    title: '首页',
+                    url: 'http://dotwe.org/raw/dist/b5fd96d8d790f0100bdfc20b93eedf09.bundle.wx',
+                }, {
+                    title: '好友',
+                    url: 'http://dotwe.org/raw/dist/ba938c9aaebe41e5f60b98f90bd0bf61.bundle.wx',
+                    message: 9
+                } ]"></weiui_tabbar>
+```
 
 ### 事件回调 `callback`
 

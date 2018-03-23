@@ -21,6 +21,9 @@ public class weiuiConstants {
         //项目Swipe菜单点击事件
         String ITEM_SWIPE_CLICK = "itemSwipeClick";
 
+        //滑动事件
+        String SWITCH_LISTENER = "switchListener";
+
         //视图滚动回调（滚动完成后调用）
         String SCROLLED = "scrolled";
 

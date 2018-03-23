@@ -4,16 +4,17 @@
     
 - 组件 Component
     - [weiui_icon 图标](component/weiui_icon)
+    - [weiui_marquee 跑马文字](component/weiui_marquee)
     - [weiui_navbar 导航栏](component/weiui_navbar)
-        - [weiui_navbar_item 导航栏子组件](component/weiui_navbar_item)
+    - [weiui_navbar_item 导航栏子组件](component/weiui_navbar_item)
     - [weiui_recyler 列表容器](component/weiui_recyler)
     - [weiui_scroll_text 滚动文字](component/weiui_scroll_text)
     - [weiui_side_panel 侧边栏抽屉](component/weiui_side_panel)
-        - [weiui_side_panel_item 侧边栏子组件](component/weiui_side_panel_item)
+    - [weiui_side_panel_item 侧边栏子组件](component/weiui_side_panel_item)
     - [weiui_tabbar 标签页面](component/weiui_tabbar)
-        - [weiui_tabbar_page 标签页子组件](component/weiui_tabbar_page)
-        - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar2)
-        - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar3)
+    - [weiui_tabbar_page 标签页子组件](component/weiui_tabbar_page)
+    - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar2)
+    - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar3)
     
 - 模块 Module
     - [newPage 页面功能](module/newPage)
@@ -26,17 +27,19 @@
     - [ajax 跨域异步请求](module/ajax)
     - [plate 复制粘贴](module/plate)
     - [toast 吐司提示](module/toast)
-    - [appUtils APP相关](module/appUtils)
-    - [deviceUtils 设备相关](module/deviceUtils)
-    - [networkUtils 网络相关](module/networkUtils)
-    - [permissionUtils 权限相关](module/permissionUtils)
-    - [phoneUtils 手机相关](module/phoneUtils)
-    - [processUtils 进程相关](module/processUtils)
-    - [screenUtils 屏幕相关](module/screenUtils)
-    - [timeUtils 时间相关](module/timeUtils)
-    - [cameraTool 摄像相关](module/cameraTool)
-    - [locationTool 定位相关](module/locationTool)
-    - [vibrateTool 震动相关](module/vibrateTool)
+    
+- 拓展模块 Expand Module
+    - [appUtils APP相关](module/expand/appUtils)
+    - [deviceUtils 设备相关](module/expand/deviceUtils)
+    - [networkUtils 网络相关](module/expand/networkUtils)
+    - [permissionUtils 权限相关](module/expand/permissionUtils)
+    - [phoneUtils 手机相关](module/expand/phoneUtils)
+    - [processUtils 进程相关](module/expand/processUtils)
+    - [screenUtils 屏幕相关](module/expand/screenUtils)
+    - [timeUtils 时间相关](module/expand/timeUtils)
+    - [cameraTool 摄像相关](module/expand/cameraTool)
+    - [locationTool 定位相关](module/expand/locationTool)
+    - [vibrateTool 震动相关](module/expand/vibrateTool)
 
 - 第三方模块 Third Module
     - pictureSelector 多图片选择器

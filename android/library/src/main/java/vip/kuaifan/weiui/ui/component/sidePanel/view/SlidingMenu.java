@@ -25,6 +25,9 @@ public class SlidingMenu extends ViewGroup {
 
     private boolean isLeftShow = false;
 
+    private OnSwitchListener mOnSwitchListener;
+    public interface OnSwitchListener { void onSwitchListener(boolean isShow); }
+
     public SlidingMenu(Context context) {
         this(context, null);
     }
@@ -249,6 +252,9 @@ public class SlidingMenu extends ViewGroup {
             // 模拟数据变化
             mScroller.startScroll(startX, startY, dx, dy, Math.min(Math.abs(dx) * 10, duration));
         }
+        if (mOnSwitchListener != null) {
+            mOnSwitchListener.onSwitchListener(isLeftShow);
+        }
         invalidate();// UI刷新---> draw() -->drawChild() --> computeScroll()
     }
 
@@ -284,5 +290,9 @@ public class SlidingMenu extends ViewGroup {
 
     public void setLeftBackgroundColor(int leftBackgroundColor) {
         mLeftView.setBackgroundColor(leftBackgroundColor);
+    }
+
+    public void setOnSwitchListener(OnSwitchListener mOnSwitchListener) {
+        this.mOnSwitchListener = mOnSwitchListener;
     }
 }

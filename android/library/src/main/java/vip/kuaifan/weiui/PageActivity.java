@@ -49,6 +49,8 @@ import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXRenderStrategy;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +79,9 @@ public class PageActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
 
     private OpenWinBean mPageInfo;
+
+    private OnBackPressed mOnBackPressed;
+    public interface OnBackPressed { boolean onBackPressed(); }
 
     //模板部分
     private ViewGroup mBody, mWeex, mWeb;
@@ -424,6 +429,11 @@ public class PageActivity extends AppCompatActivity {
         if (!mPageInfo.isBackPressedClose()) {
             return;
         }
+        if (mOnBackPressed != null) {
+            if (mOnBackPressed.onBackPressed()) {
+                return;
+            }
+        }
         super.onBackPressed();
     }
 
@@ -583,13 +593,7 @@ public class PageActivity extends AppCompatActivity {
                 mWeexView = findViewById(R.id.v_weexview);
                 mWeexProgress = findViewById(R.id.v_weexprogress);
                 mWeex.setVisibility(View.VISIBLE);
-                if (mPageInfo.isLoading()) {
-                    mWeexProgress.setVisibility(View.VISIBLE);
-                }
-                //
-                weexCreateInstance();
-                mWXSDKInstance.onActivityCreate();
-                weexRenderPage();
+                weexLoad();
                 break;
 
             default:
@@ -800,6 +804,19 @@ public class PageActivity extends AppCompatActivity {
     /**
      * Weex
      */
+    private void weexLoad() {
+        if (mPageInfo.isLoading()) {
+            mWeexProgress.setVisibility(View.VISIBLE);
+        }
+        //
+        weexCreateInstance();
+        mWXSDKInstance.onActivityCreate();
+        weexRenderPage();
+    }
+
+    /**
+     * Weex
+     */
     private void weexCreateInstance() {
         if (mWXSDKInstance != null) {
             mWXSDKInstance.registerRenderListener(null);
@@ -893,6 +910,17 @@ public class PageActivity extends AppCompatActivity {
         return mPageInfo;
     }
 
+    public void reload() {
+        switch (mPageInfo.getPageType()) {
+            case "web":
+                mWebView.loadUrl(mPageInfo.getUrl());
+
+            case "weex":
+                weexLoad();
+                break;
+        }
+    }
+
     public void setSwipeBackEnable(Boolean var) {
         if (mPageInfo == null || mSwipeBackHelper == null) {
             return;
@@ -904,6 +932,37 @@ public class PageActivity extends AppCompatActivity {
     public void onBackPressedSkipBackPressedClose() {
         mPageInfo.setBackPressedClose(true);
         onBackPressed();
+    }
+
+    public void setOnBackPressed(OnBackPressed mOnBackPressed) {
+        this.mOnBackPressed = mOnBackPressed;
+    }
+
+    public static String rewriteUrl(Context context, String url) {
+        if (url == null || url.startsWith("http") || url.startsWith("ftp://")) {
+            return url;
+        }
+        if (context instanceof PageActivity) {
+            OpenWinBean info = ((PageActivity) context).getPageInfo();
+            if (info != null) {
+                try {
+                    URL tmp = new URL(info.getUrl());
+                    if (url.startsWith("/")) {
+                        return tmp.getProtocol() + "://" + tmp.getHost() + ":" + tmp.getPort() + url;
+                    }else{
+                        String path = "/";
+                        int lastIndex = tmp.getPath().lastIndexOf("/");
+                        if (lastIndex > -1){
+                            path = tmp.getPath().substring(0, lastIndex + 1);
+                        }
+                        return tmp.getProtocol() + "://" + tmp.getHost() + ":"  + tmp.getPort() + path + url;
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return url;
     }
 
     private void setImmersionStatusBar() {
@@ -939,4 +998,5 @@ public class PageActivity extends AppCompatActivity {
             finish();
         }
     }
+
 }

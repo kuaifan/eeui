@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.dom.WXAttr;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
 
+import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
+import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 
 @WeexComponent(names = {"weiui_side_panel_menu"})
@@ -23,7 +26,7 @@ public class SidePanelMenu extends WXVContainer<SidePanelMenuView> {
         SidePanelMenuView view = new SidePanelMenuView(context);
         if (getParent() instanceof SidePanel) {
             SidePanel panel = (SidePanel) getParent();
-            view.setName(weiuiParse.parseStr(getDomObject().getAttrs().get("name"), weiuiCommon.randomString(6)));
+            view.setName(getName(getDomObject().getAttrs()));
             view.setTag(panel.getMenuNum());
             view.setOnClickListener(panel.menuClick);
             view.setOnLongClickListener(panel.menuLongClick);
@@ -31,5 +34,10 @@ public class SidePanelMenu extends WXVContainer<SidePanelMenuView> {
             return view;
         }
         return null;
+    }
+
+    private String getName(WXAttr attr) {
+        JSONObject json = weiuiJson.parseObject(attr.get("weiui"));
+        return weiuiJson.getString(json, "name", weiuiParse.parseStr(attr.get("name"), weiuiCommon.randomString(6)));
     }
 }
