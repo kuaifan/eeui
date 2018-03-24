@@ -296,7 +296,7 @@ exports.default = {
         return {
             url: 'http://dotwe.org/raw/dist/7f90ed2135dc774fa2abb06c4fa1901f.bundle.wx',
             status: '',
-            result: ''
+            content: ''
         };
     },
 
@@ -310,13 +310,19 @@ exports.default = {
         startAjax: function startAjax() {
             var _this = this;
 
+            this.status = "";
+            this.content = "";
             weiui.ajax({
-                url: 'http://dotwe.org/raw/dist/7f90ed2135dc774fa2abb06c4fa1901f.bundle.wx',
+                url: this.url,
                 dataType: 'text'
             }, function (res) {
-                _this.status = res.status;
+                if (_this.status === "") {
+                    _this.status += res.status;
+                } else {
+                    _this.status += " > " + res.status;
+                }
                 if (res.status === "success") {
-                    _this.result = res.result;
+                    _this.content = res.result;
                 }
             });
         }
@@ -378,11 +384,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["textarea"],
     attrs: {
       "rows": "20",
-      "value": (_vm.result)
+      "value": (_vm.content)
     },
     on: {
       "input": function($event) {
-        _vm.result = $event.target.attr.value
+        _vm.content = $event.target.attr.value
       }
     }
   })])], 1)

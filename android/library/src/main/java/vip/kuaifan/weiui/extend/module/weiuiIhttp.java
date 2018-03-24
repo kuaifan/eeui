@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 
 import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.Cancelable;
+import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.CacheCallback;
 import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.ProgressCallback;
 import vip.kuaifan.weiui.extend.integration.xutils.http.RequestParams;
 import vip.kuaifan.weiui.extend.integration.xutils.x;
@@ -19,8 +20,6 @@ import java.util.Map;
 public class weiuiIhttp {
 
     private static final String TAG = "Ihttp";
-
-    private static Context mContext;
 
     //系统IMEI
     private static String platformImei = "";
@@ -39,7 +38,6 @@ public class weiuiIhttp {
         x.Ext.init((Application) context);
         x.Ext.setDebug(false);
         //
-        mContext = context;
         platformRelease = weiuiCommon.getLocalVersionName(context);
         platformImei = weiuiCommon.getImei(context);
         //
@@ -55,8 +53,6 @@ public class weiuiIhttp {
      */
     private static RequestParams requestParams(String url, Map<String, Object> data) {
         RequestParams params = new RequestParams(url + "");
-        params.setConnectTimeout(8000);
-        params.setReadTimeout(8000);
         params.addHeader("platform", "Android");
         params.addHeader("platform-imei", platformImei);
         params.addHeader("platform-release", platformRelease);
@@ -71,9 +67,20 @@ public class weiuiIhttp {
                 }else if (value != null){
                     if (weiuiCommon.leftExists(key.toLowerCase(), "setting:")) {
                         key = key.substring(8).trim();
-                        if (key.equals("timeout")) {
-                            params.setConnectTimeout(weiuiParse.parseInt(value, 8000));
-                            params.setReadTimeout(weiuiParse.parseInt(value, 8000));
+                        switch (key) {
+                            case "timeout":
+                                int timeout = weiuiParse.parseInt(value, 0);
+                                if (timeout > 0) {
+                                    params.setConnectTimeout(timeout);
+                                    params.setReadTimeout(timeout);
+                                }
+                                break;
+                            case "cache":
+                                long cache = weiuiParse.parseLong(value, 0);
+                                if (cache > 0) {
+                                    params.setCacheMaxAge(cache);
+                                }
+                                break;
                         }
                     }else if (weiuiCommon.leftExists(key.toLowerCase(), "header:")) {
                         key = key.substring(7).trim();
@@ -104,26 +111,94 @@ public class weiuiIhttp {
      * @param callBack
      */
     private static void put(String type, final String key, final String url, final Map<String, Object> data, final resultCall callBack) {
-        Log.d(TAG, "put: " + url);
-        //开始读取
-        switch (type) {
-            case "get":
-                requestList.put(key, x.http().get(requestParams(url, data), progressCallback(key, callBack)));
-                break;
+        RequestParams params = requestParams(url, data);
+        if (params.getCacheMaxAge() > 0) {
+            //缓存方案
+            switch (type) {
+                case "get":
+                    requestList.put(key, x.http().get(params, cacheCallback(key, url, callBack)));
+                    break;
 
-            case "post":
-                requestList.put(key, x.http().post(requestParams(url, data), progressCallback(key, callBack)));
-                break;
+                case "post":
+                    requestList.put(key, x.http().post(params, cacheCallback(key, url, callBack)));
+                    break;
+            }
+        }else{
+            //正常方案
+            switch (type) {
+                case "get":
+                    requestList.put(key, x.http().get(params, progressCallback(key, url, callBack)));
+                    break;
+
+                case "post":
+                    requestList.put(key, x.http().post(params, progressCallback(key, url, callBack)));
+                    break;
+            }
         }
+
     }
 
     /**
-     * 请求相应
+     * 请求相应（缓存）
      * @param key
+     * @param url
      * @param callBack
      * @return
      */
-    private static ProgressCallback<String> progressCallback(final String key, final resultCall callBack) {
+    private static CacheCallback<String> cacheCallback(String key, String url, resultCall callBack) {
+        final boolean[] isCache = {false};
+        return new CacheCallback<String>() {
+
+            @Override
+            public boolean onCache(String result) {
+                isCache[0] = true;
+                if (callBack != null) {
+                    Log.d(TAG, "onCache: " + url);
+                    callBack.success(result);
+                }
+                return true;
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                if (!isCache[0]) {
+                    if (callBack != null) {
+                        Log.d(TAG, "onSuccess C: " + url);
+                        callBack.success(result);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                if (callBack != null) {
+                    callBack.error(ex.toString());
+                }
+            }
+
+            @Override
+            public void onFinished() {
+                if (callBack != null) {
+                    callBack.complete();
+                }
+                requestList.remove(key);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Log.d(TAG, "onCancelled C: " + url);
+            }
+        };
+    }
+
+    /**
+     * 请求相应（正常）
+     * @param key
+     * @param url
+     * @param callBack
+     * @return
+     */
+    private static ProgressCallback<String> progressCallback(String key, String url, resultCall callBack) {
         return new ProgressCallback<String>() {
             @Override
             public void onWaiting() {
@@ -138,29 +213,31 @@ public class weiuiIhttp {
             }
 
             @Override
-            public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
             public void onSuccess(String result) {
-                if (callBack == null) {
-                    return;
+                if (callBack != null) {
+                    Log.d(TAG, "onSuccess P: " + url);
+                    callBack.success(result);
                 }
-                callBack.success(result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                if (callBack == null) {
-                    return;
+                if (callBack != null) {
+                    callBack.error(ex.toString());
                 }
-                callBack.error(ex.toString());
             }
 
             @Override
             public void onFinished() {
-                callBack.complete();
+                if (callBack != null) {
+                    callBack.complete();
+                }
                 requestList.remove(key);
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                Log.d(TAG, "onCancelled P: " + url);
             }
         };
     }

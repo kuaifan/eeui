@@ -27,7 +27,8 @@ weiui.ajax({params}, callback(result))
 | name | `String` | - | 请求名称，用于取消请求 | - |
 | method | `String` | - | 请求类型，`get`、`post` | get |
 | dataType | `String` | - | 返回数据类型，`json`、`text` | json |
-| timeout | `Number` | - | 请求超时时间，单位：毫秒 | 15000 |
+| timeout | `Number` | - | 请求超时时间（单位：毫秒） | 15000 |
+| cache | `Number` | - | 缓存时间，0不缓存（单位：毫秒） | 0 |
 | headers | `Object` | - | 请求头部headers | - |
 | data | `Object` | - | 发送数据 | - |
 | files | `Object` | - | 提交文件  | - |

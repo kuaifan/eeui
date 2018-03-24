@@ -15,7 +15,7 @@
             <input class="inPut" v-model="url"/>
             <text class="button" @click="startAjax">开始请求</text>
             <text class="subtitle">状态：{{status}}</text>
-            <textarea class="textarea" rows="20" v-model="result"></textarea>
+            <textarea class="textarea" rows="20" v-model="content"></textarea>
         </div>
 
     </div>
@@ -100,7 +100,7 @@
             return {
                 url: 'http://dotwe.org/raw/dist/7f90ed2135dc774fa2abb06c4fa1901f.bundle.wx',
                 status: '',
-                result: '',
+                content: '',
             }
         },
         methods: {
@@ -111,13 +111,19 @@
                 });
             },
             startAjax() {
+                this.status = "";
+                this.content = "";
                 weiui.ajax({
-                    url: 'http://dotwe.org/raw/dist/7f90ed2135dc774fa2abb06c4fa1901f.bundle.wx',
+                    url: this.url,
                     dataType: 'text',
                 }, (res) => {
-                    this.status = res.status;
+                    if (this.status === "") {
+                        this.status+= res.status;
+                    }else{
+                        this.status+= " > " + res.status;
+                    }
                     if (res.status === "success") {
-                        this.result = res.result;
+                        this.content = res.result;
                     }
                 });
             },

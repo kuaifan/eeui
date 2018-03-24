@@ -780,6 +780,8 @@ public class weiuiCommon {
         String method = weiuiJson.getString(json, "method", "get").toLowerCase();
         String dataType = weiuiJson.getString(json, "dataType", "json").toLowerCase();
         int timeout = weiuiJson.getInt(json, "timeout", 15000);
+        long cache = weiuiJson.getLong(json, "cache", 0);
+        //
         JSONObject headers = weiuiJson.parseObject(json.getString("headers"));
         JSONObject data = weiuiJson.parseObject(json.getString("data"));
         JSONObject files = weiuiJson.parseObject(json.getString("files"));
@@ -794,6 +796,7 @@ public class weiuiCommon {
         //
         Map<String, Object> mData = new HashMap<>();
         mData.put("setting:timeout", timeout);
+        mData.put("setting:cache", cache);
         if (headers.size() > 0) {
             for (Map.Entry<String, Object> entry : headers.entrySet()) {
                 mData.put("header:" + entry.getKey(), entry.getValue());

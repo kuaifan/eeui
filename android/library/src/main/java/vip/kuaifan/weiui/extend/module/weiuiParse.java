@@ -73,6 +73,9 @@ public class weiuiParse {
         if (var == null) {
             return defaultVal;
         }
+        if (var instanceof Number) {
+            return ((Number) var).intValue();
+        }
         try {
             return Integer.parseInt(String.valueOf(var));
         }catch (Exception e) {
@@ -92,6 +95,9 @@ public class weiuiParse {
     public static double parseDouble(Object var, double defaultVal) {
         if (var == null) {
             return defaultVal;
+        }
+        if (var instanceof Number) {
+            return ((Number) var).doubleValue();
         }
         try {
             return Double.parseDouble(String.valueOf(var));
@@ -113,6 +119,9 @@ public class weiuiParse {
         if (var == null) {
             return defaultVal;
         }
+        if (var instanceof Number) {
+            return ((Number) var).floatValue();
+        }
         try {
             return Float.parseFloat(String.valueOf(var));
         }catch (Exception e) {
@@ -133,8 +142,11 @@ public class weiuiParse {
         if (var == null) {
             return defaultVal;
         }
+        if (var instanceof Number) {
+            return ((Number) var).longValue();
+        }
         try {
-            return Long.parseLong((String) var);
+            return Long.parseLong(String.valueOf(var));
         }catch (Exception e) {
             return defaultVal;
         }

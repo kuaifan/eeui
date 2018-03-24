@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.taobao.weex.InitConfig;
+import com.taobao.weex.InitConfig.Builder;
 import com.taobao.weex.WXSDKEngine;
 
 import vip.kuaifan.weiui.extend.adapter.ImageAdapter;
@@ -15,8 +15,6 @@ import vip.kuaifan.weiui.extend.integration.iconify.fonts.IoniconsModule;
 import java.util.LinkedList;
 
 import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackHelper;
-import vip.kuaifan.weiui.PageActivity;
-import vip.kuaifan.weiui.extend.bean.OpenWinBean;
 
 /**
  * Created by WDM on 2018/2/28.
@@ -46,7 +44,9 @@ public class weiui {
 
         BGASwipeBackHelper.init(application, null);
 
-        WXSDKEngine.initialize(application, new InitConfig.Builder().setImgAdapter(new ImageAdapter()).build());
+        Builder mBuilder = new Builder();
+        mBuilder.setImgAdapter(new ImageAdapter());
+        WXSDKEngine.initialize(application, mBuilder.build());
     }
 
     private static Application.ActivityLifecycleCallbacks mCallbacks = new Application.ActivityLifecycleCallbacks() {
