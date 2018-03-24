@@ -24,9 +24,12 @@ dependencies {
     ......
     // 依赖库（换成己工程里依赖的版本）
     implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
+    implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.taobao.android:weex_sdk:0.18.0'
-    implementation 'org.weex.plugin:processor:1.0.2'
+    implementation 'com.taobao.android:weexplugin-loader:1.3'
+    implementation 'com.taobao.android:weexplugin-processor:1.3'
 }
 ```
 
@@ -111,9 +114,7 @@ public class App extends Application {
 
 ### 使用效果
 
-![](media/ezgif-5-c26b50f717.gif)
-
-
+![](http://kuaifan.vip/weiui/document/start/media/ezgif-5-c26b50f717.gif)
 
 # iOS 接入
 > `weiui` 暂不支持iOS系统

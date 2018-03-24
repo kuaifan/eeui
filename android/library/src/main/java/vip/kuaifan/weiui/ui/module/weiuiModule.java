@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.taobao.weex.annotation.JSMethod;

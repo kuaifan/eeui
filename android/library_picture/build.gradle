@@ -26,15 +26,17 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':library_picture_ucrop')
     implementation "com.android.support:appcompat-v7:${project.supportLibVersion}"
     implementation "com.android.support:recyclerview-v7:${project.supportLibVersion}"
     implementation "io.reactivex.rxjava2:rxjava:2.0.5"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-
+    //
+    compileOnly "com.alibaba:fastjson:${project.fastjsonLibVersion}"
     compileOnly "com.taobao.android:weex_sdk:${project.weex_sdkLibVersion}"
-    compileOnly 'org.weex.plugin:processor:1.0.2'
+    compileOnly "com.taobao.android:weexplugin-processor:1.3"
+    //
     compileOnly project(':library')
+    compileOnly project(':library_picture_ucrop')
 }
 
 apply from: rootProject.file('bintray.gradle')

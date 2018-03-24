@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
@@ -24,7 +24,6 @@ import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
-import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.AutoScrollTextView;
 
 /**
@@ -52,6 +51,7 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
     protected ViewGroup initComponentHostView(@NonNull Context context) {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_scroll_text, null);
         initPagerView();
+        appleStyleAfterCreated();
         //
         return (ViewGroup) mView;
     }
@@ -105,13 +105,6 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
         }
     }
 
-    private void initPagerView() {
-        v_body = mView.findViewById(R.id.v_body);
-        v_autotext = mView.findViewById(R.id.v_autotext);
-        v_autotext.setOnClickListener(this);
-        setText(null);
-    }
-
     @Override
     public void onClick(View view) {
         if (isStarting()) {
@@ -124,6 +117,17 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
             data.put("isStarting", isStarting());
             fireEvent(weiuiConstants.Event.ITEM_CLICK, data);
         }
+    }
+
+    private void initPagerView() {
+        v_body = mView.findViewById(R.id.v_body);
+        v_autotext = mView.findViewById(R.id.v_autotext);
+        v_autotext.setOnClickListener(this);
+    }
+
+    private void appleStyleAfterCreated() {
+        setText(null);
+        setTextSize(20);
     }
 
     /***************************************************************************************************/
@@ -203,7 +207,7 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
      */
     @JSMethod
     public void setTextSize(Object var) {
-        v_autotext.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var, 12));
+        v_autotext.setTextSize(weiuiParse.parseInt(var, 0));
     }
 
     /**

@@ -37,7 +37,7 @@ import vip.kuaifan.weiui.extend.module.rxtools.tool.RxPhotoTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxQrBarTool;
 import vip.kuaifan.weiui.extend.module.utilcode.constant.PermissionConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
 import vip.kuaifan.weiui.extend.integration.glide.request.target.SimpleTarget;
 import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;

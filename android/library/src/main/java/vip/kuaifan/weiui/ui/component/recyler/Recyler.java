@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
@@ -132,7 +132,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                                 break;
 
                             case "size":
-                                bean.setSize(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 12));
+                                bean.setSize(weiuiParse.parseInt(entry.getValue()));
                                 break;
 
                             case "padding":

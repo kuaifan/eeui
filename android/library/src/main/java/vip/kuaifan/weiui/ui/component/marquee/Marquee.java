@@ -17,10 +17,9 @@ import com.taobao.weex.ui.component.WXVContainer;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
-import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.FocusedTextView;
 
 /**
@@ -47,8 +46,8 @@ public class Marquee extends WXVContainer<ViewGroup> {
     @Override
     protected ViewGroup initComponentHostView(@NonNull Context context) {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_marquee, null);
-        v_body = mView.findViewById(R.id.v_body);
-        v_autotext = mView.findViewById(R.id.v_autotext);
+        initPagerView();
+        appleStyleAfterCreated();
         //
         return (ViewGroup) mView;
     }
@@ -97,6 +96,15 @@ public class Marquee extends WXVContainer<ViewGroup> {
         }
     }
 
+    private void initPagerView() {
+        v_body = mView.findViewById(R.id.v_body);
+        v_autotext = mView.findViewById(R.id.v_autotext);
+    }
+
+    private void appleStyleAfterCreated() {
+        setTextSize(20);
+    }
+
     /***************************************************************************************************/
     /***************************************************************************************************/
     /***************************************************************************************************/
@@ -140,7 +148,7 @@ public class Marquee extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTextSize(Object var) {
-        v_autotext.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var, 12));
+        v_autotext.setTextSize(weiuiParse.parseInt(var, 0));
     }
 
     /**

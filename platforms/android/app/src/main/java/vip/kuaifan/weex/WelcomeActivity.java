@@ -34,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 OpenWinBean mBean = new OpenWinBean();
-                mBean.setUrl("http://192.168.1.8:8081/dist/index.js");
+                mBean.setUrl("http://192.168.1.6:8081/dist/index.js");
                 mBean.setUrl("http://kuaifan.vip/weiui/dist/index.js");
                 mBean.setPageType("weex");
                 weiuiModule.openWin(WelcomeActivity.this, mBean);

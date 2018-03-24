@@ -1,7 +1,7 @@
 package vip.kuaifan.weiui.extend.module;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 处理 JSON

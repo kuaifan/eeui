@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONException;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 处理 Map

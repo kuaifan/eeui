@@ -9,7 +9,7 @@ import com.taobao.weex.bridge.JSCallback;
 import java.util.HashMap;
 import java.util.Map;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * Created by WDM on 2018/3/7.

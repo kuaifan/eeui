@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 

@@ -22,8 +22,8 @@ import java.util.Map;
 
 import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.extend.bean.OpenWinBean;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONArray;
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiMap;
 import vip.kuaifan.weiui.extend.module.weiuiParse;

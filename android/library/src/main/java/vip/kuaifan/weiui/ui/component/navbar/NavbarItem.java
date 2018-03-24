@@ -10,7 +10,7 @@ import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.dom.flex.CSSJustify;
 import com.taobao.weex.ui.component.WXVContainer;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 

@@ -34,10 +34,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:support-v4:${project.supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${project.supportLibVersion}"
     implementation "com.android.support:design:${project.supportLibVersion}"
-
+    //
+    compileOnly "com.alibaba:fastjson:${project.fastjsonLibVersion}"
     compileOnly "com.taobao.android:weex_sdk:${project.weex_sdkLibVersion}"
-    compileOnly 'org.weex.plugin:processor:1.0.2'
+    compileOnly "com.taobao.android:weexplugin-processor:1.3"
 }
 
 apply from: rootProject.file('bintray.gradle')

@@ -3,7 +3,7 @@ package vip.kuaifan.weiui.ui.component.tabbar;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;

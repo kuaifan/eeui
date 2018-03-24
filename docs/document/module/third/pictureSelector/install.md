@@ -17,6 +17,15 @@ dependencies {
 }
 ```
 
+裁剪使用的依赖库
+
+```groovy
+dependencies {
+    ......
+    implementation 'vip.kuaifan:weiui_picture_ucrop:latestVersion'
+}
+```
+
 ### iOS 接入
 > 暂不支持iOS系统
 

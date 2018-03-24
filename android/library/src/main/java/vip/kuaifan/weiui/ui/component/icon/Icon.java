@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.MotionEvent;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
@@ -93,7 +93,7 @@ public class Icon extends WXComponent<IconView> {
             case "textSize":
             case "fontSize":
             case "font-size":
-                setIconSize(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                setIconSize(weiuiParse.parseInt(val, 0));
                 return true;
 
             case "color":
@@ -115,7 +115,7 @@ public class Icon extends WXComponent<IconView> {
     private void appleStyleAfterCreated() {
         mIconView.setGravity(Gravity.CENTER);
         setIcon("home");
-        setIconSize(16);
+        setIconSize(20);
         setIconColor("#242424");
     }
 
@@ -147,8 +147,8 @@ public class Icon extends WXComponent<IconView> {
      * @param var
      */
     @JSMethod
-    public void setIconSize(int var) {
-        mIconView.setTextSize(weiuiScreenUtils.weexPx2dp(getInstance(), var));
+    public void setIconSize(Object var) {
+        mIconView.setTextSize(weiuiParse.parseInt(var, 0));
     }
 
     /**

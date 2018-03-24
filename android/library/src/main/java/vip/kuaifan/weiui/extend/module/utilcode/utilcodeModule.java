@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.Gravity;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import com.taobao.weex.WXSDKInstance;
 
 import vip.kuaifan.weiui.extend.module.utilcode.util.AppUtils;

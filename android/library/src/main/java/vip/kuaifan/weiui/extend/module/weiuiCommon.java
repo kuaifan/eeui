@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import vip.kuaifan.weiui.extend.integration.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import com.taobao.weex.bridge.JSCallback;
 
 import vip.kuaifan.weiui.PageActivity;
