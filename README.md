@@ -4,9 +4,9 @@
 
 ## 演示
 
-<a href="http://kuaifan.vip/weiui/app/android.apk" target="_blank"><img src="http://kuaifan.vip/weiui/app/android.png" width="220px"></a>
+<a href="http://kuaifan.vip/weiui/app/android.apk" target="_blank"><img src="http://kuaifan.vip/weiui/app/android.png?_t=001" width="220px"></a>
 
-<a href="javascript:alert('iOS玩命开发中，请下载Android体验！');"><img src="http://kuaifan.vip/weiui/app/ios.png" width="220px"></a>
+<a href="javascript:alert('iOS玩命开发中，请下载Android体验！');"><img src="http://kuaifan.vip/weiui/app/ios.png?_t=001" width="220px"></a>
 
 <img src="http://kuaifan.vip/weiui/app/demo.png" width="640px">
 
