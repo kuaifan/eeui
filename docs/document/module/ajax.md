@@ -38,14 +38,11 @@ weiui.ajax({params}, callback(result))
 
 ```js
 {
-    status: 'success',  //状态，详见：注①
-    result: {},         //结果
-    
-    //status=ready
-    result: {
-        name: '',       //请求名称
-        url: ''         //请求地址
-    }
+    status: 'success',      //状态，详见：注①
+    name: 'requestName',    //请求名称
+    url: 'http://....',     //请求地址
+    cache: false,           //请求结果是否为缓存
+    result: { .... },       //请求结果
 }
 ```
 ###### 注①：
@@ -82,6 +79,14 @@ weiui.ajax({
 }, function(result) {
     //......
 });
+```
+
+# weiui.ajaxClearCache
+
+> 清除跨域请求缓存
+
+```js
+weiui.ajaxClearCache()
 ```
 
 # weiui.ajaxCancel

@@ -3,6 +3,7 @@
     - [installation 安装](start/installation)
     
 - 组件 Component
+    - [<font color="red" size="2">[新]</font> weiui_button 按钮](component/weiui_button)
     - [weiui_icon 图标](component/weiui_icon)
     - [weiui_marquee 跑马文字](component/weiui_marquee)
     - [weiui_navbar 导航栏](component/weiui_navbar)
@@ -27,6 +28,7 @@
     - [ajax 跨域异步请求](module/ajax)
     - [plate 复制粘贴](module/plate)
     - [toast 吐司提示](module/toast)
+    - [<font color="red" size="2">[新]</font> adDialog 广告弹窗](module/adDialog)
     
 - 拓展模块 Expand Module
     - [appUtils APP相关](module/expand/appUtils)
@@ -47,4 +49,7 @@
         - [create 启动相册拍照](module/third/pictureSelector/create)
         - [preview 预览图片视频](module/third/pictureSelector/preview)
         - [deleteCache 缓存清除](module/third/pictureSelector/deleteCache)
+    - <font color="red" size="2">[新]</font> umeng 友盟推送统计模块
+        - [install 安装接入](module/third/umeng/install)
+        - [notification 监听通知](module/third/umeng/notification)
 

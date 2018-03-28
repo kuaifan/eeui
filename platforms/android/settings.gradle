@@ -1,7 +1,0 @@
-include ':app'
-include ":library"
-project (':library').projectDir = new File("../../android/library")
-include ":library_picture"
-project (':library_picture').projectDir = new File("../../android/library_picture")
-include ":library_picture_ucrop"
-project (':library_picture_ucrop').projectDir = new File("../../android/library_picture_ucrop")

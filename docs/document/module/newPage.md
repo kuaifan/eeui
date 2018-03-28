@@ -23,6 +23,7 @@ weiui.openPage({params}, callback(result))
 | url | `String` | √ | `Weex Js`或`Web Url`地址 | - |
 | pageName | `String` | - | 页面名称 | - |
 | pageType | `String` | - | 页面类型，`weex`、`web` | weex |
+| cache | `Number` | - | 页面缓存时间，仅`weex`类型有效，<br/>设置`0`不缓存（单位：毫秒） | 0 |
 | loading | `Boolean` | - | 是否显示等待效果，`true`、`false` | true |
 | swipeBack | `Boolean` | - | 是否支持滑动返回，`true`、`false` | true |
 | statusBarType | `String` | - | 状态栏样式：<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>设置时`statusBarType`、`statusBarAlpha`无效 | - |
@@ -159,6 +160,48 @@ weiui.reloadPage({
 
 //示例②
 weiui.reloadPage('pageName_1');
+```
+
+# weiui.setPageBackPressed
+
+> 拦截返回按键事件
+
+```js
+/**
+ * @param params    页面名称参数
+ * @param callback  返回键触发事件
+ */
+weiui.setPageBackPressed({params}, callback())
+```
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空重载当前页面（不建议） | - |
+
+#### 简单示例
+
+```js
+//示例①
+weiui.setPageBackPressed({
+    pageName: 'pageName_1',
+}, function(){
+    //返回键触发事件
+});
+
+//示例②
+weiui.setPageBackPressed('pageName_1', function(){
+    //返回键触发事件
+});
+```
+
+
+# weiui.clearCachePage
+
+> 手动清除缓存`Weex Js页面`
+
+```js
+weiui.clearCachePage()
 ```
 
 # weiui.closePage

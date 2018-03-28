@@ -1,6 +1,6 @@
 # weiui_icon
 
-> 使用开源字体库 [Ionicons](http://ionicons.com/) 进行封装
+> 使用开源字体库 [Ionicons](http://ionicons.com/)、  [Iconfont+](http://www.iconfont.cn/)进行封装
 
 ## 子组件
 
@@ -65,7 +65,7 @@
 </script>
 
 ```
-图标代码可以参考 [这里](http://ionicons.com/)
+图标代码可以参考 [ionicons](http://ionicons.com/)、 [ionicons+](http://kuaifan.vip/assets/tb-icon/)
 
 
 ### 配置参数 `weiui`

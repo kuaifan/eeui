@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/l_button"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/weiui_navbar">
+
+    <LinearLayout
+        android:id="@+id/l_click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <vip.kuaifan.weiui.extend.integration.iconify.widget.IconTextView
+            android:id="@+id/v_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="{ion-load-c spin}"
+            android:textColor="@color/weiui_white"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/v_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Button"
+            android:textColor="@color/weiui_white" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_unclick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#5affffff"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

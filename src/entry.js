@@ -2,9 +2,6 @@ import Vue from 'vue';
 
 import weex from 'weex-vue-render';
 
-import global from '../common/global';
-Vue.use(global);
-
 // import render-core.
 // import weex from 'weex-vue-render/dist/index.core';
 

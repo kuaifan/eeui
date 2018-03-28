@@ -62,26 +62,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 36:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(37)
+__vue_styles__.push(__webpack_require__(41)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(38)
+__vue_exports__ = __webpack_require__(42)
 
 /* template */
-var __vue_template__ = __webpack_require__(39)
+var __vue_template__ = __webpack_require__(43)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +116,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 37:
+/***/ 41:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -217,7 +217,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 38:
+/***/ 42:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -452,11 +452,17 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 var weiui = weex.requireModule('weiui');
+var weiui_umeng = weex.requireModule('weiui_umeng');
 
 exports.default = {
     data: function data() {
         return {
             components: [{
+                title: '常用按钮',
+                title_en: 'weiui_button',
+                icon: 'android-checkbox-blank',
+                url: 'component_button.js'
+            }, {
                 title: '字体图标',
                 title_en: 'weiui_icon',
                 icon: 'ionic',
@@ -526,7 +532,7 @@ exports.default = {
             }, {
                 title: '二维码扫描',
                 title_en: 'scaner',
-                icon: 'qr-scanner',
+                icon: 'tb-scan',
                 url: 'module_scaner.js'
             }, {
                 title: '跨域异步请求',
@@ -543,6 +549,11 @@ exports.default = {
                 title_en: 'toast',
                 icon: 'ios-barcode-outline',
                 url: 'module_toast.js'
+            }, {
+                title: '广告弹窗',
+                title_en: 'adDialog',
+                icon: 'social-buffer-outline',
+                url: 'module_ad_dialog.js'
             }, {
                 title: '更多拓展模块',
                 title_en: 'expandModule',
@@ -578,7 +589,11 @@ exports.default = {
         };
     },
     mounted: function mounted() {
-        this.history = JSON.parse(weiui.getCachesString("scaner"), []);
+        weiui_umeng.setNotificationClickHandler(function (res) {
+            console.log("weiui_umeng_handler", res);
+        });
+        //
+        this.history = JSON.parse(weiui.getCachesString("scaner", []));
     },
 
 
@@ -617,7 +632,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 39:
+/***/ 43:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -636,7 +651,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["navbar-icon"],
     attrs: {
       "weiui": {
-        icon: 'qr-scanner'
+        icon: 'tb-scan'
       }
     }
   })], 1), _c('weiui_navbar_item', {

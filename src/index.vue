@@ -4,7 +4,7 @@
 
         <weiui_navbar class="navbar">
             <weiui_navbar_item type="left" @click="scaner">
-                <weiui_icon class="navbar-icon" :weiui="{icon: 'qr-scanner'}"></weiui_icon>
+                <weiui_icon class="navbar-icon" :weiui="{icon: 'tb-scan'}"></weiui_icon>
             </weiui_navbar_item>
 
             <weiui_navbar_item type="title">
@@ -224,11 +224,17 @@
 
 <script>
     const weiui = weex.requireModule('weiui');
+    const weiui_umeng = weex.requireModule('weiui_umeng');
 
     export default {
         data() {
             return {
                 components: [{
+                    title: '常用按钮',
+                    title_en: 'weiui_button',
+                    icon: 'android-checkbox-blank',
+                    url: 'component_button.js',
+                }, {
                     title: '字体图标',
                     title_en: 'weiui_icon',
                     icon: 'ionic',
@@ -298,7 +304,7 @@
                 }, {
                     title: '二维码扫描',
                     title_en: 'scaner',
-                    icon: 'qr-scanner',
+                    icon: 'tb-scan',
                     url: 'module_scaner.js',
                 }, {
                     title: '跨域异步请求',
@@ -315,6 +321,11 @@
                     title_en: 'toast',
                     icon: 'ios-barcode-outline',
                     url: 'module_toast.js',
+                }, {
+                    title: '广告弹窗',
+                    title_en: 'adDialog',
+                    icon: 'social-buffer-outline',
+                    url: 'module_ad_dialog.js',
                 }, {
                     title: '更多拓展模块',
                     title_en: 'expandModule',
@@ -351,7 +362,11 @@
         },
 
         mounted() {
-            this.history = JSON.parse(weiui.getCachesString("scaner"), []);
+            weiui_umeng.setNotificationClickHandler((res)=>{
+                console.log("weiui_umeng_handler", res);
+            });
+            //
+            this.history = JSON.parse(weiui.getCachesString("scaner", []));
         },
 
         methods: {

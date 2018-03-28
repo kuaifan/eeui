@@ -1,0 +1,13 @@
+include ':app'
+
+include ":weiui"
+project (':weiui').projectDir = new File("../library/weiui")
+
+include ":weiui_picture"
+project (':weiui_picture').projectDir = new File("../library/weiui_picture")
+
+include ":weiui_picture_ucrop"
+project (':weiui_picture_ucrop').projectDir = new File("../library/weiui_picture_ucrop")
+
+include ":weiui_umeng"
+project (':weiui_umeng').projectDir = new File("../library/weiui_umeng")
