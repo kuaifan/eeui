@@ -36,8 +36,8 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${project.supportLibVersion}"
-    implementation "com.android.support:recyclerview-v7:${project.supportLibVersion}"
+    compileOnly "com.android.support:appcompat-v7:${project.supportLibVersion}"
+    compileOnly "com.android.support:recyclerview-v7:${project.supportLibVersion}"
     //
     compileOnly "com.alibaba:fastjson:${project.fastjsonLibVersion}"
     compileOnly "com.taobao.android:weex_sdk:${project.weex_sdkLibVersion}"

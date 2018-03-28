@@ -17,11 +17,13 @@ dependencies {
 }
 ```
 
-裁剪使用的依赖库
+使用的依赖库
 
 ```groovy
 dependencies {
     ......
+    implementation "io.reactivex.rxjava2:rxjava:2.0.5"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     implementation 'vip.kuaifan:weiui_picture_ucrop:latestVersion'
 }
 ```

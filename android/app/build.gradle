@@ -65,11 +65,14 @@ dependencies {
     implementation "com.taobao.android:weexplugin-processor:1.3"
     implementation "com.taobao.android:weexplugin-annotation:1.3"
     //
-    //implementation "vip.kuaifan:weiui:0.0.10"
-    //implementation "vip.kuaifan:weiui_picture:0.0.3"
-    //implementation "vip.kuaifan:weiui_picture_ucrop:0.0.3"
-    implementation project(":weiui")
-    implementation project(":weiui_picture")
-    implementation project(":weiui_picture_ucrop")
+    implementation "io.reactivex.rxjava2:rxjava:2.0.5"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    //
+    implementation "vip.kuaifan:weiui:0.0.11"
+    implementation "vip.kuaifan:weiui_picture:0.0.4"
+    implementation "vip.kuaifan:weiui_picture_ucrop:0.0.4"
+    //implementation project(":weiui")
+    //implementation project(":weiui_picture")
+    //implementation project(":weiui_picture_ucrop")
     implementation project(":weiui_umeng")
 }
