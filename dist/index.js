@@ -452,7 +452,6 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 var weiui = weex.requireModule('weiui');
-var weiui_umeng = weex.requireModule('weiui_umeng');
 
 exports.default = {
     data: function data() {
@@ -589,10 +588,6 @@ exports.default = {
         };
     },
     mounted: function mounted() {
-        weiui_umeng.setNotificationClickHandler(function (res) {
-            console.log("weiui_umeng_handler", res);
-        });
-        //
         this.history = JSON.parse(weiui.getCachesString("scaner", []));
     },
 

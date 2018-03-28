@@ -224,7 +224,6 @@
 
 <script>
     const weiui = weex.requireModule('weiui');
-    const weiui_umeng = weex.requireModule('weiui_umeng');
 
     export default {
         data() {
@@ -362,10 +361,6 @@
         },
 
         mounted() {
-            weiui_umeng.setNotificationClickHandler((res)=>{
-                console.log("weiui_umeng_handler", res);
-            });
-            //
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
         },
 

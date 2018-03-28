@@ -35,7 +35,7 @@ dependencies {
 
 ### 2.必须在 Application 的 onCreate 方法中执行 weiui.init 来初始化工程
 
-```java
+```js
 public class App extends Application {
 
     @Override

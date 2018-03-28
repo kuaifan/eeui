@@ -50,6 +50,7 @@
         - [preview 预览图片视频](module/third/pictureSelector/preview)
         - [deleteCache 缓存清除](module/third/pictureSelector/deleteCache)
     - <font color="red" size="2">[新]</font> umeng 友盟推送统计模块
+        - [create 创建应用](module/third/umeng/create)
         - [install 安装接入](module/third/umeng/install)
         - [notification 监听通知](module/third/umeng/notification)
 
