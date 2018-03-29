@@ -4,26 +4,8 @@
     "description": "A weex project",
     "main": "index.js",
     "scripts": {
-        "start": "npm run serve",
-        "start:docs": "docsify serve ./docs",
-        "build": "webpack --env.NODE_ENV=common",
-        "build:prod": "webpack --env.NODE_ENV=production",
-        "build:plugin": "webpack --env.NODE_ENV=plugin",
-        "clean": "rimraf ./web/build",
-        "dev": "webpack --env.NODE_ENV=common --progress --watch",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "lint": "eslint --ext .js,.vue src",
-        "serve": "webpack-dev-server --env.NODE_ENV=development --progress",
-        "ios": "weex run ios",
-        "web": "npm run serve",
-        "android": "weex run android",
-        "pack:ios": "npm run clean && weex build ios",
-        "pack:android": "npm run clean && weex build android",
-        "pack:web": "npm run clean && npm run build:prod",
-
-        "copy:docs": "rm -rf ../kuaifan_blog/public/weiui && cp -r docs/. ../kuaifan_blog/public/weiui",
-        "copy:dist": "rm -rf ../kuaifan_blog/public/weiui/dist && cp -r dist/. ../kuaifan_blog/public/weiui/dist",
-        "copy:docs&dist": "npm run copy:docs && npm run copy:dist"
+        "start": "webpack-dev-server --env.NODE_ENV=development --progress",
+        "start-docs": "docsify serve ./docs"
     },
     "keywords": [
         "weex"

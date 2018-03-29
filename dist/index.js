@@ -519,6 +519,11 @@ exports.default = {
                 icon: 'ios-calculator',
                 url: 'module_weexpx.js'
             }, {
+                title: '确认对话框',
+                title_en: 'alert',
+                icon: 'android-alert 90%',
+                url: 'module_alert.js'
+            }, {
                 title: '等待弹窗',
                 title_en: 'loading',
                 icon: 'load-d',

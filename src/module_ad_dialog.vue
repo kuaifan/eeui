@@ -65,7 +65,7 @@
                 });
             },
             openAdDialog() {
-                weiui.adDialog("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage1.png", (res) => {
+                weiui.adDialog("http://kuaifan.vip/weiui/assets/images/testImage1.png", (res) => {
                     weiui.toast("状态：" + res.status);
                 });
             },

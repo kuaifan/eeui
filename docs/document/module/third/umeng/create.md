@@ -1,6 +1,6 @@
 ## 创建友盟推送应用
 
-1. 请在 [http://message.umeng.com](http://message.umeng.com/)上使用你的应用包名创建应用（注：Android Studio请使用applicationId作为包名）。
+1. 请在 `http://message.umeng.com/`上使用你的应用包名创建应用（注：Android Studio请使用applicationId作为包名）。
 
     ![](media/c01.png)
 

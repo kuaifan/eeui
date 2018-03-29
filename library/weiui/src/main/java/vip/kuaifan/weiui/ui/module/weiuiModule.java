@@ -20,6 +20,7 @@ import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
 import vip.kuaifan.weiui.extend.module.utilcode.utilcodeModule;
 import vip.kuaifan.weiui.extend.module.weiuiAdDialog;
+import vip.kuaifan.weiui.extend.module.weiuiAlertDialog;
 import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
@@ -367,7 +368,21 @@ public class weiuiModule extends WXModule {
         return weiuiScreenUtils.weexDp2px(mWXSDKInstance, var);
     }
 
+    /**
+     * alert 警告框
+     */
+    @JSMethod
+    public void alert(String object, JSCallback callback) {
+        weiuiAlertDialog.alert(mWXSDKInstance.getContext(), object, callback);
+    }
 
+    /**
+     * confirm 确认对话框
+     */
+    @JSMethod
+    public void confirm(String object, JSCallback callback) {
+        weiuiAlertDialog.confirm(mWXSDKInstance.getContext(), object, callback);
+    }
 
     /**
      * 显示等待图标

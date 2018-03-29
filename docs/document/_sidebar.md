@@ -22,6 +22,7 @@
     - [system 系统信息](module/system)
     - [caches 数据缓存](module/caches)
     - [weex px单位转换](module/weexpx)
+    - [<font color="red" size="2">[新]</font> alert 确认对话框](module/alert)
     - [loading 等待弹窗](module/loading)
     - [captcha 验证弹窗](module/captcha)
     - [scaner 二维码扫描](module/scaner)

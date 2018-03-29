@@ -44,6 +44,7 @@ weiui.adDialog({params}, callback(result))
 ```
 ###### 注①：
 
+- `load`图片加载中
 - `ready`就绪
 - `show`显示
 - `click`点击弹窗图片
