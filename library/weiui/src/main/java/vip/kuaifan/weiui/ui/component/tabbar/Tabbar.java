@@ -107,7 +107,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             lp.height = height;
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ((ViewGroup.MarginLayoutParams) lp).setMargins(0, top, right, bottom);
+            left = weiuiScreenUtils.weexPx2dp(getInstance(), child.getDomObject().getStyles().get("marginLeft"), 0);
+            ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
         }
         return lp;
     }

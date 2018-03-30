@@ -50,6 +50,9 @@ import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXRenderStrategy;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +86,7 @@ public class PageActivity extends AppCompatActivity {
     public interface OnBackPressed { boolean onBackPressed(); }
 
     //模板部分
-    private ViewGroup mBody, mWeex, mWeb, mError;
+    private ViewGroup mBody, mWeex, mWeb, mAuto, mError;
     private TextView mErrorCode;
     private ViewGroup mWeexView;
     private ProgressBar mWeexProgress;
@@ -268,8 +271,7 @@ public class PageActivity extends AppCompatActivity {
                     finish();
                     return;
                 }
-                //
-                initDefaultPageView();
+                initDefaultPage();
                 break;
         }
         invokeAndKeepAlive("create", null);
@@ -530,9 +532,9 @@ public class PageActivity extends AppCompatActivity {
     }
 
     /**
-     * 初始化默认视图
+     * 初始化默认页
      */
-    private void initDefaultPageView() {
+    private void initDefaultPage() {
         mBody = findViewById(R.id.v_body);
         mError = findViewById(R.id.v_error);
         mErrorCode = findViewById(R.id.v_error_code);
@@ -564,11 +566,18 @@ public class PageActivity extends AppCompatActivity {
                 break;
         }
         //
+        initDefaultPageView();
+    }
+
+    /**
+     * 初始化默认视图
+     */
+    private void initDefaultPageView() {
         switch (mPageInfo.getPageType()) {
             case "web":
                 mWeb = findViewById(R.id.v_web);
-                mWebView = findViewById(R.id.v_webview);
                 mWeb.setVisibility(View.VISIBLE);
+                mWebView = findViewById(R.id.v_webview);
                 mWebView.setProgressbarVisibility(mPageInfo.isLoading());
                 //
                 mWebView.setOnStatusClient(new ProgressWebView.StatusCall() {
@@ -604,10 +613,36 @@ public class PageActivity extends AppCompatActivity {
 
             case "weex":
                 mWeex = findViewById(R.id.v_weex);
+                mWeex.setVisibility(View.VISIBLE);
                 mWeexView = findViewById(R.id.v_weexview);
                 mWeexProgress = findViewById(R.id.v_weexprogress);
-                mWeex.setVisibility(View.VISIBLE);
                 weexLoad();
+                break;
+
+            case "auto":
+                if (mPageInfo.getUrl().endsWith(".bundle.wx")) {
+                    mPageInfo.setPageType("weex");
+                    initDefaultPageView();
+                    break;
+                }
+                if (mPageInfo.getUrl().contains("?_wx_tpl=")) {
+                    mPageInfo.setPageType("weex");
+                    mPageInfo.setUrl(weiuiCommon.getMiddle(mPageInfo.getUrl(), "?_wx_tpl=", null));
+                    initDefaultPageView();
+                    break;
+                }
+                mAuto = findViewById(R.id.v_auto);
+                mAuto.setVisibility(View.VISIBLE);
+                weiuiIhttp.getContentType(mPageInfo.getUrl(), result -> {
+                    if (result == null) {
+                        finish();
+                        return;
+                    }
+                    String res = result.toLowerCase();
+                    mPageInfo.setPageType(res.contains("javascript") ? "weex" : "web");
+                    initDefaultPageView();
+                    mAuto.setVisibility(View.GONE);
+                });
                 break;
 
             default:

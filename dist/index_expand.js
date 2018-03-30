@@ -62,26 +62,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 44:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(45)
+__vue_styles__.push(__webpack_require__(49)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(46)
+__vue_exports__ = __webpack_require__(50)
 
 /* template */
-var __vue_template__ = __webpack_require__(47)
+var __vue_template__ = __webpack_require__(51)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +116,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 45:
+/***/ 49:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -191,7 +191,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 46:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -384,7 +384,8 @@ exports.default = {
 
 
     methods: {
-        openExpand: function openExpand(url) {
+        expandModuleClick: function expandModuleClick(data) {
+            var url = this.expand_module[data.position].url;
             weiui.openPage({
                 url: "http://kuaifan.vip/weiui/#/module/expand/" + url,
                 pageType: 'web'
@@ -395,7 +396,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 47:
+/***/ 51:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -420,14 +421,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('text', {
     staticClass: ["list-title"]
-  }, [_vm._v("Expand Module")]), _c('weiui_recyler', _vm._l((_vm.expand_module), function(item) {
+  }, [_vm._v("Expand Module")]), _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.expandModuleClick
+    }
+  }, _vm._l((_vm.expand_module), function(item) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openExpand(item.url)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {

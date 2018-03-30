@@ -16,13 +16,18 @@
             </weiui_navbar_item>
         </weiui_navbar>
 
+        <div v-if="newApp" class="version-box" @click="downApp">
+            <text class="version-text">发现新版本</text>
+            <text class="version-button">立即下载</text>
+        </div>
+
         <weiui_list class="list" :weiui="{pullTips:false}">
 
             <text class="list-title">Components</text>
 
-            <weiui_recyler>
+            <weiui_recyler @itemClick="componentsClick">
 
-                <div class="list-item" v-for="item in components" @click="openUrl(item.url)">
+                <div class="list-item" v-for="item in components">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
@@ -37,9 +42,9 @@
 
             <text class="list-title">Module</text>
 
-            <weiui_recyler>
+            <weiui_recyler @itemClick="moduleClick">
 
-                <div class="list-item" v-for="item in module" @click="openUrl(item.url)">
+                <div class="list-item" v-for="item in module">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
@@ -54,9 +59,9 @@
 
             <text class="list-title">Third Module</text>
 
-            <weiui_recyler>
+            <weiui_recyler @itemClick="thirdModuleClick">
 
-                <div class="list-item" v-for="item in third_module" @click="openUrl(item.url)">
+                <div class="list-item" v-for="item in third_module">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
@@ -71,9 +76,9 @@
 
             <text class="list-title">About Weiui</text>
 
-            <weiui_recyler>
+            <weiui_recyler @itemClick="aboutListsClick">
 
-                <div class="list-item" v-for="item in about_lists" @click="openWeb(item.url)">
+                <div class="list-item" v-for="item in about_lists">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
@@ -91,9 +96,9 @@
                 <text class="list-subtitle" @click="clearHistory()">清空历史</text>
             </div>
 
-            <weiui_recyler v-if="history.length > 0">
+            <weiui_recyler @itemClick="historyClick" v-if="history.length > 0">
 
-                <div class="list-item" v-for="text in history" @click="openUrl(text)">
+                <div class="list-item" v-for="text in history">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: 'ionic'}"></weiui_icon>
                         <text class="list-left-title-history">{{text}}</text>
@@ -130,6 +135,36 @@
         width: 100px;
         height: 100px;
         color: #ffffff;
+    }
+
+    .version-box {
+        width: 750px;
+        height: 82px;
+        flex-direction: row;
+        background-color: #ff6666;
+    }
+
+    .version-text {
+        flex: 1;
+        padding-left: 20px;
+        font-size: 26px;
+        color: #ffffff;
+        height: 82px;
+        line-height: 82px;
+    }
+
+    .version-button {
+        color: #ffffff;
+        font-size: 22px;
+        margin-top: 13px;
+        margin-right: 20px;
+        padding-left: 18px;
+        padding-right: 18px;
+        height: 56px;
+        line-height: 56px;
+        border-width: 1px;
+        border-color: #e4e4e4;
+        border-style: solid;
     }
 
     .list {
@@ -233,6 +268,11 @@
                     title_en: 'weiui_button',
                     icon: 'android-checkbox-blank',
                     url: 'component_button.js',
+                }, {
+                    title: '网格容器',
+                    title_en: 'weiui_grid',
+                    icon: 'grid',
+                    url: 'component_grid.js',
                 }, {
                     title: '字体图标',
                     title_en: 'weiui_icon',
@@ -362,18 +402,51 @@
                 }],
 
                 history: [],
+
+                newApp: false,
             }
         },
 
         mounted() {
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
+            //
+            let variable = parseInt(weiui.getLocalVersion());
+            if (variable < 6) {
+                this.newApp = true;
+                weiui.confirm({
+                    title: "版本更新",
+                    message: "你当前使用的版本比较低，部分功能可能无法正常显示，建议升级至最新版本！",
+                    buttons: [{
+                        title: "稍后再说",
+                        type: "negative"
+                    }, {
+                        title: "立即下载",
+                        type: "positive"
+                    }],
+                    cancelable: false
+                }, (result)=>{
+                    if (result.status === "click" && result.title === "立即下载") {
+                        this.downApp();
+                    }
+                });
+            }
+            //
+            weiui.setPageBackPressed(null, function(){
+                weiui.confirm({
+                    title: "温馨提示",
+                    message: "你确定要退出WEIUI吗？",
+                    buttons: ["取消", "确定"]
+                }, (result)=>{
+                    if (result.status === "click" && result.title === "确定") {
+                        weiui.closePage(null);
+                    }
+                });
+            });
         },
 
         methods: {
-
-            clearHistory() {
-                this.history = [];
-                weiui.setCachesString("scaner", JSON.stringify(this.history), 0);
+            downApp() {
+                weiui.openWeb("http://kuaifan.vip/weiui/app/android.apk");
             },
 
             scaner() {
@@ -381,7 +454,44 @@
                     if (res.status === "success") {
                         this.history.unshift(res.text);
                         weiui.setCachesString("scaner", JSON.stringify(this.history), 0);
-                        this.openUrl(res.text);
+                        this.openAuto(res.text);
+                    }
+                });
+            },
+
+            refresh() {
+                weiui.reloadPage();
+            },
+
+            componentsClick(data) {
+                this.openUrl(this.components[data.position].url);
+            },
+
+            moduleClick(data) {
+                this.openUrl(this.module[data.position].url);
+            },
+
+            thirdModuleClick(data) {
+                this.openUrl(this.third_module[data.position].url);
+            },
+
+            aboutListsClick(data) {
+                this.openWeb(this.about_lists[data.position].url);
+            },
+
+            historyClick(data) {
+                this.openAuto(this.history[data.position]);
+            },
+
+            clearHistory() {
+                weiui.confirm({
+                    title: "删除提示",
+                    message: "你确定要删除扫码记录吗？",
+                    buttons: ["取消", "确定"]
+                }, (result)=>{
+                    if (result.status === "click" && result.title === "确定") {
+                        this.history = [];
+                        weiui.setCachesString("scaner", JSON.stringify(this.history), 0);
                     }
                 });
             },
@@ -399,8 +509,11 @@
                 });
             },
 
-            refresh() {
-                weiui.reloadPage();
+            openAuto(url) {
+                weiui.openPage({
+                    url: url,
+                    pageType: 'auto'
+                });
             },
         }
     };

@@ -20,6 +20,7 @@ import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
 import vip.kuaifan.weiui.extend.module.utilcode.utilcodeModule;
 import vip.kuaifan.weiui.extend.module.weiuiAdDialog;
+import vip.kuaifan.weiui.extend.module.weiuiAjax;
 import vip.kuaifan.weiui.extend.module.weiuiAlertDialog;
 import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
@@ -434,7 +435,7 @@ public class weiuiModule extends WXModule {
         if (json.size() == 0) {
             json.put("url", object);
         }
-        weiuiCommon.ajax(mWXSDKInstance.getContext(), json, callback);
+        weiuiAjax.ajax(mWXSDKInstance.getContext(), json, callback);
     }
 
     /**
@@ -451,7 +452,7 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod
     public void ajaxCancel(String name) {
-        weiuiCommon.ajaxCancel(name);
+        weiuiAjax.ajaxCancel(name);
     }
 
     /**

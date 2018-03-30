@@ -62,26 +62,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 40:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(41)
+__vue_styles__.push(__webpack_require__(45)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(42)
+__vue_exports__ = __webpack_require__(46)
 
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(47)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +116,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 41:
+/***/ 45:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -135,6 +135,33 @@ module.exports = {
     "width": "100",
     "height": "100",
     "color": "#ffffff"
+  },
+  "version-box": {
+    "width": "750",
+    "height": "82",
+    "flexDirection": "row",
+    "backgroundColor": "#ff6666"
+  },
+  "version-text": {
+    "flex": 1,
+    "paddingLeft": "20",
+    "fontSize": "26",
+    "color": "#ffffff",
+    "height": "82",
+    "lineHeight": "82"
+  },
+  "version-button": {
+    "color": "#ffffff",
+    "fontSize": "22",
+    "marginTop": "13",
+    "marginRight": "20",
+    "paddingLeft": "18",
+    "paddingRight": "18",
+    "height": "56",
+    "lineHeight": "56",
+    "borderWidth": "1",
+    "borderColor": "#e4e4e4",
+    "borderStyle": "solid"
   },
   "list": {
     "width": "750",
@@ -217,7 +244,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 42:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -226,6 +253,41 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -462,6 +524,11 @@ exports.default = {
                 icon: 'android-checkbox-blank',
                 url: 'component_button.js'
             }, {
+                title: '网格容器',
+                title_en: 'weiui_grid',
+                icon: 'grid',
+                url: 'component_grid.js'
+            }, {
                 title: '字体图标',
                 title_en: 'weiui_icon',
                 icon: 'ionic',
@@ -589,27 +656,95 @@ exports.default = {
                 url: 'http://kuaifan.vip'
             }],
 
-            history: []
+            history: [],
+
+            newApp: false
         };
     },
     mounted: function mounted() {
+        var _this = this;
+
         this.history = JSON.parse(weiui.getCachesString("scaner", []));
+        //
+        var variable = parseInt(weiui.getLocalVersion());
+        if (variable < 6) {
+            this.newApp = true;
+            weiui.confirm({
+                title: "版本更新",
+                message: "你当前使用的版本比较低，部分功能可能无法正常显示，建议升级至最新版本！",
+                buttons: [{
+                    title: "稍后再说",
+                    type: "negative"
+                }, {
+                    title: "立即下载",
+                    type: "positive"
+                }],
+                cancelable: false
+            }, function (result) {
+                if (result.status === "click" && result.title === "立即下载") {
+                    _this.downApp();
+                }
+            });
+        }
+        //
+        weiui.setPageBackPressed(null, function () {
+            weiui.confirm({
+                title: "温馨提示",
+                message: "你确定要退出WEIUI吗？",
+                buttons: ["取消", "确定"]
+            }, function (result) {
+                if (result.status === "click" && result.title === "确定") {
+                    weiui.closePage(null);
+                }
+            });
+        });
     },
 
 
     methods: {
-        clearHistory: function clearHistory() {
-            this.history = [];
-            weiui.setCachesString("scaner", JSON.stringify(this.history), 0);
+        downApp: function downApp() {
+            weiui.openWeb("http://kuaifan.vip/weiui/app/android.apk");
         },
         scaner: function scaner() {
-            var _this = this;
+            var _this2 = this;
 
             weiui.openScaner(null, function (res) {
                 if (res.status === "success") {
-                    _this.history.unshift(res.text);
-                    weiui.setCachesString("scaner", JSON.stringify(_this.history), 0);
-                    _this.openUrl(res.text);
+                    _this2.history.unshift(res.text);
+                    weiui.setCachesString("scaner", JSON.stringify(_this2.history), 0);
+                    _this2.openAuto(res.text);
+                }
+            });
+        },
+        refresh: function refresh() {
+            weiui.reloadPage();
+        },
+        componentsClick: function componentsClick(data) {
+            this.openUrl(this.components[data.position].url);
+        },
+        moduleClick: function moduleClick(data) {
+            this.openUrl(this.module[data.position].url);
+        },
+        thirdModuleClick: function thirdModuleClick(data) {
+            this.openUrl(this.third_module[data.position].url);
+        },
+        aboutListsClick: function aboutListsClick(data) {
+            this.openWeb(this.about_lists[data.position].url);
+        },
+        historyClick: function historyClick(data) {
+            this.openAuto(this.history[data.position]);
+        },
+        clearHistory: function clearHistory() {
+            var _this3 = this;
+
+            weiui.confirm({
+                title: "删除提示",
+                message: "你确定要删除扫码记录吗？",
+                buttons: ["取消", "确定"]
+            }, function (result) {
+                if (result.status === "click" && result.title === "确定") {
+                    _this3.history = [];
+                    weiui.setCachesString("scaner", JSON.stringify(_this3.history), 0);
                 }
             });
         },
@@ -624,15 +759,18 @@ exports.default = {
                 pageType: 'web'
             });
         },
-        refresh: function refresh() {
-            weiui.reloadPage();
+        openAuto: function openAuto(url) {
+            weiui.openPage({
+                url: url,
+                pageType: 'auto'
+            });
         }
     }
 };
 
 /***/ }),
 
-/***/ 43:
+/***/ 47:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -674,7 +812,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         icon: 'refresh'
       }
     }
-  })], 1)], 1), _c('weiui_list', {
+  })], 1)], 1), (_vm.newApp) ? _c('div', {
+    staticClass: ["version-box"],
+    on: {
+      "click": _vm.downApp
+    }
+  }, [_c('text', {
+    staticClass: ["version-text"]
+  }, [_vm._v("发现新版本")]), _c('text', {
+    staticClass: ["version-button"]
+  }, [_vm._v("立即下载")])]) : _vm._e(), _c('weiui_list', {
     staticClass: ["list"],
     attrs: {
       "weiui": {
@@ -683,14 +830,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('text', {
     staticClass: ["list-title"]
-  }, [_vm._v("Components")]), _c('weiui_recyler', _vm._l((_vm.components), function(item) {
+  }, [_vm._v("Components")]), _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.componentsClick
+    }
+  }, _vm._l((_vm.components), function(item) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openUrl(item.url)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {
@@ -716,14 +862,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 1)])
   })), _c('text', {
     staticClass: ["list-title"]
-  }, [_vm._v("Module")]), _c('weiui_recyler', _vm._l((_vm.module), function(item) {
+  }, [_vm._v("Module")]), _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.moduleClick
+    }
+  }, _vm._l((_vm.module), function(item) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openUrl(item.url)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {
@@ -749,14 +894,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 1)])
   })), _c('text', {
     staticClass: ["list-title"]
-  }, [_vm._v("Third Module")]), _c('weiui_recyler', _vm._l((_vm.third_module), function(item) {
+  }, [_vm._v("Third Module")]), _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.thirdModuleClick
+    }
+  }, _vm._l((_vm.third_module), function(item) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openUrl(item.url)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {
@@ -782,14 +926,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 1)])
   })), _c('text', {
     staticClass: ["list-title"]
-  }, [_vm._v("About Weiui")]), _c('weiui_recyler', _vm._l((_vm.about_lists), function(item) {
+  }, [_vm._v("About Weiui")]), _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.aboutListsClick
+    }
+  }, _vm._l((_vm.about_lists), function(item) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openWeb(item.url)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {
@@ -824,14 +967,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.clearHistory()
       }
     }
-  }, [_vm._v("清空历史")])]) : _vm._e(), (_vm.history.length > 0) ? _c('weiui_recyler', _vm._l((_vm.history), function(text) {
+  }, [_vm._v("清空历史")])]) : _vm._e(), (_vm.history.length > 0) ? _c('weiui_recyler', {
+    on: {
+      "itemClick": _vm.historyClick
+    }
+  }, _vm._l((_vm.history), function(text) {
     return _c('div', {
-      staticClass: ["list-item"],
-      on: {
-        "click": function($event) {
-          _vm.openUrl(text)
-        }
-      }
+      staticClass: ["list-item"]
     }, [_c('div', {
       staticClass: ["list-item-left"]
     }, [_c('weiui_icon', {

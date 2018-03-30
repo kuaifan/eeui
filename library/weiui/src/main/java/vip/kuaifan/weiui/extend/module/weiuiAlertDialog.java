@@ -27,7 +27,22 @@ public class weiuiAlertDialog {
         newJson.put("message", json.get("message"));
         newJson.put("buttons", "[{title:'" + weiuiJson.getString(json, "button", "确定") + "'}]");
         newJson.put("cancelable", json.get("cancelable"));
-        Builder(context, newJson, callback);
+        Builder(context, newJson, new JSCallback() {
+            @Override
+            public void invoke(Object data) {
+                Map<String, Object> res = weiuiMap.objectToMap(data);
+                if (weiuiParse.parseStr(res.get("status")).equals("click")) {
+                    if (callback != null) {
+                        callback.invoke(null);
+                    }
+                }
+            }
+
+            @Override
+            public void invokeAndKeepAlive(Object data) {
+
+            }
+        });
     }
 
     public static void confirm(Context context, Object object, JSCallback callback) {

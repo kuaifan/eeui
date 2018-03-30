@@ -10,7 +10,7 @@ const weiui = weex.requireModule('weiui');
  * @param params    警告框内容 或 详细参数
  * @param callback  回调事件
  */
-weiui.alert({params}, callback(result))
+weiui.alert({params}, callback())
 ```
 
 #### params 参数说明
@@ -26,7 +26,7 @@ weiui.alert({params}, callback(result))
 
 ```js
 //示例①
-weiui.alert('你使用weiui了吗？', function(result) {
+weiui.alert('你使用weiui了吗？', function() {
     //......
 });
 
@@ -34,7 +34,7 @@ weiui.alert('你使用weiui了吗？', function(result) {
 weiui.alert({
     title: '温馨提示',
     message: '使用weiui真的很不错哦！',
-}, function(result) {
+}, function() {
     //......
 });
 ```

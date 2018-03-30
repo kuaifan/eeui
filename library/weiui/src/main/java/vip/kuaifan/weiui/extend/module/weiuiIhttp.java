@@ -3,8 +3,11 @@ package vip.kuaifan.weiui.extend.module;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
+import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.xutils.cache.LruDiskCache;
 import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.Cancelable;
 import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.CacheCallback;
@@ -13,6 +16,9 @@ import vip.kuaifan.weiui.extend.integration.xutils.http.RequestParams;
 import vip.kuaifan.weiui.extend.integration.xutils.x;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +39,9 @@ public class weiuiIhttp {
 
     //请求组
     private static Map<String, Cancelable> requestList = new HashMap<>();
+
+    //获取ContentType组
+    private static Map<String, String> contentTypeData = new HashMap<>();
 
     /**
      * 初始化模块
@@ -326,5 +335,50 @@ public class weiuiIhttp {
                 }
             }catch (ConcurrentModificationException ignored) { }
         }
+    }
+
+    /**
+     * 获取ContentType
+     * @param url
+     * @param mTypeCallback
+     */
+    public static void getContentType(String url, ContentTypeCallback mTypeCallback) {
+        if (contentTypeData.get(url) != null) {
+            if (mTypeCallback != null) {
+                mTypeCallback.onResult(contentTypeData.get(url));
+            }
+            return;
+        }
+        class TempAsyncTask extends AsyncTask<String, String, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                String contentType = null;
+                try {
+                    URL tempUrl = new URL(url);
+                    URLConnection tempConn = tempUrl.openConnection();
+                    tempConn.setRequestProperty("accept", "*/*");
+                    tempConn.setRequestProperty("connection", "Keep-Alive");
+                    tempConn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+                    tempConn.connect();
+                    contentType = tempConn.getContentType();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return contentType;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                contentTypeData.put(url, result);
+                if (mTypeCallback != null) {
+                    mTypeCallback.onResult(result);
+                }
+            }
+        }
+        new TempAsyncTask().execute();
+    }
+
+    public interface ContentTypeCallback {
+        void onResult(String result);
     }
 }

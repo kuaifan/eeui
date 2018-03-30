@@ -14,9 +14,9 @@
 
             <text class="list-title">Expand Module</text>
 
-            <weiui_recyler>
+            <weiui_recyler @itemClick="expandModuleClick">
 
-                <div class="list-item" v-for="item in expand_module" @click="openExpand(item.url)">
+                <div class="list-item" v-for="item in expand_module">
                     <div class="list-item-left">
                         <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
@@ -182,7 +182,8 @@
 
         methods: {
 
-            openExpand(url) {
+            expandModuleClick(data) {
+                let url = this.expand_module[data.position].url;
                 weiui.openPage({
                     url: "http://kuaifan.vip/weiui/#/module/expand/" + url,
                     pageType: 'web'

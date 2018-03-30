@@ -22,10 +22,10 @@ weiui.openPage({params}, callback(result))
 | --- | --- | :-: | --- | --- |
 | url | `String` | √ | `Weex Js`或`Web Url`地址 | - |
 | pageName | `String` | - | 页面名称 | - |
-| pageType | `String` | - | 页面类型，`weex`、`web` | weex |
+| pageType | `String` | - | 页面类型：`weex`、`web`<br/>可填写`auto`系统自动识别 (不建议) | weex |
 | cache | `Number` | - | 页面缓存时间，仅`weex`类型有效，<br/>设置`0`不缓存（单位：毫秒） | 0 |
-| loading | `Boolean` | - | 是否显示等待效果，`true`、`false` | true |
-| swipeBack | `Boolean` | - | 是否支持滑动返回，`true`、`false` | true |
+| loading | `Boolean` | - | 是否显示等待效果：`true`、`false` | true |
+| swipeBack | `Boolean` | - | 是否支持滑动返回：`true`、`false` | true |
 | statusBarType | `String` | - | 状态栏样式：<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>设置时`statusBarType`、`statusBarAlpha`无效 | - |
 | statusBarColor | `String` | - | 状态栏颜色值 | #3EB4FF |
 | statusBarAlpha | `Number` | - | 状态栏透明度， 0-255 | 0 |
@@ -177,7 +177,7 @@ weiui.setPageBackPressed({params}, callback())
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
-| pageName | `String` | - | 页面名称，留空重载当前页面（不建议） | - |
+| pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
 
 #### 简单示例
 

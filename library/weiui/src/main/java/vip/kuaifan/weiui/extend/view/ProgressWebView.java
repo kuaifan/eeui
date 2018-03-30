@@ -26,7 +26,7 @@ public class ProgressWebView extends WebView {
     private ProgressBar progressbar;
     private TitleCall mTitleCall;
     private StatusCall mStatusCall;
-    private boolean progressbarVisibility = true;
+    private boolean progressbarVisibility;
 
     @SuppressLint("AddJavascriptInterface")
     public ProgressWebView(Context context, AttributeSet attrs) {
@@ -34,6 +34,7 @@ public class ProgressWebView extends WebView {
         progressbar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         progressbar.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 6, 0, 0));
         progressbar.setVisibility(GONE);
+        progressbarVisibility = true;
         //
         Drawable drawable = context.getResources().getDrawable(R.drawable.progress_bar_states);
         progressbar.setProgressDrawable(drawable);

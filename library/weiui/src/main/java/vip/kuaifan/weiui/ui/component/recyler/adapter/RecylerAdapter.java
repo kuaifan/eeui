@@ -2,21 +2,16 @@ package vip.kuaifan.weiui.ui.component.recyler.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.taobao.weex.utils.WXUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,17 +49,18 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.context = context;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == normalType) {
-            return new NormalHolder(LayoutInflater.from(context).inflate(R.layout.layout_weiui_recyler_item_swipe, null));
+            return new NormalHolder(LayoutInflater.from(context).inflate(R.layout.layout_weiui_recyler_item, null));
         } else {
             return new FootHolder(LayoutInflater.from(context).inflate(R.layout.layout_weiui_recyler_footer, null));
         }
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NormalHolder) {
             NormalHolder normalHolder = ((NormalHolder) holder);
             View view = viewDatas.get(position);

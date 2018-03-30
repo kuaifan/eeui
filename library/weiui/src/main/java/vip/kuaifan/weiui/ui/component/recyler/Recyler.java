@@ -85,7 +85,8 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             lp.height = height;
         }
         if (lp instanceof ViewGroup.MarginLayoutParams) {
-            ((ViewGroup.MarginLayoutParams) lp).setMargins(left, 0, right, bottom);
+            top = weiuiScreenUtils.weexPx2dp(getInstance(), child.getDomObject().getStyles().get("marginTop"), 0);
+            ((ViewGroup.MarginLayoutParams) lp).setMargins(left, top, right, bottom);
         }
         return lp;
     }
