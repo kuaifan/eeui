@@ -264,6 +264,11 @@
         data() {
             return {
                 components: [{
+                    title: '轮播控件',
+                    title_en: 'weiui_banner',
+                    icon: 'easel',
+                    url: 'component_banner.js',
+                }, {
                     title: '常用按钮',
                     title_en: 'weiui_button',
                     icon: 'android-checkbox-blank',
@@ -411,7 +416,7 @@
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
             //
             let variable = parseInt(weiui.getLocalVersion());
-            if (variable < 6) {
+            if (variable < 7) {
                 this.newApp = true;
                 weiui.confirm({
                     title: "版本更新",

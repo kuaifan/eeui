@@ -3,6 +3,7 @@
     - [installation 安装](start/installation)
     
 - 组件 Component
+    - [<font color="red" size="2">[新]</font> weiui_banner 轮播控件](component/weiui_banner)
     - [<font color="red" size="2">[新]</font> weiui_button 按钮](component/weiui_button)
     - [<font color="red" size="2">[新]</font> weiui_grid 网格容器](component/weiui_grid)
     - [weiui_icon 图标](component/weiui_icon)

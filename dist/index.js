@@ -62,26 +62,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 44:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(45)
+__vue_styles__.push(__webpack_require__(49)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(46)
+__vue_exports__ = __webpack_require__(50)
 
 /* template */
-var __vue_template__ = __webpack_require__(47)
+var __vue_template__ = __webpack_require__(51)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +116,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 45:
+/***/ 49:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -244,7 +244,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 46:
+/***/ 50:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,6 +519,11 @@ exports.default = {
     data: function data() {
         return {
             components: [{
+                title: '轮播控件',
+                title_en: 'weiui_banner',
+                icon: 'easel',
+                url: 'component_banner.js'
+            }, {
                 title: '常用按钮',
                 title_en: 'weiui_button',
                 icon: 'android-checkbox-blank',
@@ -667,7 +672,7 @@ exports.default = {
         this.history = JSON.parse(weiui.getCachesString("scaner", []));
         //
         var variable = parseInt(weiui.getLocalVersion());
-        if (variable < 6) {
+        if (variable < 7) {
             this.newApp = true;
             weiui.confirm({
                 title: "版本更新",
@@ -770,7 +775,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 47:
+/***/ 51:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
