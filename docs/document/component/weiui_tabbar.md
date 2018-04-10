@@ -141,7 +141,8 @@
 | dividerWidth |`Number`  |  设置tab分割线宽度          |  0     |
 | dividerPadding |`Number`  |  设置tab分割线的左右内边距          |  -     |
 | textBold |`Number`  | 设置tab字体加粗，<br/>不加粗:`0`<br/>选择加粗:`1`<br/>全部加粗:`2`           |  0     |
-| textsize |`Number`  |  设置tab字体大小          |  13     |
+| textSize |`Number`  |  设置tab字体大小          |  13     |
+| fontSize |`Number`  |  同`textSize`          |  -     |
 | textSelectColor |`String`  |  设置tab字体选中颜色          |  #ffffff     |
 | textUnselectColor |`String`  |   设置tab字体未选中颜色         |  #AAffffff     |
 | iconGravity |`Number`  |  设置tab图标显示位置，<br/>上方:`1`<br/>下方:`0`          |  1     |
@@ -149,6 +150,7 @@
 | iconWidth |`Number`  |  设置tab图标宽度          |  -     |
 | iconHeight |`Number`  |   设置tab图标高度         |  -     |
 | iconMargin |`Number`  |  设置tab图标与文字间距          |  2.5     |
+| sideline |`Number`  |  设置tab边线          |  1     |
 
 > 例如：
 
@@ -367,6 +369,12 @@ this.$refs.reflectName.setTabIconWidth(50);
  * 参数一：高度
  */
 this.$refs.reflectName.setTabIconHeight(50);
+
+/**
+ * 设置tab边线
+ * 参数一：高度
+ */
+this.$refs.reflectName.setSideline(1);
 ```
 
 

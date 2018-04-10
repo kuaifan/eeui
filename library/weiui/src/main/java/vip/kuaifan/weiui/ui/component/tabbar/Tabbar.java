@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
+import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.tablayout.CommonTabLayout;
@@ -63,6 +64,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     private CommonTabLayout mTabLayoutTop;
 
     private CommonTabLayout mTabLayoutBottom;
+
+    private View navigation_tline;
+
+    private View navigation_bline;
 
     private ArrayList<CustomTabEntity> mTabEntity = new ArrayList<>();
 
@@ -139,7 +144,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                             for (Map.Entry<String, Object> entry : item.entrySet()) {
                                 barBean = TabbarPage.setBarAttr(barBean, entry.getKey(), entry.getValue());
                             }
-                            barBean.setView(weiuiJson.getString(item, "url"));
+                            barBean.setView(weiuiPage.rewriteUrl(getContext(), weiuiJson.getString(item, "url")));
                             addPageView(barBean);
                         }
                     }
@@ -275,7 +280,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 mTabLayoutBottom.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
-            case "textsize":
+            case "textSize":
+            case "text-size":
+            case "fontSize":
+            case "font-size":
             case "setTextsize":
                 setTabTextsize(val);
                 return true;
@@ -333,6 +341,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 mTabLayoutBottom.setTextAllCaps(weiuiParse.parseBool(val, false));
                 return true;
 
+            case "sideline":
+                setSideline(val);
+                return true;
+
             case "@styleScope":
                 if (tabbarType == null) {
                     setTabType("bottom");
@@ -351,6 +363,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         mViewPager = mView.findViewById(R.id.viewpager);
         mTabLayoutTop = mView.findViewById(R.id.navigation_top);
         mTabLayoutBottom = mView.findViewById(R.id.navigation_bottom);
+        navigation_tline = mView.findViewById(R.id.navigation_tline);
+        navigation_bline = mView.findViewById(R.id.navigation_bline);
         //
         mTabPagerAdapter = new TabbarAdapter(mViewList);
         mViewPager.setAdapter(mTabPagerAdapter);
@@ -820,8 +834,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextUnselectColor(Object var) {
-        mTabLayoutTop.setTextUnselectColor(weiuiParse.parseInt(var, 0));
-        mTabLayoutBottom.setTextUnselectColor(weiuiParse.parseInt(var, 0));
+        mTabLayoutTop.setTextUnselectColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutBottom.setTextUnselectColor(Color.parseColor(weiuiParse.parseStr(var)));
     }
 
     /**
@@ -830,8 +844,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextSelectColor(Object var) {
-        mTabLayoutTop.setTextSelectColor(weiuiParse.parseInt(var, 0));
-        mTabLayoutBottom.setTextSelectColor(weiuiParse.parseInt(var, 0));
+        mTabLayoutTop.setTextSelectColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutBottom.setTextSelectColor(Color.parseColor(weiuiParse.parseStr(var)));
     }
 
     /**
@@ -862,5 +876,23 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     public void setTabIconHeight(Object var) {
         mTabLayoutTop.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
         mTabLayoutBottom.setIconHeight(weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+    }
+
+    /**
+     * 设置边线高度
+     * @param var
+     */
+    @JSMethod
+    public void setSideline(Object var) {
+        int height = weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0));
+        if (height > 0) {
+            weiuiCommon.setViewWidthHeight(navigation_tline, -1 ,height);
+            weiuiCommon.setViewWidthHeight(navigation_bline, -1 ,height);
+            navigation_tline.setVisibility(View.VISIBLE);
+            navigation_bline.setVisibility(View.VISIBLE);
+        }else{
+            navigation_tline.setVisibility(View.GONE);
+            navigation_bline.setVisibility(View.GONE);
+        }
     }
 }

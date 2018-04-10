@@ -68,7 +68,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.0.5"
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     //
-    //implementation "vip.kuaifan:weiui:0.0.14"
+    //implementation "vip.kuaifan:weiui:0.0.18"
     //implementation "vip.kuaifan:weiui_picture:0.0.6"
     //implementation "vip.kuaifan:weiui_picture_ucrop:0.0.6"
     implementation project(":weiui")

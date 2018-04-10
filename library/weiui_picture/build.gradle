@@ -39,4 +39,4 @@ dependencies {
     compileOnly project(':weiui_picture_ucrop')
 }
 
-apply from: rootProject.file('bintray.gradle')
+//apply from: rootProject.file('bintray.gradle')
