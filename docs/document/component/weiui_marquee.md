@@ -24,7 +24,7 @@
                 style="width:750px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                     }"
         ></weiui_marquee>
 
@@ -34,7 +34,7 @@
                 style="width:375px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#ff0000',
                         backgroundColor: '#00ffff'
                     }"
@@ -46,7 +46,7 @@
                 style="width:200px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#6e0a92',
                         backgroundColor: '#c8e7ff'
                     }"
@@ -85,9 +85,10 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
-| text |`String`  | 显示的文字           | -       |
-| fontSize |`Number`  | 字体大小           | 12       |
+| content |`String`  | 显示的文字           | -       |
+| text  |`String`  | 同`content`            | -       |
 | color |`String`  | 滚动的文字颜色           | #000000       |
+| fontSize |`Number`  | 字体大小           | 24       |
 | backgroundColor |`String`  | 滚动的文字背景颜色           | #00ffffff       |
 
 > 例如：
@@ -97,7 +98,7 @@
     ref="reflectName"
     :weiui="{
         text: '地方不够放时才滚动',
-        fontSize: 12,
+        fontSize: 24,
         color: '#6dff28',
         backgroundColor: '#c8e7ff'
     }"></weiui_marquee>
@@ -126,7 +127,7 @@ this.$refs.reflectName.addText('文字');
  * 设置字体大小
  * 参数一：文字大小
  */
-this.$refs.reflectName.setTextSize(16);
+this.$refs.reflectName.setTextSize(24);
 
 /**
  * 设置字体颜色

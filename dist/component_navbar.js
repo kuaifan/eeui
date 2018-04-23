@@ -62,26 +62,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 20:
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(21)
+__vue_styles__.push(__webpack_require__(22)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(22)
+__vue_exports__ = __webpack_require__(23)
 
 /* template */
-var __vue_template__ = __webpack_require__(23)
+var __vue_template__ = __webpack_require__(24)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +137,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 21:
+/***/ 22:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -136,6 +157,10 @@ module.exports = {
     "width": "750",
     "marginTop": "50"
   },
+  "nav-title": {
+    "fontSize": "24",
+    "color": "#ffffff"
+  },
   "icon": {
     "width": "100",
     "height": "100"
@@ -144,7 +169,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 22:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -153,143 +178,146 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var weiui = weex.requireModule('weiui');
+var _app = __webpack_require__(0);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     methods: {
         viewCode: function viewCode(str) {
-            weiui.openPage({
-                url: "http://kuaifan.vip/weiui/#/" + str,
-                pageType: 'web'
-            });
+            (0, _app.openViewCode)(str);
         }
     }
 };
 
 /***/ }),
 
-/***/ 23:
+/***/ 24:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -317,7 +345,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('weiui_icon', {
     staticClass: ["iconr"],
     attrs: {
-      "icon": "code-working"
+      "content": "code-working"
     }
   })], 1)], 1), _c('weiui_navbar', {
     staticClass: ["navbar"]
@@ -329,7 +357,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "title"
     }
-  }, [_c('text', [_vm._v("标题")])])], 1), _c('weiui_navbar', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("标题")])])], 1), _c('weiui_navbar', {
     staticClass: ["navbar"],
     attrs: {
       "weiui": {
@@ -344,7 +374,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "title"
     }
-  }, [_c('text', [_vm._v("标题")])])], 1), _c('weiui_navbar', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("标题")])])], 1), _c('weiui_navbar', {
     staticClass: ["navbar"]
   }, [_c('weiui_navbar_item', {
     attrs: {
@@ -354,14 +386,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "title"
     }
-  }, [_c('text', [_vm._v("标题")])]), _c('weiui_navbar_item', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("标题")])]), _c('weiui_navbar_item', {
     attrs: {
       "type": "right"
     }
   }, [_c('weiui_icon', {
     staticClass: ["icon"],
     attrs: {
-      "icon": "refresh"
+      "content": "refresh"
     }
   })], 1)], 1), _c('weiui_navbar', {
     staticClass: ["navbar"]
@@ -372,20 +406,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('weiui_icon', {
     staticClass: ["icon"],
     attrs: {
-      "icon": "navicon-round"
+      "content": "navicon-round"
     }
   })], 1), _c('weiui_navbar_item', {
     attrs: {
       "type": "title"
     }
-  }, [_c('text', [_vm._v("标题")])]), _c('weiui_navbar_item', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("标题")])]), _c('weiui_navbar_item', {
     attrs: {
       "type": "right"
     }
   }, [_c('weiui_icon', {
     staticClass: ["icon"],
     attrs: {
-      "icon": "refresh"
+      "content": "refresh"
     }
   })], 1)], 1), _c('weiui_navbar', {
     staticClass: ["navbar"]
@@ -397,15 +433,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "left"
     }
-  }, [_c('text', [_vm._v("左边内容")])]), _c('weiui_navbar_item', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("左边内容")])]), _c('weiui_navbar_item', {
     attrs: {
       "type": "title"
     }
-  }, [_c('text', [_vm._v("中间(标题)内容")])]), _c('weiui_navbar_item', {
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("中间(标题)内容")])]), _c('weiui_navbar_item', {
     attrs: {
       "type": "right"
     }
-  }, [_c('text', [_vm._v("右边内容")])])], 1)], 1)
+  }, [_c('text', {
+    staticClass: ["nav-title"]
+  }, [_vm._v("右边内容")])])], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 

@@ -7,7 +7,7 @@
                 <text class="title">轮播控件</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('component/weiui_banner')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -56,6 +56,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -71,10 +73,7 @@
 
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
 
             itemClick(res) {

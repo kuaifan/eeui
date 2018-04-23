@@ -7,7 +7,7 @@
                 <text class="title">滚动文字</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('component/weiui_scroll_text')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -17,7 +17,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 2,
-                        fontSize: 16,
+                        fontSize: 32,
                     }"
                 @itemClick="itemClick"
         ></weiui_scroll_text>
@@ -28,7 +28,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 10,
-                        fontSize: 16,
+                        fontSize: 32,
                         color: '#ff0000',
                         backgroundColor: '#00ffff'
                     }"
@@ -41,7 +41,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 5,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#6e0a92',
                         backgroundColor: '#c8e7ff'
                     }"
@@ -75,6 +75,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -85,10 +87,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             itemClick(params) {
                 let starting = params.isStarting ? "运行中" : "停止了";

@@ -2,9 +2,12 @@ package vip.kuaifan.weiui.ui.component.tabbar.adapter;
 
 import java.util.ArrayList;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 
 public class TabbarAdapter extends PagerAdapter {
 
@@ -17,7 +20,6 @@ public class TabbarAdapter extends PagerAdapter {
 
     public void setListViews(ArrayList<View> viewLists) {
         this.viewLists = viewLists;
-
     }
 
     @Override
@@ -25,17 +27,22 @@ public class TabbarAdapter extends PagerAdapter {
         return viewLists.size();
     }
 
-    public int getItemPosition(Object object) {
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return weiuiParse.parseStr(viewLists.get(position).getTag(), "未命名");
+    }
+
+    public int getItemPosition(@NonNull Object object) {
         return PagerAdapter.POSITION_NONE;
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (getCount() > 1) {
             if (position <= viewLists.size() - 1) {
                 container.removeView(viewLists.get(position));
@@ -43,8 +50,9 @@ public class TabbarAdapter extends PagerAdapter {
         }
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         container.addView(viewLists.get(position), 0);
         return viewLists.get(position);
     }

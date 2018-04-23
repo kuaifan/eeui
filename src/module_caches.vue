@@ -7,7 +7,7 @@
                 <text class="title">数据缓存</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/caches')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -15,7 +15,7 @@
 
             <text class="subtitle">数据缓存：重启APP不被删除</text>
 
-            <text>{{caches}}</text>
+            <text style="font-size:24px">{{caches}}</text>
 
             <text class="button" @click="setCaches()">设置缓存</text>
             <text class="button" @click="getCaches()">读取缓存</text>
@@ -23,7 +23,7 @@
 
             <text class="subtitle">全局变量：重启APP后数据不存在</text>
 
-            <text>{{variate}}</text>
+            <text style="font-size:24px">{{variate}}</text>
 
             <text class="button" @click="setVariate()">设置变量</text>
             <text class="button" @click="getVariate()">读取变量</text>
@@ -65,6 +65,7 @@
 
     .button {
         width: 380px;
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -78,6 +79,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -95,10 +98,7 @@
 
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             randomString(len) {
                 len = len || 32;

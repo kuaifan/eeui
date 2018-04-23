@@ -46,4 +46,6 @@ dependencies {
     compileOnly project(':weiui')
 }
 
-//apply from: rootProject.file('bintray.gradle')
+if (rootProject.file('bintray.gradle').isFile()) {
+    apply from: rootProject.file('bintray.gradle')
+}

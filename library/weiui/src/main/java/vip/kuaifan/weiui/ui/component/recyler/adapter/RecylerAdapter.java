@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import vip.kuaifan.weiui.R;
 
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.ui.component.recyler.bean.SwipeButtonBean;
 
 /**
@@ -44,6 +46,12 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private String dividerColor = "#e8e8e8";
     private int dividerHeight = 1;
+
+    private int itemSpaceTop = 0;
+    private int itemSpaceRight = 0;
+    private int itemSpaceBottom = 0;
+    private int itemSpaceLeft = 0;
+    private int itemBackgroundColor = 0x00ffffff;
 
     public RecylerAdapter(Context context) {
         this.context = context;
@@ -122,19 +130,34 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class NormalHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        private LinearLayout v_parent;
         private FrameLayout v_container;
         private LinearLayout v_swipeView;
         private View v_divider, v_swipedivider;
 
         NormalHolder(View itemView) {
             super(itemView);
+            v_parent = itemView.findViewById(R.id.v_parent);
             v_container = itemView.findViewById(R.id.v_container);
             v_swipeView = itemView.findViewById(R.id.v_swipeview);
             v_divider = itemView.findViewById(R.id.v_divider);
             v_swipedivider = itemView.findViewById(R.id.v_swipedivider);
             //
+            if (itemSpaceLeft > 0 || itemSpaceTop > 0 || itemSpaceRight > 0 || itemSpaceBottom > 0) {
+                weiuiCommon.setMargins(v_parent, itemSpaceLeft, itemSpaceTop, itemSpaceRight, itemSpaceBottom);
+            }
+            v_parent.setBackgroundColor(itemBackgroundColor);
+            //
             v_container.setOnClickListener(this);
             v_container.setOnLongClickListener(this);
+            //
+            if (dividerHeight > 0) {
+                v_divider.setVisibility(View.VISIBLE);
+                v_divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
+                v_divider.setBackgroundColor(Color.parseColor(dividerColor));
+            }else{
+                v_divider.setVisibility(View.GONE);
+            }
             //
             if (mSwipeItems.size() > 0) {
                 for (int i = 0; i < mSwipeItems.size(); i++) {
@@ -175,7 +198,7 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             mView.setGravity(Gravity.CENTER);
             mView.setText(bean.getText());
             if (bean.getSize() > 0) {
-                mView.setTextSize(bean.getSize());
+                mView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bean.getSize());
             }
             if (bean.getPadding() > 0) {
                 mView.setPadding(bean.getPadding(), 0, bean.getPadding(), 0);
@@ -187,14 +210,10 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 mView.setBackgroundColor(Color.parseColor(bean.getBackgroundColor()));
             }
             if (dividerHeight > 0) {
-                v_divider.setVisibility(View.VISIBLE);
-                v_divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
-                v_divider.setBackgroundColor(Color.parseColor(dividerColor));
                 v_swipedivider.setVisibility(View.VISIBLE);
                 v_swipedivider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
                 v_swipedivider.setBackgroundColor(Color.parseColor(dividerColor));
             }else{
-                v_divider.setVisibility(View.GONE);
                 v_swipedivider.setVisibility(View.GONE);
             }
             //
@@ -245,12 +264,11 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return viewDatas.size();
     }
 
-    public void updateList(View view, boolean hasMore) {
+    public void updateList(int index, View view, boolean hasMore) {
         if (view != null) {
-            viewDatas.add(view);
+            viewDatas.add(index, view);
         }
         this.hasMore = hasMore;
-        notifyDataSetChanged();
     }
 
     public void removeList(View view, boolean hasMore) {
@@ -258,7 +276,6 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewDatas.remove(view);
         }
         this.hasMore = hasMore;
-        notifyDataSetChanged();
     }
 
     public boolean isFadeFooter() {
@@ -287,5 +304,25 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setDividerHeight(int var) {
         dividerHeight = var;
+    }
+
+    public void setItemSpaceTop(int var) {
+        itemSpaceTop = var;
+    }
+
+    public void setItemSpaceRight(int var) {
+        itemSpaceRight = var;
+    }
+
+    public void setItemSpaceBottom(int var) {
+        itemSpaceBottom = var;
+    }
+
+    public void setItemSpaceLeft(int var) {
+        itemSpaceLeft = var;
+    }
+
+    public void setItemBackgroundColor(int var) {
+        itemBackgroundColor = var;
     }
 }

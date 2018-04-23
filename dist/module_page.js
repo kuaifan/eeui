@@ -62,26 +62,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 80);
+/******/ 	return __webpack_require__(__webpack_require__.s = 81);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 80:
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+
+/***/ 81:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(81)
+__vue_styles__.push(__webpack_require__(82)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(82)
+__vue_exports__ = __webpack_require__(83)
 
 /* template */
-var __vue_template__ = __webpack_require__(83)
+var __vue_template__ = __webpack_require__(84)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +137,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 81:
+/***/ 82:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -139,6 +160,7 @@ module.exports = {
   },
   "button": {
     "width": "380",
+    "fontSize": "24",
     "textAlign": "center",
     "marginTop": "20",
     "marginBottom": "20",
@@ -153,7 +175,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 82:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -162,75 +184,74 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var weiui = weex.requireModule('weiui');
+var _app = __webpack_require__(0);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     methods: {
         viewCode: function viewCode(str) {
-            weiui.openPage({
-                url: "http://kuaifan.vip/weiui/#/" + str,
-                pageType: 'web'
-            });
+            (0, _app.openViewCode)(str);
         },
         openPage: function openPage() {
             weiui.openPage({
@@ -260,7 +281,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 83:
+/***/ 84:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -288,7 +309,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('weiui_icon', {
     staticClass: ["iconr"],
     attrs: {
-      "icon": "code-working"
+      "content": "code-working"
     }
   })], 1)], 1), _c('div', {
     staticClass: ["content"]

@@ -2,11 +2,15 @@ package vip.kuaifan.weiui.ui.component.recyler;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -27,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
@@ -48,12 +53,16 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     private SwipeRefreshLayout v_swipeRefresh;
     private RecyclerView v_recyler;
 
+    private boolean refreshAuto;
     private int gridRow = 1;
     private int lastVisibleItem = 0;
     private boolean hasMore = false;
     private boolean isLoading = false;
     private GridLayoutManager mLayoutManager;
     private RecylerAdapter mAdapter;
+    private Runnable listUpdateRunnable;
+    private Handler mHandler = new Handler();
+    private int footIdentify;
 
     public Recyler(WXSDKInstance instance, WXDomObject dom, WXVContainer parent) {
         super(instance, dom, parent);
@@ -64,7 +73,42 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_recyler, null);
         initPagerView();
         //
+        listUpdateRunnable = () -> {
+            if (getHostView() != null && mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+        //
+        formatAttrs(getDomObject().getAttrs());
+        if (refreshAuto) {
+            setRefreshing(true);
+        }
+        //
         return (ViewGroup) mView;
+    }
+
+    private void formatAttrs(Map<String, Object> attr) {
+        if (attr != null) {
+            for (String key : attr.keySet()) {
+                Object value = attr.get(key);
+                switch (weiuiCommon.camelCaseName(key)) {
+                    case "weiui":
+                        JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(value, null));
+                        if (json.size() > 0) {
+                            Map<String, Object> data = new HashMap<>();
+                            for (Map.Entry<String, Object> entry : json.entrySet()) {
+                                data.put(entry.getKey(), entry.getValue());
+                            }
+                            formatAttrs(data);
+                        }
+                        break;
+
+                    case "refreshAuto":
+                        refreshAuto = weiuiParse.parseBool(value);
+                        break;
+                }
+            }
+        }
     }
 
     @Override
@@ -72,7 +116,19 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         if (view == null || mAdapter == null) {
             return;
         }
-        mAdapter.updateList(view, hasMore);
+        mAdapter.updateList(index, view, hasMore);
+        mAdapter.notifyItemInserted(index);
+        notifyUpdateFoot();
+    }
+
+    @Override
+    public void remove(WXComponent child, boolean destroy) {
+        if (child == null || child.getHostView() == null || mAdapter == null) {
+            return;
+        }
+        mAdapter.removeList(child.getHostView(), hasMore);
+        notifyUpdateList();
+        super.remove(child, destroy);
     }
 
     @Override
@@ -92,12 +148,23 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     }
 
     @Override
-    public void remove(WXComponent child, boolean destroy) {
-        if (child == null || child.getHostView() == null || mAdapter == null) {
-            return;
+    public void destroy() {
+        if (getHostView() != null) {
+            getHostView().removeCallbacks(listUpdateRunnable);
         }
-        mAdapter.removeList(child.getHostView(), hasMore);
-        super.remove(child,destroy);
+        super.destroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        isLoading = true;
+        v_swipeRefresh.setRefreshing(true);
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
+            Map<String, Object> data = new HashMap<>();
+            data.put("realLastPosition", mAdapter.getRealLastPosition());
+            data.put("lastVisibleItem", lastVisibleItem);
+            fireEvent(weiuiConstants.Event.REFRESH_LISTENER, data);
+        }
     }
 
     @Override
@@ -106,7 +173,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -123,17 +190,17 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                     JSONObject swipeObject = weiuiJson.parseObject(weiuiParse.parseStr(swipeArray.get(i), null));
                     SwipeButtonBean bean = new SwipeButtonBean();
                     for (Map.Entry<String, Object> entry : swipeObject.entrySet()) {
-                        switch (entry.getKey()) {
+                        switch (weiuiCommon.camelCaseName(entry.getKey())) {
                             case "width":
                                 bean.setWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
                                 break;
 
-                            case "text":
+                            case "title":
                                 bean.setText(weiuiParse.parseStr(entry.getValue(), "按钮" + i));
                                 break;
 
-                            case "size":
-                                bean.setSize(weiuiParse.parseInt(entry.getValue()));
+                            case "fontSize":
+                                bean.setSize(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 24));
                                 break;
 
                             case "padding":
@@ -184,6 +251,30 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                 mAdapter.setDividerHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
+            case "itemSpaceTop":
+                mAdapter.setItemSpaceTop(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "itemSpaceRight":
+                mAdapter.setItemSpaceRight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "itemSpaceBottom":
+                mAdapter.setItemSpaceBottom(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "itemSpaceLeft":
+                mAdapter.setItemSpaceLeft(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                return true;
+
+            case "itemBackgroundColor":
+                mAdapter.setItemBackgroundColor(Color.parseColor(weiuiParse.parseStr(val, "")));
+                return true;
+
+            case "itemDefaultAnimator":
+                itemDefaultAnimator(weiuiParse.parseBool(val, false));
+                return true;
+
             default:
                 return false;
         }
@@ -206,6 +297,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         v_recyler.setLayoutManager(mLayoutManager);
         v_recyler.setAdapter(mAdapter);
         v_recyler.setItemAnimator(new DefaultItemAnimator());
+        itemDefaultAnimator(false);
         v_recyler.addOnScrollListener(new RecylerOnBottomScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -259,16 +351,30 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         });
     }
 
-    @Override
-    public void onRefresh() {
-        isLoading = true;
-        v_swipeRefresh.setRefreshing(true);
-        if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("realLastPosition", mAdapter.getRealLastPosition());
-            data.put("lastVisibleItem", lastVisibleItem);
-            fireEvent(weiuiConstants.Event.REFRESH_LISTENER, data);
+    private void notifyUpdateList() {
+        if (getHostView() == null || listUpdateRunnable == null) {
+            return;
         }
+        if (Looper.getMainLooper().getThread().getId() != Thread.currentThread().getId()) {
+            getHostView().removeCallbacks(listUpdateRunnable);
+            getHostView().post(listUpdateRunnable);
+        } else {
+            listUpdateRunnable.run();
+        }
+    }
+
+    private void notifyUpdateFoot() {
+        footIdentify++;
+        int tempId = footIdentify;
+        mHandler.postDelayed(()-> {
+            if (tempId == footIdentify) {
+                v_recyler.post(()-> {
+                    if (getHostView() != null && mAdapter != null) {
+                        mAdapter.notifyItemChanged(mAdapter.getItemCount() - 1);
+                    }
+                });
+            }
+        }, 100);
     }
 
     /**
@@ -284,7 +390,8 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                 fireEvent(weiuiConstants.Event.PULLLOAD_LISTENER, data);
             }
         }else{
-            mAdapter.updateList(null, false);
+            mAdapter.updateList(-1, null, false);
+            notifyUpdateList();
         }
     }
 
@@ -325,7 +432,8 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     public void setHasMore(boolean var){
         hasMore = var;
         if (mAdapter != null) {
-            mAdapter.updateList(null, hasMore);
+            mAdapter.updateList(-1, null, hasMore);
+            notifyUpdateList();
         }
     }
 
@@ -335,5 +443,53 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     @JSMethod
     public void pullloaded() {
         isLoading = false;
+    }
+
+    /**
+     * 打开关闭局部刷新默认动画
+     */
+    @JSMethod
+    public void itemDefaultAnimator(boolean open) {
+        if (v_recyler != null) {
+            if (open) {
+                v_recyler.getItemAnimator().setAddDuration(120);
+                v_recyler.getItemAnimator().setChangeDuration(250);
+                v_recyler.getItemAnimator().setMoveDuration(250);
+                v_recyler.getItemAnimator().setRemoveDuration(120);
+                ((SimpleItemAnimator) v_recyler.getItemAnimator()).setSupportsChangeAnimations(true);
+            }else{
+                v_recyler.getItemAnimator().setAddDuration(0);
+                v_recyler.getItemAnimator().setChangeDuration(0);
+                v_recyler.getItemAnimator().setMoveDuration(0);
+                v_recyler.getItemAnimator().setRemoveDuration(0);
+                ((SimpleItemAnimator) v_recyler.getItemAnimator()).setSupportsChangeAnimations(false);
+            }
+        }
+    }
+
+    /**
+     * 滚动到指定位置
+     */
+    @JSMethod
+    public void scrollToPosition(int position) {
+        if (v_recyler != null && mAdapter != null) {
+            if (position == -1) {
+                position = mAdapter.getItemCount() - 1;
+            }
+            v_recyler.scrollToPosition(position);
+        }
+    }
+
+    /**
+     * 平滑滚动到指定位置
+     */
+    @JSMethod
+    public void smoothScrollToPosition(int position) {
+        if (v_recyler != null && mAdapter != null) {
+            if (position == -1) {
+                position = mAdapter.getItemCount() - 1;
+            }
+            v_recyler.smoothScrollToPosition(position);
+        }
     }
 }

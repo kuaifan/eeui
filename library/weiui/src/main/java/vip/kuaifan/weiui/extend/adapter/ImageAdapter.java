@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
+import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
 import vip.kuaifan.weiui.extend.integration.glide.load.DataSource;
 import vip.kuaifan.weiui.extend.integration.glide.load.engine.DiskCacheStrategy;
@@ -24,7 +25,7 @@ import com.taobao.weex.dom.WXImageQuality;
  * Created by WDM on 2018/2/28.
  */
 
-public class ImageAdapter  implements IWXImgLoaderAdapter {
+public class ImageAdapter implements IWXImgLoaderAdapter {
 
     private static final String TAG = "ImageAdapter";
 
@@ -33,7 +34,6 @@ public class ImageAdapter  implements IWXImgLoaderAdapter {
 
     @Override
     public void setImage(String url, ImageView view, WXImageQuality quality, WXImageStrategy strategy) {
-
         WXSDKManager.getInstance().postOnUiThread(() -> {
             if (view == null || view.getLayoutParams() == null) {
                 return;
@@ -49,27 +49,30 @@ public class ImageAdapter  implements IWXImgLoaderAdapter {
             if (view.getLayoutParams().width <= 0 || view.getLayoutParams().height <= 0) {
                 return;
             }
-
-            Glide.with(view.getContext())
-                    .load(temp)
-                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            if (strategy.getImageListener() != null) {
-                                strategy.getImageListener().onImageFinish(url, view, false, null);
+            try {
+                Glide.with(view.getContext())
+                        .load(temp)
+                        .apply(new RequestOptions().error(R.drawable.load_before).placeholder(R.drawable.load_before).diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                if (strategy.getImageListener() != null) {
+                                    strategy.getImageListener().onImageFinish(url, view, false, null);
+                                }
+                                return false;
                             }
-                            return false;
-                        }
 
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            if (strategy.getImageListener() != null) {
-                                strategy.getImageListener().onImageFinish(url, view, true, null);
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                if (strategy.getImageListener() != null) {
+                                    strategy.getImageListener().onImageFinish(url, view, true, null);
+                                }
+                                return false;
                             }
-                            return false;
-                        }
-                    }).into(view);
+                        }).into(view);
+            } catch (Exception ignored) {
+                view.setImageResource(R.drawable.load_before);
+            }
         }, 0);
     }
 }

@@ -24,9 +24,11 @@ import vip.kuaifan.weiui.extend.module.weiuiAjax;
 import vip.kuaifan.weiui.extend.module.weiuiAlertDialog;
 import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
+import vip.kuaifan.weiui.extend.module.weiuiOpenApp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
+import vip.kuaifan.weiui.extend.module.weiuiShareUtils;
 import vip.kuaifan.weiui.extend.view.loading.LoadingDialog;
 
 
@@ -75,6 +77,10 @@ public class weiuiModule extends WXModule {
         if (json.getString("cache") != null) {
             mBean.setCache(json.getIntValue("cache"));
         }
+        //转递数据（默认：无）
+        if (json.get("data") != null) {
+            mBean.setData(json.get("data"));
+        }
         //是否显示等待（默认：true）
         if (json.getBoolean("loading") != null) {
             mBean.setLoading(json.getBoolean("loading"));
@@ -119,12 +125,8 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod(uiThread = false)
     public Object getPageInfo(String object) {
-        JSONObject json = weiuiJson.parseObject(object);
-        if (json.size() == 0) {
-            json.put("pageName", object);
-        }
-        String pageName = json.getString("pageName");
-        if (pageName == null || pageName.isEmpty()) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
             if (mWXSDKInstance.getContext() instanceof PageActivity) {
                 return ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().toMap();
             }
@@ -134,17 +136,30 @@ public class weiuiModule extends WXModule {
     }
 
     /**
+     * 获取页面传递的参数
+     * @param object
+     * @return
+     */
+    @JSMethod(uiThread = false)
+    public Object getPageData(String object) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                return ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getData();
+            }
+            return null;
+        }
+        return weiuiPage.getWinInfo(pageName).getData();
+    }
+
+    /**
      * 重新加载页面（刷新）
      * @param object
      */
     @JSMethod
     public void reloadPage(String object) {
-        JSONObject json = weiuiJson.parseObject(object);
-        if (json.size() == 0) {
-            json.put("pageName", object);
-        }
-        String pageName = json.getString("pageName");
-        if (pageName == null || pageName.isEmpty()) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
             if (mWXSDKInstance.getContext() instanceof PageActivity) {
                 ((PageActivity) mWXSDKInstance.getContext()).reload();
             }
@@ -159,12 +174,8 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod
     public void closePage(String object) {
-        JSONObject json = weiuiJson.parseObject(object);
-        if (json.size() == 0) {
-            json.put("pageName", object);
-        }
-        String pageName = json.getString("pageName");
-        if (pageName == null || pageName.isEmpty()) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
             ((Activity) mWXSDKInstance.getContext()).finish();
             return;
         }
@@ -178,12 +189,8 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod
     public void setPageBackPressed(String object, JSCallback callback) {
-        JSONObject json = weiuiJson.parseObject(object);
-        if (json.size() == 0) {
-            json.put("pageName", object);
-        }
-        String pageName = json.getString("pageName");
-        if (pageName == null || pageName.isEmpty()) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
             if (mWXSDKInstance.getContext() instanceof PageActivity) {
                 pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
             }
@@ -201,6 +208,74 @@ public class weiuiModule extends WXModule {
                 return true;
             });
         }
+    }
+
+    /**
+     * 监听下拉刷新事件
+     * @param object
+     * @param callback  为null时取消监听
+     */
+    @JSMethod
+    public void setOnRefreshListener(String object, JSCallback callback) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        if (callback == null) {
+            mPageActivity.setOnRefreshListener(null);
+        }else{
+            mPageActivity.setOnRefreshListener(callback::invokeAndKeepAlive);
+        }
+    }
+
+    /**
+     * 设置下拉刷新状态
+     * @param object
+     * @param refreshing
+     */
+    @JSMethod
+    public void setRefreshing(String object, boolean refreshing) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        mPageActivity.setRefreshing(refreshing);
+    }
+
+    /**
+     * 监听页面状态变化
+     * @param name
+     * @param callback
+     */
+    @JSMethod
+    public void setPageStatusListener(String name, JSCallback callback) {
+        if (name == null) {
+            return;
+        }
+        String pageName = null;
+        if (mWXSDKInstance.getContext() instanceof PageActivity) {
+            pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        mPageActivity.setPageStatusListener(name, callback);
     }
 
     /**
@@ -304,7 +379,7 @@ public class weiuiModule extends WXModule {
      * @param value
      * @param expired
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public void setCachesString(String key, String value, long expired) {
         if (key == null || value == null) {
             return;
@@ -330,7 +405,7 @@ public class weiuiModule extends WXModule {
      * @param key
      * @param value
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public void setVariate(String key, String value) {
         if (key == null || value == null) {
             return;
@@ -386,6 +461,14 @@ public class weiuiModule extends WXModule {
     }
 
     /**
+     * input 输入对话框
+     */
+    @JSMethod
+    public void input(String object, JSCallback callback) {
+        weiuiAlertDialog.input(mWXSDKInstance.getContext(), object, callback);
+    }
+
+    /**
      * 显示等待图标
      * @param object        参数
      * @param callback      返回键或点击空白处取消回调事件
@@ -399,7 +482,7 @@ public class weiuiModule extends WXModule {
     /**
      * 关闭等待图标
      */
-    @JSMethod
+    @JSMethod(uiThread = false)
     public void loadingClose(String var) {
         LoadingDialog.close(var);
     }
@@ -521,6 +604,61 @@ public class weiuiModule extends WXModule {
     @JSMethod
     public void adDialogClose(String dialogName) {
         weiuiAdDialog.close(dialogName);
+    }
+
+    /**
+     * 保存图片到本地
+     * @param url
+     */
+    @JSMethod
+    public void saveImage(String url, JSCallback callback) {
+        weiuiCommon.saveImage(mWXSDKInstance.getContext(), url, callback);
+    }
+
+    /**
+     * 打开其他APP
+     * @param type
+     */
+    @JSMethod
+    public void openOtherApp(String type) {
+        if (type == null) {
+            return;
+        }
+        switch (type.toLowerCase()) {
+            case "wx":
+                weiuiOpenApp.openWeChat(mWXSDKInstance.getContext());
+                break;
+
+            case "qq":
+                weiuiOpenApp.openQQ(mWXSDKInstance.getContext());
+                break;
+
+            case "alipay":
+                weiuiOpenApp.openAlipay(mWXSDKInstance.getContext());
+                break;
+
+            case "jd":
+                weiuiOpenApp.openJd(mWXSDKInstance.getContext());
+                break;
+        }
+    }
+
+    /**
+     * 分享文字
+     * @param text
+     */
+    @JSMethod
+    public void shareText(String text) {
+        weiuiShareUtils.shareText(mWXSDKInstance.getContext(), text);
+    }
+
+    /**
+     * 分享图片
+     * @param imgUrl
+     */
+    @JSMethod
+    public void shareImage(String imgUrl) {
+        weiuiShareUtils.shareImage(mWXSDKInstance.getContext(), imgUrl);
     }
 
     /***************************************************************************************************/

@@ -7,11 +7,11 @@
                 <text class="title">常用按钮</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('component/weiui_button')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
-        <weiui_list class="list" :weiui="{pullTips: false}">
+        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips: false}">
 
             <text class="list-title">预设样式</text>
 
@@ -144,6 +144,7 @@
     }
 
     .button {
+        font-size: 24px;
         margin-left: 37.5px;
         margin-right: 37.5px;
         margin-bottom: 20px;
@@ -190,6 +191,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -205,7 +208,7 @@
                 backgroundColor: '#FF5000',
                 borderColor: '#FF5000',
                 borderRadius: '8px',
-                fontSize: '36px',
+                fontSize: '28px',
                 color: '#FFFFFF'
             }
         },
@@ -239,6 +242,10 @@
                 return customStyle;
             }
         },
-        methods: {}
+        methods: {
+            viewCode(str) {
+                openViewCode(str);
+            },
+        }
     };
 </script>

@@ -24,7 +24,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 2,
-                        fontSize: 16,
+                        fontSize: 32,
                     }"
                 @itemClick="itemClick"
         ></weiui_scroll_text>
@@ -35,7 +35,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 10,
-                        fontSize: 16,
+                        fontSize: 32,
                         color: '#ff0000',
                         backgroundColor: '#00ffff'
                     }"
@@ -48,7 +48,7 @@
                 :weiui="{
                         text: scrollText,
                         speed: 5,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#6dff28',
                         backgroundColor: '#c8e7ff'
                     }"
@@ -94,9 +94,10 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
-| text |`String`  | 滚动的文字           | -       |
+| content |`String`  | 滚动的文字           | -       |
+| text |`String`  | 同`content`           | -       |
 | speed |`Float`  | 滚动的速度           | 2       |
-| fontSize |`Number`  | 字体大小           | 12       |
+| fontSize |`Number`  | 字体大小           | 24       |
 | color |`String`  | 滚动的文字颜色           | #000000       |
 | backgroundColor |`String`  | 滚动的文字背景颜色           | #00ffffff       |
 
@@ -108,7 +109,7 @@
     :weiui="{
         text: '滚动的文字',
         speed: 5,
-        fontSize: 12,
+        fontSize: 24,
         color: '#6dff28',
         backgroundColor: '#c8e7ff'
     }"></weiui_scroll_text>

@@ -13,6 +13,7 @@ import com.taobao.weex.ui.component.WXVContainer;
 import java.util.HashMap;
 import java.util.Map;
 
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.ui.component.tabbar.bean.TabbarBean;
@@ -68,7 +69,7 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
         if (barBean == null) {
             barBean = new TabbarBean();
         }
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "tabName":
                 barBean.setTabName(weiuiParse.parseStr(value, barBean.getTabName()));
                 break;
@@ -83,6 +84,10 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
 
             case "selectedIcon":
                 barBean.setSelectedIcon(weiuiParse.parseStr(value, ""));
+                break;
+
+            case "cache":
+                barBean.setCache(weiuiParse.parseLong(value, 0));
                 break;
 
             case "message":

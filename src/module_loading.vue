@@ -7,11 +7,11 @@
                 <text class="title">等待弹窗</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/loading')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
-        <weiui_list class="content" :weiui="{row:2, pullTips:false}">
+        <weiui_list class="content" :weiui="{row:2, dividerHeight: 0, pullTips:false}">
             <div class="item" v-for="(item, index) in lists" :key="index">
                 <text class="button" @click="loading(item)">样式:{{item}}</text>
             </div>
@@ -49,6 +49,7 @@
 
     .button {
         width: 320px;
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         padding-top: 26px;
@@ -61,6 +62,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -85,10 +88,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             loading(style) {
                 weiui.loading({

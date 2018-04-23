@@ -62,26 +62,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 68);
+/******/ 	return __webpack_require__(__webpack_require__.s = 69);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 68:
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(69)
+__vue_styles__.push(__webpack_require__(70)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(70)
+__vue_exports__ = __webpack_require__(71)
 
 /* template */
-var __vue_template__ = __webpack_require__(71)
+var __vue_template__ = __webpack_require__(72)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +137,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 69:
+/***/ 70:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -146,6 +167,7 @@ module.exports = {
   },
   "button": {
     "width": "380",
+    "fontSize": "24",
     "textAlign": "center",
     "marginTop": "20",
     "marginBottom": "20",
@@ -160,7 +182,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 70:
+/***/ 71:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -169,87 +191,89 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var weiui = weex.requireModule('weiui');
+var _app = __webpack_require__(0);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
@@ -266,10 +290,7 @@ exports.default = {
 
     methods: {
         viewCode: function viewCode(str) {
-            weiui.openPage({
-                url: "http://kuaifan.vip/weiui/#/" + str,
-                pageType: 'web'
-            });
+            (0, _app.openViewCode)(str);
         },
         randomString: function randomString(len) {
             len = len || 32;
@@ -302,7 +323,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -330,13 +351,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('weiui_icon', {
     staticClass: ["iconr"],
     attrs: {
-      "icon": "code-working"
+      "content": "code-working"
     }
   })], 1)], 1), _c('div', {
     staticClass: ["content"]
   }, [_c('text', {
     staticClass: ["subtitle"]
-  }, [_vm._v("数据缓存：重启APP不被删除")]), _c('text', [_vm._v(_vm._s(_vm.caches))]), _c('text', {
+  }, [_vm._v("数据缓存：重启APP不被删除")]), _c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v(_vm._s(_vm.caches))]), _c('text', {
     staticClass: ["button"],
     on: {
       "click": function($event) {
@@ -352,7 +377,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("读取缓存")]), _c('text', {
     staticClass: ["subtitle"]
-  }, [_vm._v("全局变量：重启APP后数据不存在")]), _c('text', [_vm._v(_vm._s(_vm.variate))]), _c('text', {
+  }, [_vm._v("全局变量：重启APP后数据不存在")]), _c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v(_vm._s(_vm.variate))]), _c('text', {
     staticClass: ["button"],
     on: {
       "click": function($event) {

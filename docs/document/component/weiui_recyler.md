@@ -28,13 +28,13 @@
                 :swipe="[
                     {
                         text: '选项1',
-                        size: '12',
+                        fontSize: '24',
                         padding: '20',
                         color: '#ffff00',
                         backgroundColor: '#ff0000',
                     },{
                         text: '选项2',
-                        size: '12',
+                        fontSize: '24',
                         padding: '30',
                         color: '#ecedf0',
                         backgroundColor: '#00ffff',
@@ -146,6 +146,7 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
+| autoRefresh |`Boolean`  | 初始化自动加载下拉刷新           | false       |
 | row |`Number`  | 每行显示列数           | 1       |
 | pullTips |`Boolean`  | 是否显示上拉加载更多的提示           | true       |
 | pullTipsDefault |`String`  | 上拉加载默认的提示语           | 正在加载数据...       |
@@ -153,6 +154,12 @@
 | pullTipsNo |`String`  | 上拉加载没有更多的提示语           | 没有更多数据了       |
 | dividerColor |`String`  | 行分割线颜色           | #e8e8e8       |
 | dividerHeight |`Number`  | 行分割线高度           | 1       |
+| itemSpaceTop |`Number`  | 项目边距上           | 0       |
+| itemSpaceRight |`Number`  | 项目边距右           | 0       |
+| itemSpaceBottom |`Number`  | 项目边距下           | 0       |
+| itemSpaceLeft |`Number`  | 项目边距左           | 0       |
+| itemBackgroundColor |`String`  | 项目背景颜色           | -       |
+| itemDefaultAnimator |`Boolean`  | 打开关闭局部刷新默认动画           | false       |
 
 > 例如：
 
@@ -173,8 +180,8 @@
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
 | width |`Number`、`String`  | 菜单显示宽度           | 0       |
-| text |`String`  | 菜单名称           | 按钮1       |
-| size |`Number`  | 菜单字体大小           | 12       |
+| title |`String`  | 菜单名称           | 按钮1       |
+| fontSize |`Number`  | 菜单字体大小           | -       |
 | padding |`Number`、`String`  | 菜单内边距           | 0       |
 | color |`String`  | 菜单字体颜色           | #000000       |
 | backgroundColor |`String`  | 菜单背景颜色           | #ffffff       |
@@ -186,13 +193,13 @@
     ref="reflectName"
     :swipe="[{
         text: '选项1',
-        size: '12',
+        fontSize: '24',
         padding: '20',
         color: '#ffff00',
         backgroundColor: '#ff0000',
     }, {
         text: '选项2',
-        size: '12',
+        fontSize: '24',
         padding: '30',
         color: '#ecedf0',
         backgroundColor: '#00ffff',
@@ -258,6 +265,24 @@ this.$refs.reflectName.refreshed();
  * 上拉加载结束标记
  */
 this.$refs.reflectName.pullloaded();
+
+/**
+ * 打开关闭局部刷新默认动画
+ * 参数一：true|false
+ */
+this.$refs.reflectName.itemDefaultAnimator(true);
+
+/**
+ * 滚动到指定位置
+ * 参数一：滚动到的位置，0：顶部、-1：底部
+ */
+this.$refs.reflectName.scrollToPosition(99);
+
+/**
+ * 平滑滚动到指定位置
+ * 参数一：滚动到的位置，0：顶部、-1：底部
+ */
+this.$refs.reflectName.smoothScrollToPosition(99);
 ```
 
 

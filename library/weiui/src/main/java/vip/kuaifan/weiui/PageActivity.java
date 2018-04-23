@@ -14,7 +14,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -37,6 +39,8 @@ import vip.kuaifan.weiui.extend.module.rxtools.tool.RxBeepTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxPhotoTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxQrBarTool;
 import vip.kuaifan.weiui.extend.module.utilcode.constant.PermissionConstants;
+import vip.kuaifan.weiui.extend.module.weiuiConstants;
+import vip.kuaifan.weiui.extend.module.weiuiHtml;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
@@ -46,13 +50,13 @@ import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;
 import vip.kuaifan.weiui.extend.integration.zxing.Result;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
+import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +73,7 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.view.ProgressWebView;
 import vip.kuaifan.weiui.extend.view.SwipeCaptchaView;
+import vip.kuaifan.weiui.ui.component.tabbar.bean.WXSDKBean;
 
 /**
  * Created by WDM on 2018/3/6.
@@ -85,11 +90,17 @@ public class PageActivity extends AppCompatActivity {
     private OnBackPressed mOnBackPressed;
     public interface OnBackPressed { boolean onBackPressed(); }
 
+    private OnRefreshListener mOnRefreshListener;
+    public interface OnRefreshListener { void refresh(String pageName); }
+
+    private Map<String, JSCallback> mOnPageStatusListeners = new HashMap<>();
+
     //模板部分
     private ViewGroup mBody, mWeex, mWeb, mAuto, mError;
     private TextView mErrorCode;
     private ViewGroup mWeexView;
     private ProgressBar mWeexProgress;
+    private SwipeRefreshLayout mWeexSwipeRefresh;
     private ProgressWebView mWebView;
     private WXSDKInstance mWXSDKInstance;
     private BGASwipeBackHelper mSwipeBackHelper;
@@ -192,13 +203,15 @@ public class PageActivity extends AppCompatActivity {
         super.setContentView(layoutResID);
     }
 
-    @Override @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mPageInfo = weiuiPage.getPageBean(intent.getStringExtra("name"));
 
         if (mPageInfo == null) {
             mPageInfo = new PageBean();
+        } else {
+            setPageStatusListener("_", mPageInfo.getCallback());
         }
 
         switch (mPageInfo.getPageType()) {
@@ -225,11 +238,8 @@ public class PageActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().hide();
-        }
+        try{ getWindow().requestFeature(Window.FEATURE_NO_TITLE); }catch (AndroidRuntimeException ignored) { }
+        if (getSupportActionBar() != null){ getSupportActionBar().hide(); }
 
         if (mPageInfo.getPageName() != null) {
             mPageInfo.setContext(this);
@@ -238,13 +248,15 @@ public class PageActivity extends AppCompatActivity {
 
         switch (mPageInfo.getPageType()) {
             case "permission":
-                if (mPermissionInstance.rationale(this)) {
-                    finish();
-                    return;
-                }
-                if (mPermissionInstance.getPermissionsRequest() != null) {
-                    int size = mPermissionInstance.getPermissionsRequest().size();
-                    requestPermissions(mPermissionInstance.getPermissionsRequest().toArray(new String[size]), 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (mPermissionInstance.rationale(this)) {
+                        finish();
+                        return;
+                    }
+                    if (mPermissionInstance.getPermissionsRequest() != null) {
+                        int size = mPermissionInstance.getPermissionsRequest().size();
+                        requestPermissions(mPermissionInstance.getPermissionsRequest().toArray(new String[size]), 1);
+                    }
                 }
                 setImmersionStatusBar();
                 break;
@@ -283,6 +295,7 @@ public class PageActivity extends AppCompatActivity {
         if (mWXSDKInstance != null) {
             mWXSDKInstance.onActivityStart();
         }
+        invokeAndKeepAlive("start", null);
     }
 
     @Override
@@ -320,6 +333,7 @@ public class PageActivity extends AppCompatActivity {
                 surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
             }
         }
+        invokeAndKeepAlive("resume", null);
     }
 
     @Override
@@ -335,6 +349,7 @@ public class PageActivity extends AppCompatActivity {
             }
             CameraManager.get().closeDriver();
         }
+        invokeAndKeepAlive("pause", null);
     }
 
     @Override
@@ -343,6 +358,13 @@ public class PageActivity extends AppCompatActivity {
         if (mWXSDKInstance != null) {
             mWXSDKInstance.onActivityStop();
         }
+        invokeAndKeepAlive("stop", null);
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        invokeAndKeepAlive("restart", null);
     }
 
     @Override
@@ -616,6 +638,14 @@ public class PageActivity extends AppCompatActivity {
                 mWeex.setVisibility(View.VISIBLE);
                 mWeexView = findViewById(R.id.v_weexview);
                 mWeexProgress = findViewById(R.id.v_weexprogress);
+
+                mWeexSwipeRefresh = findViewById(R.id.v_weexswiperefresh);
+                mWeexSwipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+                mWeexSwipeRefresh.setOnRefreshListener(() -> {
+                    if (mOnRefreshListener != null) mOnRefreshListener.refresh(mPageInfo.getPageName());
+                });
+                mWeexSwipeRefresh.setEnabled(mOnRefreshListener != null);
+
                 weexLoad();
                 break;
 
@@ -869,11 +899,13 @@ public class PageActivity extends AppCompatActivity {
     private void weexCreateInstance() {
         if (mWXSDKInstance != null) {
             mWXSDKInstance.registerRenderListener(null);
+            mWXSDKInstance.registerOnWXScrollListener(null);
             mWXSDKInstance.destroy();
             mWXSDKInstance = null;
         }
         mWXSDKInstance = new WXSDKInstance(this);
         mWXSDKInstance.registerRenderListener(weexIWXRenderListener());
+        mWXSDKInstance.registerOnWXScrollListener(weexOnWXScrollListener());
     }
 
     /**
@@ -889,7 +921,7 @@ public class PageActivity extends AppCompatActivity {
                 @Override
                 public void success(String resData, boolean isCache) {
                     Log.d(TAG, "success: cache-" + isCache + ": " + mPageInfo.getUrl());
-                    mWXSDKInstance.render(mPageInfo.getPageName(), resData, data, null, WXRenderStrategy.APPEND_ASYNC);
+                    mWXSDKInstance.render(mPageInfo.getPageName(), weiuiHtml.repairJsImage(resData, mPageInfo.getUrl()), data, null, WXRenderStrategy.APPEND_ASYNC);
                 }
 
                 @Override
@@ -915,11 +947,6 @@ public class PageActivity extends AppCompatActivity {
      */
     private IWXRenderListener weexIWXRenderListener() {
         return new IWXRenderListener() {
-            /**
-             * Weex
-             * @param instance
-             * @param view
-             */
             @Override
             public void onViewCreated(WXSDKInstance instance, View view) {
                 if (mWeexView != null) {
@@ -929,12 +956,6 @@ public class PageActivity extends AppCompatActivity {
                 invokeAndKeepAlive("viewCreated", null);
             }
 
-            /**
-             * Weex
-             * @param instance
-             * @param width
-             * @param height
-             */
             @Override
             public void onRenderSuccess(WXSDKInstance instance, int width, int height) {
                 if (mWeexProgress != null) {
@@ -943,12 +964,6 @@ public class PageActivity extends AppCompatActivity {
                 invokeAndKeepAlive("renderSuccess", null);
             }
 
-            /**
-             * Weex
-             * @param instance
-             * @param width
-             * @param height
-             */
             @Override
             public void onRefreshSuccess(WXSDKInstance instance, int width, int height) {
 
@@ -977,6 +992,30 @@ public class PageActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Weex
+     * @return
+     */
+    private OnWXScrollListener weexOnWXScrollListener() {
+        return new OnWXScrollListener() {
+            @Override
+            public void onScrolled(View view, int x, int y) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(View view, int x, int y, int newState) {
+                if (mOnRefreshListener != null) {
+                    if (y == 0) {
+                        mWeexSwipeRefresh.setEnabled(true);
+                    }else{
+                        mWeexSwipeRefresh.setEnabled(false);
+                    }
+                }
+            }
+        };
+    }
+
     /****************************************************************************************************/
     /****************************************************************************************************/
     /****************************************************************************************************/
@@ -994,10 +1033,15 @@ public class PageActivity extends AppCompatActivity {
         if (retData == null) {
             retData = new HashMap<>();
         }
-        if (mPageInfo.getCallback() != null) {
+        if (mOnPageStatusListeners.size() > 0) {
             retData.put("pageName", mPageInfo.getPageName());
             retData.put("status", status);
-            mPageInfo.getCallback().invoke(retData);
+            for (String name : mOnPageStatusListeners.keySet()) {
+                JSCallback call = mOnPageStatusListeners.get(name);
+                if (call != null) {
+                    call.invoke(retData);
+                }
+            }
         }
     }
 
@@ -1005,10 +1049,15 @@ public class PageActivity extends AppCompatActivity {
         if (retData == null) {
             retData = new HashMap<>();
         }
-        if (mPageInfo.getCallback() != null) {
+        if (mOnPageStatusListeners.size() > 0) {
             retData.put("pageName", mPageInfo.getPageName());
             retData.put("status", status);
-            mPageInfo.getCallback().invokeAndKeepAlive(retData);
+            for (String name : mOnPageStatusListeners.keySet()) {
+                JSCallback call = mOnPageStatusListeners.get(name);
+                if (call != null) {
+                    call.invokeAndKeepAlive(retData);
+                }
+            }
         }
         if (status.equals("success") && weiuiJson.getBoolean(mPageInfo.getOtherObject(), "successClose")) {
             finish();
@@ -1070,4 +1119,38 @@ public class PageActivity extends AppCompatActivity {
         this.mOnBackPressed = mOnBackPressed;
     }
 
+    /**
+     * 监听下拉刷新事件
+     * @param mOnRefreshListener
+     */
+    public void setOnRefreshListener(OnRefreshListener mOnRefreshListener){
+        this.mOnRefreshListener = mOnRefreshListener;
+        if (mWeexSwipeRefresh != null) {
+            mWeexSwipeRefresh.setEnabled(mOnRefreshListener != null);
+        }
+    }
+
+    /**
+     * 设置下拉刷新状态
+     * @param refreshing
+     */
+    public void setRefreshing(boolean refreshing){
+        if (mWeexSwipeRefresh != null) {
+            mWeexSwipeRefresh.setRefreshing(refreshing);
+        }
+    }
+
+    /**
+     * 监听页面状态
+     * @param name
+     * @param mOnPageStatusListener
+     */
+    public void setPageStatusListener(String name, JSCallback mOnPageStatusListener){
+        if (name == null) {
+            name = weiuiCommon.randomString(8);
+        }
+        if (mOnPageStatusListener != null) {
+            this.mOnPageStatusListeners.put(name, mOnPageStatusListener);
+        }
+    }
 }

@@ -24,6 +24,14 @@
             tl:tl_indicator_width="12dp"
             tl:tl_textsize="14sp" />
 
+        <vip.kuaifan.weiui.extend.view.tablayout.SlidingTabLayout
+            android:id="@+id/navigation_sliding_top"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/weiui_navbar"
+            android:visibility="gone"
+            tl:tl_textsize="14sp"/>
+
         <View
             android:id="@+id/navigation_tline"
             android:layout_width="match_parent"

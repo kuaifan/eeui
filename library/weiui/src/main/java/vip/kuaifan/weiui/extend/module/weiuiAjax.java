@@ -57,7 +57,7 @@ public class weiuiAjax {
             }
         }
         if (files.size() > 0) {
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
+            for (Map.Entry<String, Object> entry : files.entrySet()) {
                 mData.put("file:" + entry.getKey(), entry.getValue());
             }
         }

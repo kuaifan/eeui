@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,8 +85,8 @@ public class GridPager extends RelativeLayout {
     }
 
     public interface OnPageItemClickListener {
-        void onClick(int pos, int position);
-        void onLongClick(int pos, int position);
+        void onClick(int pos, int position, int index);
+        void onLongClick(int pos, int position, int index);
     }
 
     /**
@@ -97,19 +98,22 @@ public class GridPager extends RelativeLayout {
         mPagerList = new ArrayList<>();
         //
         List<View> newDatas = viewDatas;
-        int remainder =  newDatas.size() % columnsSize;
-        if (remainder > 0) {
-            for (int r = 0; r < columnsSize - remainder; r++) {
-                View temp = new View(mContext);
-                temp.setTag("__replenish");
-                newDatas.add(temp);
+        int remainder =  newDatas.size() % pageSize;
+        if (remainder > columnsSize) {
+            int columnsRemainder =  newDatas.size() % columnsSize;
+            if (columnsRemainder > 0) {
+                for (int r = 0; r < columnsSize - columnsRemainder; r++) {
+                    View temp = new View(mContext);
+                    temp.setTag("__replenish");
+                    newDatas.add(temp);
+                }
             }
         }
         //
         for (int i = 0; i < pageCount; i++) {
             View mView = inflater.inflate(R.layout.layout_weiui_grid_recyler, v_pager, false);
             RecyclerView v_recycler = mView.findViewById(R.id.v_recycler);
-            GridAdapter mGridAdapter = new GridAdapter(mContext, newDatas, i, pageSize, columnsSize);
+            GridAdapter mGridAdapter = new GridAdapter(mContext, viewDatas, i, pageSize, columnsSize);
             mGridAdapter.setDivider(dividerShow, dividerColor, dividerWidth);
             v_recycler.setLayoutManager(new GridLayoutManager(mContext, columnsSize));
             v_recycler.setAdapter(mGridAdapter);
@@ -118,14 +122,14 @@ public class GridPager extends RelativeLayout {
                 @Override
                 public void onClick(int pos, int position) {
                     if (mOnPageItemClickListener != null) {
-                        mOnPageItemClickListener.onClick(pos, position);
+                        mOnPageItemClickListener.onClick(pos, position, pageSize * pos + position);
                     }
                 }
 
                 @Override
                 public void onLongClick(int pos, int position) {
                     if (mOnPageItemClickListener != null) {
-                        mOnPageItemClickListener.onLongClick(pos, position);
+                        mOnPageItemClickListener.onLongClick(pos, position, pageSize * pos + position);
                     }
                 }
             });

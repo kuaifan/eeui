@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,13 @@ import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
+import vip.kuaifan.weiui.extend.module.weiuiHtml;
+import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.tablayout.CommonTabLayout;
+import vip.kuaifan.weiui.extend.view.tablayout.SlidingTabLayout;
 import vip.kuaifan.weiui.extend.view.tablayout.listener.CustomTabEntity;
 import vip.kuaifan.weiui.extend.view.tablayout.listener.OnTabSelectListener;
 
@@ -47,7 +51,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @WeexComponent(names = {"weiui_tabbar", "wi_tabbar"})
 public class Tabbar extends WXVContainer<ViewGroup> {
 
@@ -62,6 +65,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     private TabbarAdapter mTabPagerAdapter;
 
     private CommonTabLayout mTabLayoutTop;
+
+    private SlidingTabLayout mTabLayoutSlidingTop;
 
     private CommonTabLayout mTabLayoutBottom;
 
@@ -94,6 +99,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             return;
         }
         if (view instanceof TabbarPageView) {
+            setFirstDraw(true);
             TabbarPageView newView = (TabbarPageView) view;
             TabbarBean barBean = newView.getBarBean();
             barBean.setView(newView);
@@ -124,7 +130,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -156,160 +162,153 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 setTabType(val);
                 return true;
 
-            case "setHeight":
             case "tabHeight":
-            case "setTabHeight":
                 setTabHeight(val);
                 return true;
 
             case "indicatorStyle":
-            case "setIndicatorStyle":
                 mTabLayoutTop.setIndicatorStyle(weiuiParse.parseInt(val, 0));
+                mTabLayoutSlidingTop.setIndicatorStyle(weiuiParse.parseInt(val, 0));
                 mTabLayoutBottom.setIndicatorStyle(weiuiParse.parseInt(val, 0));
                 return true;
 
             case "tabPadding":
-            case "setTabPadding":
                 mTabLayoutTop.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setTabPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
+            case "tabBackgroundColor":
+                setTabBackgroundColor(val);
+                return true;
+
             case "tabSpaceEqual":
-            case "setTabSpaceEqual":
                 mTabLayoutTop.setTabSpaceEqual(weiuiParse.parseBool(val, false));
+                mTabLayoutSlidingTop.setTabSpaceEqual(weiuiParse.parseBool(val, false));
                 mTabLayoutBottom.setTabSpaceEqual(weiuiParse.parseBool(val, false));
                 return true;
 
             case "tabWidth":
-            case "setTabWidth":
                 mTabLayoutTop.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setTabWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "indicatorColor":
-            case "setIndicatorColor":
                 mTabLayoutTop.setIndicatorColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutSlidingTop.setIndicatorColor(Color.parseColor(String.valueOf(val)));
                 mTabLayoutBottom.setIndicatorColor(Color.parseColor(String.valueOf(val)));
                 return true;
 
             case "indicatorHeight":
-            case "setIndicatorHeight":
                 mTabLayoutTop.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setIndicatorHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "indicatorWidth":
-            case "setIndicatorWidth":
                 mTabLayoutTop.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setIndicatorWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "indicatorCornerRadius":
-            case "setIndicatorCornerRadius":
                 mTabLayoutTop.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setIndicatorCornerRadius(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "indicatorGravity":
-            case "setIndicatorGravity":
                 if (weiuiParse.parseInt(val, 0) == 1) {
                     mTabLayoutTop.setIndicatorGravity(Gravity.TOP);
+                    mTabLayoutSlidingTop.setIndicatorGravity(Gravity.TOP);
                     mTabLayoutBottom.setIndicatorGravity(Gravity.TOP);
                 }else{
                     mTabLayoutTop.setIndicatorGravity(Gravity.BOTTOM);
+                    mTabLayoutSlidingTop.setIndicatorGravity(Gravity.BOTTOM);
                     mTabLayoutBottom.setIndicatorGravity(Gravity.BOTTOM);
                 }
                 return true;
 
             case "indicatorAnimDuration":
-            case "setIndicatorAnimDuration":
                 mTabLayoutTop.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(val)));
                 mTabLayoutBottom.setIndicatorAnimDuration(weiuiParse.parseLong(String.valueOf(val)));
                 return true;
 
             case "indicatorAnimEnable":
-            case "setIndicatorAnimEnable":
                 mTabLayoutTop.setIndicatorAnimEnable(weiuiParse.parseBool(val, true));
                 mTabLayoutBottom.setIndicatorAnimEnable(weiuiParse.parseBool(val, true));
                 return true;
 
             case "indicatorBounceEnable":
-            case "setIndicatorBounceEnable":
                 mTabLayoutTop.setIndicatorBounceEnable(weiuiParse.parseBool(val, true));
                 mTabLayoutBottom.setIndicatorBounceEnable(weiuiParse.parseBool(val, true));
                 return true;
 
             case "underlineColor":
-            case "setUnderlineColor":
                 mTabLayoutTop.setUnderlineColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutSlidingTop.setUnderlineColor(Color.parseColor(String.valueOf(val)));
                 mTabLayoutBottom.setUnderlineColor(Color.parseColor(String.valueOf(val)));
                 return true;
 
             case "underlineHeight":
-            case "setUnderlineHeight":
                 mTabLayoutTop.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setUnderlineHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "underlineGravity":
-            case "setUnderlineGravity":
                 if (weiuiParse.parseInt(val, 0) == 1) {
                     mTabLayoutTop.setUnderlineGravity(Gravity.TOP);
+                    mTabLayoutSlidingTop.setUnderlineGravity(Gravity.TOP);
                     mTabLayoutBottom.setUnderlineGravity(Gravity.TOP);
                 }else{
                     mTabLayoutTop.setUnderlineGravity(Gravity.BOTTOM);
+                    mTabLayoutSlidingTop.setUnderlineGravity(Gravity.BOTTOM);
                     mTabLayoutBottom.setUnderlineGravity(Gravity.BOTTOM);
                 }
                 return true;
 
             case "dividerColor":
-            case "setDividerColor":
                 mTabLayoutTop.setDividerColor(Color.parseColor(String.valueOf(val)));
+                mTabLayoutSlidingTop.setDividerColor(Color.parseColor(String.valueOf(val)));
                 mTabLayoutBottom.setDividerColor(Color.parseColor(String.valueOf(val)));
                 return true;
 
             case "dividerWidth":
-            case "setDividerWidth":
                 mTabLayoutTop.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setDividerWidth(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "dividerPadding":
-            case "setDividerPadding":
                 mTabLayoutTop.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
+                mTabLayoutSlidingTop.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setDividerPadding(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "textSize":
-            case "text-size":
             case "fontSize":
-            case "font-size":
-            case "setTextsize":
                 setTabTextsize(val);
                 return true;
 
             case "textSelectColor":
-            case "setTextSelectColor":
                 setTabTextSelectColor(val);
                 return true;
 
             case "textUnselectColor":
-            case "setTextUnselectColor":
                 setTabTextUnselectColor(val);
                 return true;
 
             case "textBold":
-            case "setTextBold":
                 setTabTextBold(val);
                 return true;
 
             case "iconVisible":
-            case "setIconVisible":
                 setTabIconVisible(val);
                 return true;
 
             case "iconGravity":
-            case "setIconGravity":
                 if (weiuiParse.parseInt(val, 0) == 1) {
                     mTabLayoutTop.setIconGravity(Gravity.TOP);
                     mTabLayoutBottom.setIconGravity(Gravity.TOP);
@@ -320,28 +319,25 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 return true;
 
             case "iconWidth":
-            case "setIconWidth":
                 setTabIconWidth(val);
                 return true;
 
             case "iconHeight":
-            case "setIconHeight":
                 setTabIconHeight(val);
                 return true;
 
             case "iconMargin":
-            case "setIconMargin":
                 mTabLayoutTop.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 mTabLayoutBottom.setIconMargin(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
                 return true;
 
             case "textAllCaps":
-            case "setTextAllCaps":
                 mTabLayoutTop.setTextAllCaps(weiuiParse.parseBool(val, false));
+                mTabLayoutSlidingTop.setTextAllCaps(weiuiParse.parseBool(val, false));
                 mTabLayoutBottom.setTextAllCaps(weiuiParse.parseBool(val, false));
                 return true;
 
-            case "sideline":
+            case "sideLine":
                 setSideline(val);
                 return true;
 
@@ -362,6 +358,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     private void initPagerView() {
         mViewPager = mView.findViewById(R.id.viewpager);
         mTabLayoutTop = mView.findViewById(R.id.navigation_top);
+        mTabLayoutSlidingTop = mView.findViewById(R.id.navigation_sliding_top);
         mTabLayoutBottom = mView.findViewById(R.id.navigation_bottom);
         navigation_tline = mView.findViewById(R.id.navigation_tline);
         navigation_bline = mView.findViewById(R.id.navigation_bline);
@@ -371,7 +368,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
         mTabLayoutTop.setOnTabSelectListener(mOnTabSelectListener);
+        mTabLayoutSlidingTop.setOnTabSelectListener(mOnTabSelectListener);
         mTabLayoutBottom.setOnTabSelectListener(mOnTabSelectListener);
+        //
+        mViewPager.setAdapter(mTabPagerAdapter);
+        mTabLayoutSlidingTop.setViewPager(mViewPager);
     }
 
     private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -389,6 +390,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         @Override
         public void onPageSelected(int position) {
             mTabLayoutTop.setCurrentTab(position);
+            //mTabLayoutSlidingTop.setCurrentTab(position);
             mTabLayoutBottom.setCurrentTab(position);
             //
             if (getDomObject().getEvents().contains(weiuiConstants.Event.PAGE_SELECTED)) {
@@ -396,6 +398,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 data.put("position", position);
                 fireEvent(weiuiConstants.Event.PAGE_SELECTED, data);
             }
+            loadedView(position);
         }
 
         @Override
@@ -435,24 +438,32 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     private void addPageView(TabbarBean barBean) {
         View view = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.layout_weiui_tabbar_page, null);
-        SwipeRefreshLayout v_swipeRefresh = view.findViewById(R.id.v_swipeRefresh);
-        FrameLayout v_container = view.findViewById(R.id.v_container);
-        ProgressBar v_progress = view.findViewById(R.id.v_progress);
         //
         WXSDKBean sdkBean = new WXSDKBean();
-        sdkBean.setSwipeRefresh(v_swipeRefresh);
-        sdkBean.setContainer(v_container);
-        sdkBean.setProgress(v_progress);
+        sdkBean.setSwipeRefresh(view.findViewById(R.id.v_swipeRefresh));
+        sdkBean.setContainer(view.findViewById(R.id.v_container));
+        sdkBean.setProgress(view.findViewById(R.id.v_progress));
+        sdkBean.setErrorView(view.findViewById(R.id.v_error));
+        sdkBean.setErrorCodeView(view.findViewById(R.id.v_error_code));
+        sdkBean.setCache(barBean.getCache());
         sdkBean.setView(barBean.getView());
         if (barBean.getView() instanceof String) {
             sdkBean.setType("urlView");
             WXSDKList.put(barBean.getTabName(), sdkBean);
-            addWXSDKView(barBean.getTabName());
         }else if (barBean.getView() instanceof TabbarPageView) {
             sdkBean.setType("pageView");
             WXSDKList.put(barBean.getTabName(), sdkBean);
-            addWXPageView(barBean.getTabName());
         }
+        //
+        view.findViewById(R.id.v_error_title).setOnClickListener(v -> {
+            view.findViewById(R.id.v_error_cbox).setVisibility(View.VISIBLE);
+        });
+        view.findViewById(R.id.v_refresh).setOnClickListener(v -> {
+            view.findViewById(R.id.v_error).setVisibility(View.GONE);
+            view.findViewById(R.id.v_error_cbox).setVisibility(View.GONE);
+            reload(barBean.getTabName());
+        });
+        view.findViewById(R.id.v_back).setVisibility(View.GONE);
         //
         if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
             sdkBean.getSwipeRefresh().setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -468,10 +479,37 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             sdkBean.getSwipeRefresh().setEnabled(false);
         }
         //
+        view.setTag(barBean.getTitle());
         mTabEntity.add(new TabbarEntity(barBean));
         mViewList.add(view);
         mTabPagerAdapter.setListViews(mViewList);
         mTabPagerAdapter.notifyDataSetChanged();
+        mTabLayoutSlidingTop.addNewTab(barBean.getTitle());
+        //
+        if (WXSDKList.size() == 1) {
+            loadedView(0);
+        }
+    }
+
+    /**
+     * 首次加载页面
+     * @param position
+     */
+    private void loadedView(int position) {
+        if (position < WXSDKList.size()) {
+            String getTabName = getTabName(position);
+            WXSDKBean sdkBean = WXSDKList.get(getTabName);
+            if (sdkBean != null && !sdkBean.isLoaded()) {
+                sdkBean.setLoaded(true);
+                WXSDKList.put(getTabName, sdkBean);
+                //
+                if (sdkBean.getType().equals("urlView")) {
+                    addWXSDKView(getTabName);
+                }else if (sdkBean.getType().equals("pageView")) {
+                    addWXPageView(getTabName);
+                }
+            }
+        }
     }
 
     /**
@@ -519,7 +557,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             }
             @Override
             public void onException(WXSDKInstance instance, String errCode, String msg) {
-
+                sdkBean.getErrorView().setVisibility(View.VISIBLE);
+                sdkBean.getErrorCodeView().setText(String.valueOf(errCode));
             }
         });
         //
@@ -555,9 +594,33 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             }
         });
         //
-        Map<String, Object> options = new HashMap<>();
-        options.put(WXSDKInstance.BUNDLE_URL, url);
-        sdkBean.getInstance().renderByUrl("Tabbar:" + tabName, url, options, null, WXRenderStrategy.APPEND_ASYNC);
+        Map<String, Object> data = new HashMap<>();
+        data.put(WXSDKInstance.BUNDLE_URL, url);
+        if (sdkBean.getCache() > 0) {
+            data.put("setting:cache", sdkBean.getCache());
+            data.put("setting:cacheLabel", "tabPage");
+            weiuiIhttp.get(tabName, url, data, new weiuiIhttp.ResultCallback() {
+                @Override
+                public void success(String resData, boolean isCache) {
+                    Log.d(TAG, "success: cache-" + isCache + ": " + url);
+                    sdkBean.getInstance().render(tabName, weiuiHtml.repairJsImage(resData, url), data, null, WXRenderStrategy.APPEND_ASYNC);
+                }
+
+                @Override
+                public void error(String error) {
+                    Log.d(TAG, "error: cache: " + url);
+                    sdkBean.getInstance().renderByUrl(tabName, url, data, null, WXRenderStrategy.APPEND_ASYNC);
+                }
+
+                @Override
+                public void complete() {
+
+                }
+            });
+        }else{
+            Log.d(TAG, "success: default: " + url);
+            sdkBean.getInstance().renderByUrl("Tabbar:" + tabName, url, data, null, WXRenderStrategy.APPEND_ASYNC);
+        }
     }
 
     /**
@@ -665,6 +728,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.showMsg(position, message);
+            mTabLayoutSlidingTop.showMsg(position, message);
             mTabLayoutBottom.showMsg(position, message);
         }
     }
@@ -678,6 +742,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.showDot(position);
+            mTabLayoutSlidingTop.showDot(position);
             mTabLayoutBottom.showDot(position);
         }
     }
@@ -691,6 +756,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         int position = getTabPosition(tabName);
         if (position > -1) {
             mTabLayoutTop.hideMsg(position);
+            mTabLayoutSlidingTop.hideMsg(position);
             mTabLayoutBottom.hideMsg(position);
         }
     }
@@ -787,14 +853,29 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     public void setTabType(Object var) {
         String tabType = weiuiParse.parseStr(var, "bottom");
         tabbarType = tabType.toLowerCase();
-        mTabLayoutTop.setVisibility(View.GONE);
-        mTabLayoutBottom.setVisibility(View.GONE);
         //
         if (tabbarType.contains("top")) {
             mTabLayoutTop.setVisibility(View.VISIBLE);
+            mTabLayoutSlidingTop.setVisibility(View.GONE);
+            mTabLayoutBottom.setVisibility(View.GONE);
+            navigation_tline.setVisibility(View.VISIBLE);
+            navigation_bline.setVisibility(View.GONE);
+
+        }
+        if (tabbarType.contains("slidingtop")) {
+            mTabLayoutTop.setVisibility(View.GONE);
+            mTabLayoutSlidingTop.setVisibility(View.VISIBLE);
+            mTabLayoutBottom.setVisibility(View.GONE);
+            navigation_tline.setVisibility(View.VISIBLE);
+            navigation_bline.setVisibility(View.GONE);
+
         }
         if (tabbarType.contains("bottom")) {
+            mTabLayoutTop.setVisibility(View.GONE);
+            mTabLayoutSlidingTop.setVisibility(View.GONE);
             mTabLayoutBottom.setVisibility(View.VISIBLE);
+            navigation_tline.setVisibility(View.GONE);
+            navigation_bline.setVisibility(View.VISIBLE);
         }
     }
 
@@ -805,7 +886,19 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setTabHeight(Object var) {
         weiuiCommon.setViewWidthHeight(mTabLayoutTop, -1, weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+        weiuiCommon.setViewWidthHeight(mTabLayoutSlidingTop, -1, weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
         weiuiCommon.setViewWidthHeight(mTabLayoutBottom, -1, weiuiScreenUtils.weexPx2dp(getInstance(), weiuiParse.parseInt(var, 0)));
+    }
+
+    /**
+     * 设置导航栏背景颜色
+     * @param var
+     */
+    @JSMethod
+    public void setTabBackgroundColor(Object var) {
+        mTabLayoutTop.setBackgroundColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutSlidingTop.setBackgroundColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutBottom.setBackgroundColor(Color.parseColor(weiuiParse.parseStr(var)));
     }
 
     /**
@@ -814,8 +907,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTabTextsize(Object var) {
-        mTabLayoutTop.setTextsize(weiuiParse.parseFloat(var, 0f));
-        mTabLayoutBottom.setTextsize(weiuiParse.parseFloat(var, 0f));
+        int size = weiuiScreenUtils.weexPx2dp(getInstance(), var, 24);
+        mTabLayoutTop.setTextsizePx(size);
+        mTabLayoutSlidingTop.setTextsizePx(size);
+        mTabLayoutBottom.setTextsizePx(size);
     }
 
     /**
@@ -825,6 +920,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setTabTextBold(Object var) {
         mTabLayoutTop.setTextBold(weiuiParse.parseInt(var, 0));
+        mTabLayoutSlidingTop.setTextBold(weiuiParse.parseInt(var, 0));
         mTabLayoutBottom.setTextBold(weiuiParse.parseInt(var, 0));
     }
 
@@ -835,6 +931,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setTabTextUnselectColor(Object var) {
         mTabLayoutTop.setTextUnselectColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutSlidingTop.setTextUnselectColor(Color.parseColor(weiuiParse.parseStr(var)));
         mTabLayoutBottom.setTextUnselectColor(Color.parseColor(weiuiParse.parseStr(var)));
     }
 
@@ -845,6 +942,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setTabTextSelectColor(Object var) {
         mTabLayoutTop.setTextSelectColor(Color.parseColor(weiuiParse.parseStr(var)));
+        mTabLayoutSlidingTop.setTextSelectColor(Color.parseColor(weiuiParse.parseStr(var)));
         mTabLayoutBottom.setTextSelectColor(Color.parseColor(weiuiParse.parseStr(var)));
     }
 
@@ -879,6 +977,15 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     }
 
     /**
+     * 指示器刷新
+     */
+    @JSMethod
+    public void setFirstDraw(boolean isFirstDraw) {
+        mTabLayoutTop.setFirstDraw(true);
+        mTabLayoutBottom.setFirstDraw(true);
+    }
+
+    /**
      * 设置边线高度
      * @param var
      */
@@ -888,8 +995,15 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         if (height > 0) {
             weiuiCommon.setViewWidthHeight(navigation_tline, -1 ,height);
             weiuiCommon.setViewWidthHeight(navigation_bline, -1 ,height);
-            navigation_tline.setVisibility(View.VISIBLE);
-            navigation_bline.setVisibility(View.VISIBLE);
+            //
+            if (tabbarType.contains("top") || tabbarType.contains("slidingtop")) {
+                navigation_tline.setVisibility(View.VISIBLE);
+                navigation_bline.setVisibility(View.GONE);
+            }
+            if (tabbarType.contains("bottom")) {
+                navigation_tline.setVisibility(View.GONE);
+                navigation_bline.setVisibility(View.VISIBLE);
+            }
         }else{
             navigation_tline.setVisibility(View.GONE);
             navigation_bline.setVisibility(View.GONE);

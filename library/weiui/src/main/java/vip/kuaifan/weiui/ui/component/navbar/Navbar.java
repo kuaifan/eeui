@@ -25,6 +25,7 @@ import java.util.Map;
 
 import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.R;
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
 import vip.kuaifan.weiui.extend.module.weiuiJson;
@@ -103,7 +104,6 @@ public class Navbar extends WXVContainer<ViewGroup> {
                     break;
 
                 case "title":
-                case "middle":
                     v_middle.addView(tempView, params);
                     break;
 
@@ -120,7 +120,7 @@ public class Navbar extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -130,9 +130,7 @@ public class Navbar extends WXVContainer<ViewGroup> {
                 }
                 return true;
 
-            case "type":
             case "titleType":
-            case "middleType":
                 setTitleType(weiuiParse.parseStr(val, "center"));
                 return true;
 

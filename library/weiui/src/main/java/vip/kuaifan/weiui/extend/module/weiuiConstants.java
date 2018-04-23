@@ -56,6 +56,9 @@ public class weiuiConstants {
 
         //页面创建完毕
         String VIEW_CREATED = "viewCreated";
+
+        //状态发生改变
+        String STATE_CHANGED = "stateChanged";
     }
 
 }

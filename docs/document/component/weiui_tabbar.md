@@ -120,9 +120,10 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
-| tabType |`String`  | 设置tab位置，<br/>顶部:`top`<br/>底部:`bottom`          | bottom       |
+| tabType |`String`  | 设置tab位置，<br/>顶部:`top`<br/>顶部:`slidingTop`<br/>底部:`bottom`          | bottom       |
 | tabHeight |`Number`  | 设置tab高度           | 100       |
 | tabPadding |`Number`  |   设置tab的左右内边距         |  -     |
+| tabBackgroundColor |`String`  |   设置tab的背景颜色         |  -     |
 | tabSpaceEqual |`Boolean`  |  设置tab大小等分          |  true     |
 | tabWidth |`Number`  |   设置tab固定大小         |  -     |
 | indicatorStyle |`Number`  | 设置tab显示器样式，<br/>常规:`0`<br/>三角形:`1`<br/>背景色块:`2`           | 0      |
@@ -141,7 +142,7 @@
 | dividerWidth |`Number`  |  设置tab分割线宽度          |  0     |
 | dividerPadding |`Number`  |  设置tab分割线的左右内边距          |  -     |
 | textBold |`Number`  | 设置tab字体加粗，<br/>不加粗:`0`<br/>选择加粗:`1`<br/>全部加粗:`2`           |  0     |
-| textSize |`Number`  |  设置tab字体大小          |  13     |
+| textSize |`Number`  |  设置tab字体大小          |  24     |
 | fontSize |`Number`  |  同`textSize`          |  -     |
 | textSelectColor |`String`  |  设置tab字体选中颜色          |  #ffffff     |
 | textUnselectColor |`String`  |   设置tab字体未选中颜色         |  #AAffffff     |
@@ -150,7 +151,7 @@
 | iconWidth |`Number`  |  设置tab图标宽度          |  -     |
 | iconHeight |`Number`  |   设置tab图标高度         |  -     |
 | iconMargin |`Number`  |  设置tab图标与文字间距          |  2.5     |
-| sideline |`Number`  |  设置tab边线          |  1     |
+| sideLine |`Number`  |  设置tab边线          |  1     |
 
 > 例如：
 
@@ -170,6 +171,7 @@
 | title |`String`  | tab名称         | New Page       |
 | unSelectedIcon |`String`  | tab未选图标         | home       |
 | selectedIcon |`String`  | tab已选图标         | home       |
+| cache | `Number` | tab页面缓存时间，设置`0`不缓存（单位：毫秒） | 0 |
 | message |`Number`  | tab未读信息数         | 0       |
 | dot |`Boolean`  | 是否显示tab未读红点         | false       |
 | url |`String`  | Weex Js文件`url`地址         | -       |
@@ -327,6 +329,12 @@ this.$refs.reflectName.setTabType('top');
  * 参数一：高度
  */
 this.$refs.reflectName.setTabHeight(100);
+
+/**
+ * 设置tab背景颜色
+ * 参数一：颜色代码
+ */
+this.$refs.reflectName.setTabBackgroundColor('#ffffff');
 
 /**
  * 设置tab字体大小

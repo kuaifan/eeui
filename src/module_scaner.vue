@@ -7,7 +7,7 @@
                 <text class="title">二维码扫描</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/scaner')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -41,6 +41,7 @@
     }
 
     .button {
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -54,15 +55,14 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             openScaner() {
                 weiui.openScaner(null, (res) => {

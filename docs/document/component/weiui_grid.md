@@ -108,15 +108,16 @@
 /**
  * 项目点击事件
  * 返回参数：data = {
-                    page:0,         //点击项目所在页数
-                    position: 1     //点击项目所在页的序号
+                    page:1,         //点击项目所在页数
+                    position: 2,    //点击项目所在页的序号
+                    index: 9        //点击项目总序列号
                 }
  */
 @itemClick = function(data) { ... }
 
 /**
  * 项目长按事件
- * 返回参数：data = {page:0, position: 1}
+ * 返回参数：data = {page:0, position: 1, index: 8}
  */
 @itemLongClick = function(data) { ... }
 ```

@@ -23,6 +23,8 @@ import java.util.Map;
 import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.R;
 import com.alibaba.fastjson.JSONObject;
+
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
@@ -95,7 +97,7 @@ public class SidePanel extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -114,7 +116,6 @@ public class SidePanel extends WXVContainer<ViewGroup> {
                 return true;
 
             case "backgroundColor":
-            case "background-color":
                 setMenuBackgroundColor(weiuiParse.parseStr(val, "#ffffff"));
                 return true;
 

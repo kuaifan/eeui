@@ -62,26 +62,115 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 96);
+/******/ 	return __webpack_require__(__webpack_require__.s = 97);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 96:
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+
+/***/ 100:
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: ["app"]
+  }, [_c('weiui_navbar', [_c('weiui_navbar_item', {
+    attrs: {
+      "type": "back"
+    }
+  }), _c('weiui_navbar_item', {
+    attrs: {
+      "type": "title"
+    }
+  }, [_c('text', {
+    staticClass: ["title"]
+  }, [_vm._v("提示消息")])]), _c('weiui_navbar_item', {
+    attrs: {
+      "type": "right"
+    },
+    on: {
+      "click": function($event) {
+        _vm.viewCode('module/toast')
+      }
+    }
+  }, [_c('weiui_icon', {
+    staticClass: ["iconr"],
+    attrs: {
+      "content": "code-working"
+    }
+  })], 1)], 1), _c('div', {
+    staticClass: ["content"]
+  }, [_c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast1
+    }
+  }, [_vm._v("普通的toast")]), _c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast2
+    }
+  }, [_vm._v("红色的toast")]), _c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast3
+    }
+  }, [_vm._v("背景红色的toast")]), _c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast4
+    }
+  }, [_vm._v("显示较长的toast")]), _c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast5
+    }
+  }, [_vm._v("顶部的toast")]), _c('text', {
+    staticClass: ["button"],
+    on: {
+      "click": _vm.toast6
+    }
+  }, [_vm._v("中间的toast")])])], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+
+/***/ }),
+
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(97)
+__vue_styles__.push(__webpack_require__(98)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(98)
+__vue_exports__ = __webpack_require__(99)
 
 /* template */
-var __vue_template__ = __webpack_require__(99)
+var __vue_template__ = __webpack_require__(100)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +205,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 97:
+/***/ 98:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -139,6 +228,7 @@ module.exports = {
   },
   "button": {
     "width": "380",
+    "fontSize": "24",
     "textAlign": "center",
     "marginTop": "15",
     "marginBottom": "15",
@@ -153,7 +243,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 98:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -162,77 +252,76 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var weiui = weex.requireModule('weiui');
+var _app = __webpack_require__(0);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     methods: {
         viewCode: function viewCode(str) {
-            weiui.openPage({
-                url: "http://kuaifan.vip/weiui/#/" + str,
-                pageType: 'web'
-            });
+            (0, _app.openViewCode)(str);
         },
         toast1: function toast1() {
             weiui.toast("普通的toast");
@@ -271,74 +360,6 @@ exports.default = {
         }
     }
 };
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: ["app"]
-  }, [_c('weiui_navbar', [_c('weiui_navbar_item', {
-    attrs: {
-      "type": "back"
-    }
-  }), _c('weiui_navbar_item', {
-    attrs: {
-      "type": "title"
-    }
-  }, [_c('text', {
-    staticClass: ["title"]
-  }, [_vm._v("提示消息")])]), _c('weiui_navbar_item', {
-    attrs: {
-      "type": "right"
-    },
-    on: {
-      "click": function($event) {
-        _vm.viewCode('module/toast')
-      }
-    }
-  }, [_c('weiui_icon', {
-    staticClass: ["iconr"],
-    attrs: {
-      "icon": "code-working"
-    }
-  })], 1)], 1), _c('div', {
-    staticClass: ["content"]
-  }, [_c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast1
-    }
-  }, [_vm._v("普通的toast")]), _c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast2
-    }
-  }, [_vm._v("红色的toast")]), _c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast3
-    }
-  }, [_vm._v("背景红色的toast")]), _c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast4
-    }
-  }, [_vm._v("显示较长的toast")]), _c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast5
-    }
-  }, [_vm._v("顶部的toast")]), _c('text', {
-    staticClass: ["button"],
-    on: {
-      "click": _vm.toast6
-    }
-  }, [_vm._v("中间的toast")])])], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
 
 /***/ })
 

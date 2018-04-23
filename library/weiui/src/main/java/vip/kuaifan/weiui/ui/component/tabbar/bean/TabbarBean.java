@@ -12,6 +12,7 @@ public class TabbarBean {
     private String title = "New Page";
     private String selectedIcon = "";
     private String unSelectedIcon = "";
+    private long cache = 0;
     private int message = 0;
     private boolean dot = false;
     private Object view;
@@ -52,6 +53,14 @@ public class TabbarBean {
 
     public void setUnSelectedIcon(String unSelectedIcon) {
         this.unSelectedIcon = unSelectedIcon;
+    }
+
+    public long getCache() {
+        return cache;
+    }
+
+    public void setCache(long cache) {
+        this.cache = cache;
     }
 
     public int getMessage() {

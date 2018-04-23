@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
@@ -93,7 +94,7 @@ public class Grid extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -104,14 +105,10 @@ public class Grid extends WXVContainer<ViewGroup> {
                 return true;
 
             case "row":
-            case "rowSize":
-            case "row-size":
                 setRowSize(weiuiParse.parseInt(val, 3));
                 return true;
 
             case "columns":
-            case "columnsSize":
-            case "columns-size":
                 setColumnsSize(weiuiParse.parseInt(val, 3));
                 return true;
 
@@ -120,12 +117,10 @@ public class Grid extends WXVContainer<ViewGroup> {
                 return true;
 
             case "dividerColor":
-            case "divider-color":
                 setDividerColor(weiuiParse.parseStr(val, "#e8e8e8"));
                 return true;
 
             case "dividerWidth":
-            case "divider-width":
                 setDividerWidth(weiuiParse.parseInt(val, 1));
                 return true;
 
@@ -134,22 +129,18 @@ public class Grid extends WXVContainer<ViewGroup> {
                 return true;
 
             case "indicatorUnSelectedColor":
-            case "indicator-un-selected-color":
                 setIndicatorUnSelectedColor(weiuiParse.parseStr(val, "#E0E0E0"));
                 return true;
 
             case "indicatorSelectedColor":
-            case "indicator-selected-color":
                 setIndicatorSelectedColor(weiuiParse.parseStr(val, "#ff0000"));
                 return true;
 
             case "indicatorWidth":
-            case "indicator-width":
                 setIndicatorWidth(weiuiParse.parseInt(val, 8));
                 return true;
 
             case "indicatorHeight":
-            case "indicator-height":
                 setIndicatorHeight(weiuiParse.parseInt(val, 8));
                 return true;
 
@@ -163,7 +154,11 @@ public class Grid extends WXVContainer<ViewGroup> {
         int tempId = addIdentify;
         mHandler.postDelayed(()-> {
             if (tempId == addIdentify) {
-                v_gridPager.post(()-> v_gridPager.notifyDataSetChanged());
+                v_gridPager.post(()-> {
+                    if (getHostView() != null && v_gridPager != null) {
+                        v_gridPager.notifyDataSetChanged();
+                    }
+                });
             }
         }, 100);
     }
@@ -172,21 +167,23 @@ public class Grid extends WXVContainer<ViewGroup> {
         v_gridPager = mView.findViewById(R.id.v_gridPager);
         v_gridPager.setOnPageItemClickListener(new GridPager.OnPageItemClickListener() {
             @Override
-            public void onClick(int pos, int position) {
+            public void onClick(int pos, int position, int index) {
                 if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_CLICK)) {
                     Map<String, Object> data = new HashMap<>();
                     data.put("page", pos);
                     data.put("position", position);
+                    data.put("index", index);
                     fireEvent(weiuiConstants.Event.ITEM_CLICK, data);
                 }
             }
 
             @Override
-            public void onLongClick(int pos, int position) {
+            public void onLongClick(int pos, int position, int index) {
                 if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_LONG_CLICK)) {
                     Map<String, Object> data = new HashMap<>();
                     data.put("page", pos);
                     data.put("position", position);
+                    data.put("index", index);
                     fireEvent(weiuiConstants.Event.ITEM_LONG_CLICK, data);
                 }
             }

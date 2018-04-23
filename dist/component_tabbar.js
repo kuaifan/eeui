@@ -62,26 +62,47 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 36:
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = []
 
 /* styles */
-__vue_styles__.push(__webpack_require__(37)
+__vue_styles__.push(__webpack_require__(38)
 )
 
 /* script */
-__vue_exports__ = __webpack_require__(38)
+__vue_exports__ = __webpack_require__(39)
 
 /* template */
-var __vue_template__ = __webpack_require__(39)
+var __vue_template__ = __webpack_require__(40)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -116,7 +137,7 @@ new Vue(module.exports)
 
 /***/ }),
 
-/***/ 37:
+/***/ 38:
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -155,7 +176,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 38:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -164,127 +185,125 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var weiui = weex.requireModule('weiui');
+var _app = __webpack_require__(0);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     methods: {
         viewCode: function viewCode(str) {
-            weiui.openPage({
-                url: "http://kuaifan.vip/weiui/#/" + str,
-                pageType: 'web'
-            });
+            (0, _app.openViewCode)(str);
         },
         pageSelected: function pageSelected(params) {
             weiui.toast("切换到第" + (params.position + 1) + "个标签页");
@@ -305,7 +324,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -356,11 +375,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('weiui_icon', {
     staticClass: ["iconr"],
     attrs: {
-      "icon": "code-working"
+      "content": "code-working"
     }
   })], 1)], 1), _c('div', {
     staticClass: ["page-content"]
-  }, [_c('text', [_vm._v("页签里面可以放任何子组件，感谢你对weiui的支持")]), _c('image', {
+  }, [_c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v("页签里面可以放任何子组件，感谢你对weiui的支持")]), _c('image', {
     staticClass: ["page-content-image"],
     attrs: {
       "src": "http://demo.sc.chinaz.com/Files/pic/icons/6430/m2.png"
@@ -385,7 +408,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["page-navbar-title"]
   }, [_vm._v("好友")])])], 1), _c('div', {
     staticClass: ["page-content"]
-  }, [_c('text', [_vm._v("page 2，图标支持网络图片")])])], 1), _c('weiui_tabbar_page', {
+  }, [_c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v("page 2，图标支持网络图片")])])], 1), _c('weiui_tabbar_page', {
     attrs: {
       "weiui": {
         tabName: 'name_3',
@@ -404,7 +431,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["page-navbar-title"]
   }, [_vm._v("圈子")])])], 1), _c('div', {
     staticClass: ["page-content"]
-  }, [_c('text', [_vm._v("page 3")])])], 1), _c('weiui_tabbar_page', {
+  }, [_c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v("page 3")])])], 1), _c('weiui_tabbar_page', {
     attrs: {
       "weiui": {
         tabName: 'name_4',
@@ -423,7 +454,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["page-navbar-title"]
   }, [_vm._v("设置")])])], 1), _c('div', {
     staticClass: ["page-content"]
-  }, [_c('text', [_vm._v("page 4")])])], 1)], 1)], 1)
+  }, [_c('text', {
+    staticStyle: {
+      fontSize: "24px"
+    }
+  }, [_vm._v("page 4")])])], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 

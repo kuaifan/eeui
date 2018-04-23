@@ -30,12 +30,12 @@
                         <text class="title">侧边栏</text>
                     </weiui_navbar_item>
                     <weiui_navbar_item type="right" @click="viewCode('component/weiui_side_panel')">
-                        <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                        <weiui_icon content="code-working" class="iconr"></weiui_icon>
                     </weiui_navbar_item>
                 </weiui_navbar>
                 <!--正文内容-->
                 <scroller class="content-body">
-                    <text>正文内容，屏幕右划试试看。</text>
+                    <text style="font-size:24px">正文内容，屏幕右划试试看。</text>
                     <text class="content-body-toggle" @click="menuToggle">切换显示状态</text>
                 </scroller>
             </div>
@@ -110,15 +110,14 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             itemClick(params) {
                 weiui.toast("点击了" + (params.position + 1) + "项，name：" + params.name);

@@ -103,7 +103,7 @@ public class weiuiIhttp {
                     }else if (weiuiCommon.leftExists(key.toLowerCase(), "file:")) {
                         key = key.substring(5).trim();
                         File tempFile = new File(String.valueOf(value));
-                        if (!tempFile.exists()) {
+                        if (tempFile.exists()) {
                             isMultipart = true;
                             params.addBodyParameter(key, tempFile);
                         }

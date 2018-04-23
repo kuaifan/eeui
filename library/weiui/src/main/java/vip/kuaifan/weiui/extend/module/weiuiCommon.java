@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.taobao.weex.bridge.JSCallback;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +42,10 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import vip.kuaifan.weiui.extend.integration.glide.Glide;
+import vip.kuaifan.weiui.extend.integration.glide.request.target.SimpleTarget;
+import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;
 
 public class weiuiCommon {
 
@@ -330,6 +336,29 @@ public class weiuiCommon {
     }
 
     /**
+     * 删除前后字符串
+     *
+     * @param string
+     * @param del
+     * @return
+     */
+    public static String trim(String string, String del) {
+        String text = string;
+        if (text != null) {
+            if (del == null || del.equals(" ")) {
+                return string.trim();
+            }
+            if (text.startsWith(del)) {
+                text = text.substring(del.length());
+            }
+            if (text.endsWith(del)) {
+                text = text.substring(0, text.length() - del.length());
+            }
+        }
+        return text;
+    }
+
+    /**
      * 获取地址文件名称
      * @param url
      * @return
@@ -523,7 +552,7 @@ public class weiuiCommon {
      * @param context
      * @param bmp
      */
-    public static void saveImageToGallery(Context context, Bitmap bmp) {
+    public static String saveImageToGallery(Context context, Bitmap bmp) {
         // 首先保存图片
         File file = Environment.getExternalStorageDirectory();
         File appDir = new File(file, "weiui");
@@ -553,6 +582,8 @@ public class weiuiCommon {
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(currentFile.getPath()))));
+        //
+        return currentFile.getPath();
     }
 
     /**
@@ -755,5 +786,69 @@ public class weiuiCommon {
             }
         }
         return listTemp;
+    }
+
+    /**
+     * 保存图片
+     * @param context
+     * @param url
+     * @param mJSCallback
+     */
+    public static void saveImage(Context context, String url, JSCallback mJSCallback) {
+        final boolean[] loadSure = {false};
+        Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        if (!loadSure[0]) {
+                            loadSure[0] = true;
+                            String path = weiuiCommon.saveImageToGallery(context, resource);
+                            if (mJSCallback != null) {
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("status", "success");
+                                data.put("path", path);
+                                mJSCallback.invoke(data);
+                            }
+                        }
+                    }
+                });
+        new Handler().postDelayed(() -> {
+            if (!loadSure[0]) {
+                loadSure[0] = true;
+                if (mJSCallback != null) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("status", "error");
+                    data.put("error", "保存失败");
+                    mJSCallback.invoke(data);
+                }
+            }
+        }, 10000);
+    }
+
+    /**
+     * 中划线转换为驼峰
+     * @param param
+     * @return
+     */
+    public static String camelCaseName(String param) {
+        if (param == null || "".equals(param.trim())) {
+            return "";
+        }
+        char underLine = '-';
+        int len = param.length();
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            char c = param.charAt(i);
+            if (c == underLine) {
+                if (++i < len) {
+                    sb.append(Character.toUpperCase(param.charAt(i)));
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 }

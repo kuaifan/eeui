@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -18,8 +20,11 @@ import java.util.Map;
 
 import vip.kuaifan.weiui.R;
 import com.alibaba.fastjson.JSONObject;
+
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
+import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.view.FocusedTextView;
 
 /**
@@ -63,7 +68,7 @@ public class Marquee extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -74,6 +79,7 @@ public class Marquee extends WXVContainer<ViewGroup> {
                 return true;
 
             case "text":
+            case "content":
                 setText(weiuiParse.parseStr(val, ""));
                 return true;
 
@@ -82,12 +88,14 @@ public class Marquee extends WXVContainer<ViewGroup> {
                 return true;
 
             case "fontSize":
-            case "font-size":
                 setTextSize(val);
                 return true;
 
+            case "textAlign":
+                setTextAlign(val);
+                return true;
+
             case "backgroundColor":
-            case "background-color":
                 setBackgroundColor(weiuiParse.parseStr(val, "#00ffffff"));
                 return true;
 
@@ -102,7 +110,7 @@ public class Marquee extends WXVContainer<ViewGroup> {
     }
 
     private void appleStyleAfterCreated() {
-        setTextSize(20);
+        setTextSize(24);
     }
 
     /***************************************************************************************************/
@@ -148,7 +156,25 @@ public class Marquee extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void setTextSize(Object var) {
-        v_autotext.setTextSize(weiuiParse.parseInt(var, 0));
+        v_autotext.setTextSize(TypedValue.COMPLEX_UNIT_PX, weiuiScreenUtils.weexPx2dp(getInstance(), var, 24));
+    }
+    /**
+     * 设置文字水平对齐
+     * @param var
+     */
+    @JSMethod
+    public void setTextAlign(Object var) {
+        switch (weiuiParse.parseStr(var, "").toLowerCase()) {
+            case "center":
+                v_autotext.setGravity(Gravity.CENTER);
+                break;
+            case "left":
+                v_autotext.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+                break;
+            case "right":
+                v_autotext.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+                break;
+        }
     }
 
     /**

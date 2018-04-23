@@ -52,19 +52,21 @@ public class LoadingDialog extends weiuiDialog {
                 callback.invoke(null);
             }
         });
-        mLoadingCustom.show(json);
-        //
-        loadBean temp = new loadBean();
-        temp.setName(weiuiCommon.randomString(8));
-        temp.setLoading(mLoadingCustom);
-        mLoadBean.add(temp);
-        //
-        int duration = weiuiJson.getInt(json, "duration");
-        if (duration > 0) {
-            mHandler.postDelayed(()-> close(temp.getName()), duration);
+        if (mLoadingCustom.show(json)) {
+            loadBean temp = new loadBean();
+            temp.setName(weiuiCommon.randomString(8));
+            temp.setLoading(mLoadingCustom);
+            mLoadBean.add(temp);
+            //
+            int duration = weiuiJson.getInt(json, "duration");
+            if (duration > 0) {
+                mHandler.postDelayed(()-> close(temp.getName()), duration);
+            }
+            //
+            return temp.getName();
+        }else{
+            return "";
         }
-        //
-        return temp.getName();
     }
 
     public static void close(String var) {
@@ -73,12 +75,12 @@ public class LoadingDialog extends weiuiDialog {
                 loadBean temp = mLoadBean.get(i);
                 if (temp != null) {
                     if (var == null) {
-                        temp.getLoading().cancel();
+                        try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
                         mLoadBean.remove(i);
                         break;
                     }else{
                         if (temp.getName().equals(var)) {
-                            temp.getLoading().cancel();
+                            try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
                             mLoadBean.remove(i);
                             break;
                         }
@@ -93,7 +95,7 @@ public class LoadingDialog extends weiuiDialog {
             for (int i = 0; i < mLoadBean.size(); i++) {
                 loadBean temp = mLoadBean.get(i);
                 if (temp != null) {
-                    temp.getLoading().cancel();
+                    try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
                 }
             }
             mLoadBean = new ArrayList<>();
@@ -122,13 +124,17 @@ public class LoadingDialog extends weiuiDialog {
         }
     }
 
-    public LoadingDialog(Context context, int themeResId) {
-        super(context, themeResId);
-        initView(context);
-    }
+    /***********************************************************************************************/
+    /***********************************************************************************************/
+    /***********************************************************************************************/
 
     public LoadingDialog(Context context, boolean cancelable, DialogInterface.OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
+        initView(context);
+    }
+
+    public LoadingDialog(Context context, int themeResId) {
+        super(context, themeResId);
         initView(context);
     }
 
@@ -156,7 +162,7 @@ public class LoadingDialog extends weiuiDialog {
         v_title = mView.findViewById(R.id.v_title);
     }
 
-    public void show(JSONObject obj) {
+    public boolean show(JSONObject obj) {
         int style = 0;
         switch (weiuiJson.getString(obj, "style").toLowerCase()) {
             case "rotatingplane":
@@ -231,6 +237,11 @@ public class LoadingDialog extends weiuiDialog {
             v_title.setVisibility(View.VISIBLE);
         }
         //
-        super.show();
+        try {
+            super.show();
+            return true;
+        }catch (Exception ignored) {
+            return false;
+        }
     }
 }

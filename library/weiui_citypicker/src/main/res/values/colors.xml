@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff40c2fc</color>
+    <color name="colorPrimaryDark">#ff08a7ee</color>
+    <color name="colorAccent">#ff75d1fa</color>
+    <color name="activity_bg">#ffe7e7e7</color>
+    <color name="color_text_01">#ffc5c9ce</color>
+    <color name="color_text_03">#ffb1b7be</color>
+    <color name="split_line_color">#ffc9d1d9</color>
+    <color name="split_line_bootom_color">#ffa8adb3</color>
+    <color name="input_stock">#ffbdc7d8</color>
+    <color name="color_text_02">#ff181c20</color>
+    <color name="location_circle_bg">#320483b9</color>
+    <color name="indicator_color">#fffff18f</color>
+    <color name="tabs_click">#ff8a153e</color>
+    <color name="bank_bg01">#ff002142</color>
+    <color name="bank_bg02">#ffe2607b</color>
+    <color name="bank_FF6C6C6C">#FF6C6C6C</color>
+    <color name="text_color_02">#FF6C6C6C</color>
+    <color name="sort_catagory">#FFE0E0E0</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="province_line_border">#C7C7C7</color>
+    <color name="liji_c_blue">#26A5FF</color>
+    <color name="liji_material_blue_500">#03a9f4</color>
+    <color name="liji_material_blue_700">#0288d1</color>
+    <color name="liji_material_red_500">#e51c23</color>
+    <color name="liji_material_red_700">#d01716</color>
+</resources>

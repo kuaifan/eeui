@@ -11,3 +11,6 @@ project (':weiui_picture_ucrop').projectDir = new File("../library/weiui_picture
 
 include ":weiui_umeng"
 project (':weiui_umeng').projectDir = new File("../library/weiui_umeng")
+
+include ":weiui_citypicker"
+project (':weiui_citypicker').projectDir = new File("../library/weiui_citypicker")

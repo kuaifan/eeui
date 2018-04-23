@@ -7,14 +7,14 @@
                 <text class="title">字体图标</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('component/weiui_icon')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
-        <weiui_recyler class="lists" :weiui="{ row: 5, pullTips: false }">
+        <weiui_recyler class="lists" :weiui="{ dividerHeight: 0, row: 5, pullTips: false }">
 
             <div v-for="item in iconLists" class="item" @click="copyIcon(item)">
-                <weiui_icon class="icon" :weiui="{ text: item, textSize: 20 }"></weiui_icon>
+                <weiui_icon class="icon" :weiui="{ content: item, fontSize: 38 }"></weiui_icon>
                 <text class="text">{{item}}</text>
             </div>
 
@@ -46,17 +46,19 @@
 
     .icon {
         width: 150px;
-        height: 110px;
+        height: 115px;
     }
 
     .text {
         width: 150px;
-        height: 50px;
+        height: 55px;
         text-align: center;
     }
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -69,10 +71,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
 
             copyIcon(text) {

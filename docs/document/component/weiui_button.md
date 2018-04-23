@@ -247,7 +247,7 @@
 | ------------- | ------ | -------------------------- | ------- |
 | text |`String`  | 按钮文字           | -      |
 | color |`String`  | 按钮文字颜色           | #FFFFFF      |
-| textSize |`Number`  | 字体大小           | -       |
+| fontSize |`Number`  | 字体大小           | -       |
 | backgroundColor |`String`  | 按钮背景颜色           | #3EB4FF       |
 | borderRadius |`Number`  | 圆角半径           | 8       |
 | borderWidth |`Number`  | 边框大小           | 0       |

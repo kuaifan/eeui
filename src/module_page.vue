@@ -7,7 +7,7 @@
                 <text class="title">页面功能</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/newPage')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -45,6 +45,7 @@
 
     .button {
         width: 380px;
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -58,15 +59,14 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             openPage() {
                 weiui.openPage({

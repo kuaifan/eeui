@@ -53,6 +53,11 @@ weiui.openPage({params}, callback(result))
 ```
 ###### 注①：
 - `create`页面创建完毕
+- `start`页面正在启动
+- `resume`页面已在前台可见
+- `pause`页面正在停止
+- `stop`页面即将停止或者完全被覆盖
+- `restart`页面正在重新启动
 - `destroy`页面已销毁
 - `viewCreated`WeexJS第一个视图的呈现完成
 - `renderSuccess`WeexJS呈现视图阶段结束
@@ -195,6 +200,84 @@ weiui.setPageBackPressed('pageName_1', function(){
 });
 ```
 
+# weiui.setOnRefreshListener
+
+> 仅对`Weex Js页面`有效，监听下拉刷新事件，下拉刷新事件结束后请使用`weiui.setRefreshing(pageName, false)`设置下拉刷新结束状态
+
+```js
+/**
+ * @param params    页面名称参数
+ * @param callback  下拉刷新回调事件
+ */
+weiui.setOnRefreshListener({params}, callback(pageName))
+```
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
+
+#### 简单示例
+
+```js
+//示例①
+weiui.setOnRefreshListener({
+    pageName: 'pageName_1',
+}, function(pageName){
+    //下拉刷新回调事件
+    weiui.setRefreshing(pageName, false);
+});
+
+//示例②
+weiui.setOnRefreshListener('pageName_1', function(pageName){
+    //下拉刷新回调事件
+    weiui.setRefreshing(pageName, false);
+});
+```
+
+# weiui.setRefreshing
+
+> 仅对`Weex Js页面`有效，设置下拉刷新状态，主要用于`weiui.setOnRefreshListener`回调处理完成后设置结束状态
+
+```js
+/**
+ * @param params        页面名称参数
+ * @param refreshing    状态：true|fals
+ */
+weiui.setRefreshing({params}, refreshing)
+```
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
+
+
+# weiui.setPageStatusListener
+
+> 添加监听页面状态变化
+
+```js
+/**
+ * @param name    监听名称，用于防止重复监听
+ * @param callback  回调事件，参数详见【weiui.openPage】的回调事件（留空取消监听）
+ */
+weiui.setPageStatusListener(name, callback(result))
+```
+#### params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| name | `String` | √ | 监听名称，用于防止重复监听 | - |
+
+#### 简单示例
+
+```js
+//示例
+weiui.setPageStatusListener('name_1', function(pageName){
+    //回调事件，参数详见【weiui.openPage】的回调事件
+});
+```
 
 # weiui.clearCachePage
 
@@ -230,7 +313,7 @@ weiui.closePage({
 });
 
 //示例②
-weiui.openPage('pageName_1');
+weiui.closePage('pageName_1');
 ```
 
 # weiui.openWeb

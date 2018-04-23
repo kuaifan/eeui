@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
@@ -103,7 +104,7 @@ public class Banner extends WXVContainer<ViewGroup> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -114,52 +115,42 @@ public class Banner extends WXVContainer<ViewGroup> {
                 return true;
 
             case "autoPlayDuration":
-            case "setAutoPlayDuration":
                 setAutoPlayDuration(weiuiParse.parseInt(val));
                 return true;
 
             case "scrollDuration":
-            case "setScrollDuration":
                 setScrollDuration(weiuiParse.parseInt(val));
                 return true;
 
             case "indicatorShow":
-            case "setIndicatorShow":
                 setIndicatorShow(val);
                 return true;
 
             case "indicatorPosition":
-            case "setIndicatorPosition":
                 setIndicatorPosition(weiuiParse.parseInt(val));
                 return true;
 
             case "indicatorMargin":
-            case "setIndicatorMargin":
                 setIndicatorMargin(weiuiParse.parseInt(val));
                 return true;
 
             case "indicatorSpace":
-            case "setIndicatorSpace":
                 setIndicatorSpace(weiuiParse.parseInt(val));
                 return true;
 
             case "selectedIndicatorColor":
-            case "setSelectedIndicatorColor":
                 setSelectedIndicatorColor(weiuiParse.parseStr(val));
                 return true;
 
             case "unSelectedIndicatorColor":
-            case "setUnSelectedIndicatorColor":
                 setUnSelectedIndicatorColor(weiuiParse.parseStr(val));
                 return true;
 
             case "indicatorWidth":
-            case "setIndicatorWidth":
                 setIndicatorWidth(weiuiParse.parseInt(val));
                 return true;
 
             case "indicatorHeight":
-            case "setIndicatorHeight":
                 setIndicatorHeight(weiuiParse.parseInt(val));
                 return true;
 

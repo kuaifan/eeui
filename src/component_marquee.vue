@@ -7,7 +7,7 @@
                 <text class="title">跑马文字</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('component/weiui_marquee')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -17,7 +17,7 @@
                 style="width:750px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                     }"
         ></weiui_marquee>
 
@@ -27,7 +27,7 @@
                 style="width:375px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#ff0000',
                         backgroundColor: '#00ffff'
                     }"
@@ -39,7 +39,7 @@
                 style="width:200px"
                 :weiui="{
                         text: scrollText,
-                        fontSize: 12,
+                        fontSize: 24,
                         color: '#6e0a92',
                         backgroundColor: '#c8e7ff'
                     }"
@@ -72,6 +72,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -82,10 +84,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
         }
     };

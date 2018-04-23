@@ -7,7 +7,7 @@
                 <text class="title">图片选择器</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/third/pictureSelector/install')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -15,7 +15,7 @@
 
             <weiui_list v-if="lists.length > 0"
                         :style="{width:'750px', height: (Math.ceil(lists.length / 5) * 150) + 'px'}"
-                        :weiui="{row:5,pullTips:false}">
+                        :weiui="{dividerHeight:0,row:5,pullTips:false}">
                 <div v-for="(item, position) in lists" class="imgbox" @click="pictureView(position)">
                     <image :src="'file://' + item.path" class="image" resize="cover"></image>
                 </div>
@@ -66,6 +66,7 @@
     }
 
     .button {
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         padding-top: 20px;
@@ -86,7 +87,8 @@
 </style>
 
 <script>
-    const weiui = weex.requireModule('weiui');
+    import {openViewCode} from "../statics/js/app";
+
     const weiui_picture = weex.requireModule('weiui_picture');
 
     export default {
@@ -97,10 +99,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             openPicture() {
                 const weiui_picture = weex.requireModule('weiui_picture');

@@ -17,11 +17,11 @@
                         <text class="page-navbar-title">首页</text>
                     </weiui_navbar_item>
                     <weiui_navbar_item type="right" @click="viewCode('component/weiui_tabbar')">
-                        <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                        <weiui_icon content="code-working" class="iconr"></weiui_icon>
                     </weiui_navbar_item>
                 </weiui_navbar>
                 <div class="page-content">
-                    <text>页签里面可以放任何子组件，感谢你对weiui的支持</text>
+                    <text style="font-size:24px">页签里面可以放任何子组件，感谢你对weiui的支持</text>
                     <image src="http://demo.sc.chinaz.com/Files/pic/icons/6430/m2.png"
                            class="page-content-image"></image>
                 </div>
@@ -36,7 +36,7 @@
                     </weiui_navbar_item>
                 </weiui_navbar>
                 <div class="page-content">
-                    <text>page 2，图标支持网络图片</text>
+                    <text style="font-size:24px">page 2，图标支持网络图片</text>
                 </div>
             </weiui_tabbar_page>
 
@@ -48,7 +48,7 @@
                     </weiui_navbar_item>
                 </weiui_navbar>
                 <div class="page-content">
-                    <text>page 3</text>
+                    <text style="font-size:24px">page 3</text>
                 </div>
             </weiui_tabbar_page>
 
@@ -60,7 +60,7 @@
                     </weiui_navbar_item>
                 </weiui_navbar>
                 <div class="page-content">
-                    <text>page 4</text>
+                    <text style="font-size:24px">page 4</text>
                 </div>
             </weiui_tabbar_page>
 
@@ -110,15 +110,14 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             pageSelected(params) {
                 weiui.toast("切换到第" + (params.position + 1) + "个标签页");

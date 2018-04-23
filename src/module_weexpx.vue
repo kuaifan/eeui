@@ -7,7 +7,7 @@
                 <text class="title">像素转换</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/weexpx')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -17,7 +17,7 @@
 
             <div class="inBox">
                 <input class="inPut" v-model="px2dpA"/>
-                <text>=</text>
+                <text style="font-size:24px">=</text>
                 <input class="inPut" v-model="px2dpB"/>
             </div>
 
@@ -28,7 +28,7 @@
 
             <div class="inBox">
                 <input class="inPut" v-model="dp2pxA"/>
-                <text>=</text>
+                <text style="font-size:24px">=</text>
                 <input class="inPut" v-model="dp2pxB"/>
             </div>
 
@@ -71,6 +71,7 @@
 
     .button {
         width: 276px;
+        font-size: 24px;
         text-align: center;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -100,6 +101,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -113,10 +116,7 @@
         },
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
 
             weexPx2dp() {

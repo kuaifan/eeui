@@ -7,7 +7,7 @@
                 <text class="title">确认对话框</text>
             </weiui_navbar_item>
             <weiui_navbar_item type="right" @click="viewCode('module/alert')">
-                <weiui_icon icon="code-working" class="iconr"></weiui_icon>
+                <weiui_icon content="code-working" class="iconr"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -16,6 +16,8 @@
             <text class="button" @click="toAlert2">alert 带标题</text>
             <text class="button" @click="toConfirm">confirm</text>
             <text class="button" @click="toConfirm2">confirm 3个按钮</text>
+            <text class="button" @click="toInput">input</text>
+            <text class="button" @click="toInput2">input 2个输入框</text>
         </div>
 
     </div>
@@ -45,9 +47,10 @@
 
     .button {
         width: 380px;
+        font-size: 24px;
         text-align: center;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        margin-top: 16px;
+        margin-bottom: 16px;
         padding-top: 26px;
         padding-bottom: 26px;
         padding-left: 30px;
@@ -58,15 +61,14 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
         methods: {
             viewCode(str) {
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/" + str,
-                    pageType: 'web'
-                });
+                openViewCode(str);
             },
             toAlert() {
                 weiui.alert('你使用weiui了吗？', function() {
@@ -100,6 +102,36 @@
                     }
                 });
             },
+            toInput() {
+                weiui.input({
+                    title: "输入昵称",
+                    buttons: ["取消", "确定"],
+                    inputs:[{
+                        type: 'text',
+                    }]
+                }, function(result) {
+                    if (result.status == "click" && result.title == "确定") {
+                        weiui.toast("昵称：" + result.data[0])
+                    }
+                });
+            },
+            toInput2() {
+                weiui.input({
+                    title: "输入昵称和真实姓名",
+                    buttons: ["取消", "确定"],
+                    inputs:[{
+                        type: 'text',
+                        placeholder: '请输入昵称',
+                    },{
+                        type: 'text',
+                        placeholder: '请输入真实姓名',
+                    }]
+                }, function(result) {
+                    if (result.status == "click" && result.title == "确定") {
+                        weiui.toast("昵称：" + result.data[0] + "，真实姓名：" + result.data[1])
+                    }
+                });
+            }
         }
     };
 </script>

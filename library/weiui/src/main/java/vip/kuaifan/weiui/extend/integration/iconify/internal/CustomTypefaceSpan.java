@@ -8,7 +8,7 @@ import android.text.style.ReplacementSpan;
 import vip.kuaifan.weiui.extend.integration.iconify.Icon;
 
 public class CustomTypefaceSpan extends ReplacementSpan {
-    private static final int ROTATION_DURATION = 2000;
+    private static final int ROTATION_DURATION = 1000;
     private static final Rect TEXT_BOUNDS = new Rect();
     private static final Paint LOCAL_PAINT = new Paint();
     private static final float BASELINE_RATIO = 1 / 7f;

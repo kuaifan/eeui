@@ -10,20 +10,20 @@
         </weiui_navbar>
 
 
-        <weiui_list class="list" :weiui="{pullTips:false}">
+        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips:false}">
 
             <text class="list-title">Expand Module</text>
 
-            <weiui_recyler @itemClick="expandModuleClick">
+            <weiui_recyler @itemClick="expandModuleClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="item in expand_module">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
                     </div>
                     <div class="list-item-right">
                         <text class="list-right-title">{{item.title_en}}</text>
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -116,6 +116,8 @@
 </style>
 
 <script>
+    import {openViewCode} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -183,11 +185,7 @@
         methods: {
 
             expandModuleClick(data) {
-                let url = this.expand_module[data.position].url;
-                weiui.openPage({
-                    url: "http://kuaifan.vip/weiui/#/module/expand/" + url,
-                    pageType: 'web'
-                });
+                openViewCode("module/expand/" + this.expand_module[data.position].url);
             },
 
         }

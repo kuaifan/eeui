@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -16,11 +18,13 @@ import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
+import com.taobao.weex.utils.WXViewUtils;
 
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.iconify.widget.IconTextView;
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
@@ -89,7 +93,7 @@ public class Button extends WXVContainer<ViewGroup> implements View.OnClickListe
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -104,36 +108,26 @@ public class Button extends WXVContainer<ViewGroup> implements View.OnClickListe
                 return true;
 
             case "color":
-            case "textColor":
-            case "text-color":
                 setTextColor(val);
                 return true;
 
-            case "textSize":
-            case "text-size":
             case "fontSize":
-            case "font-size":
                 setTextSize(val);
                 return true;
 
             case "backgroundColor":
-            case "background-color":
                 setBackgroundColor(val);
                 return true;
 
-            case "radius":
             case "borderRadius":
-            case "border-radius":
                 setRadius(val);
                 return true;
 
             case "borderWidth":
-            case "border-width":
                 setBorder(val, null);
                 return true;
 
             case "borderColor":
-            case "border-color":
                 setBorder(null, val);
                 return true;
 
@@ -207,7 +201,7 @@ public class Button extends WXVContainer<ViewGroup> implements View.OnClickListe
      */
     @JSMethod
     public void setTextSize(Object var) {
-        v_text.setTextSize(weiuiParse.parseInt(var, 20));
+        v_text.setTextSize(TypedValue.COMPLEX_UNIT_PX, weiuiScreenUtils.weexPx2dp(getInstance(), var, 24));
     }
 
     /**

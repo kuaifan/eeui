@@ -4,7 +4,7 @@
 
         <weiui_navbar class="navbar">
             <weiui_navbar_item type="left" @click="scaner">
-                <weiui_icon class="navbar-icon" :weiui="{icon: 'tb-scan'}"></weiui_icon>
+                <weiui_icon class="navbar-icon" :weiui="{content: 'tb-scan'}"></weiui_icon>
             </weiui_navbar_item>
 
             <weiui_navbar_item type="title">
@@ -12,7 +12,7 @@
             </weiui_navbar_item>
 
             <weiui_navbar_item type="right" @click="refresh">
-                <weiui_icon class="navbar-icon" :weiui="{icon: 'refresh'}"></weiui_icon>
+                <weiui_icon class="navbar-icon" :weiui="{content: 'refresh'}"></weiui_icon>
             </weiui_navbar_item>
         </weiui_navbar>
 
@@ -21,20 +21,20 @@
             <text class="version-button">立即下载</text>
         </div>
 
-        <weiui_list class="list" :weiui="{pullTips:false}">
+        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips:false}">
 
             <text class="list-title">Components</text>
 
-            <weiui_recyler @itemClick="componentsClick">
+            <weiui_recyler @itemClick="componentsClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="item in components">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
                     </div>
                     <div class="list-item-right">
                         <text class="list-right-title">{{item.title_en}}</text>
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -42,16 +42,16 @@
 
             <text class="list-title">Module</text>
 
-            <weiui_recyler @itemClick="moduleClick">
+            <weiui_recyler @itemClick="moduleClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="item in module">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
                     </div>
                     <div class="list-item-right">
                         <text class="list-right-title">{{item.title_en}}</text>
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -59,16 +59,16 @@
 
             <text class="list-title">Third Module</text>
 
-            <weiui_recyler @itemClick="thirdModuleClick">
+            <weiui_recyler @itemClick="thirdModuleClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="item in third_module">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
                     </div>
                     <div class="list-item-right">
                         <text class="list-right-title">{{item.title_en}}</text>
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -76,16 +76,16 @@
 
             <text class="list-title">About Weiui</text>
 
-            <weiui_recyler @itemClick="aboutListsClick">
+            <weiui_recyler @itemClick="aboutListsClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="item in about_lists">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: item.icon}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: item.icon}"></weiui_icon>
                         <text class="list-left-title">{{item.title}}</text>
                     </div>
                     <div class="list-item-right">
                         <text class="list-right-title">{{item.title_en}}</text>
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -96,15 +96,15 @@
                 <text class="list-subtitle" @click="clearHistory()">清空历史</text>
             </div>
 
-            <weiui_recyler @itemClick="historyClick" v-if="history.length > 0">
+            <weiui_recyler v-if="history.length > 0" @itemClick="historyClick" :weiui="{ dividerHeight: 0 }">
 
                 <div class="list-item" v-for="text in history">
                     <div class="list-item-left">
-                        <weiui_icon class="list-left-icon" :weiui="{icon: 'ionic'}"></weiui_icon>
+                        <weiui_icon class="list-left-icon" :weiui="{content: 'ionic'}"></weiui_icon>
                         <text class="list-left-title-history">{{text}}</text>
                     </div>
                     <div class="list-item-right">
-                        <weiui_icon class="list-right-icon" :weiui="{icon: 'ios-arrow-right 70%'}"></weiui_icon>
+                        <weiui_icon class="list-right-icon" :weiui="{content: 'ios-arrow-right 70%'}"></weiui_icon>
                     </div>
                 </div>
 
@@ -416,7 +416,7 @@
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
             //
             let variable = parseInt(weiui.getLocalVersion());
-            if (variable < 7) {
+            if (variable < 9) {
                 this.newApp = true;
                 weiui.confirm({
                     title: "版本更新",

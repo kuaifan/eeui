@@ -18,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -628,6 +629,11 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         updateTabStyles();
     }
 
+    public void setTextsizePx(float textsize) {
+        this.mTextsize = textsize;
+        updateTabStyles();
+    }
+
     public void setTextSelectColor(int textSelectColor) {
         this.mTextSelectColor = textSelectColor;
         updateTabStyles();
@@ -988,6 +994,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
     public int sp2px(float sp) {
         final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
         return (int) (sp * scale + 0.5f);
+    }
+
+    public void setFirstDraw(boolean isFirstDraw) {
+        this.mIsFirstDraw = isFirstDraw;
     }
 
     /***********************************************************************************/

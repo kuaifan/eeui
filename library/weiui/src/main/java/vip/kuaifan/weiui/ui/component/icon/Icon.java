@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 
@@ -21,6 +22,7 @@ import com.taobao.weex.ui.component.WXVContainer;
 import java.util.Map;
 
 
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
@@ -74,7 +76,7 @@ public class Icon extends WXComponent<IconView> {
     }
 
     private boolean initProperty(String key, Object val) {
-        switch (key) {
+        switch (weiuiCommon.camelCaseName(key)) {
             case "weiui":
                 JSONObject json = weiuiJson.parseObject(weiuiParse.parseStr(val, ""));
                 if (json.size() > 0) {
@@ -84,26 +86,20 @@ public class Icon extends WXComponent<IconView> {
                 }
                 return true;
 
-            case "icon":
             case "text":
+            case "content":
                 setIcon(weiuiParse.parseStr(val, null));
                 return true;
 
-            case "iconSize":
-            case "textSize":
-            case "fontSize":
-            case "font-size":
-                setIconSize(weiuiParse.parseInt(val, 0));
-                return true;
-
             case "color":
-            case "iconColor":
-            case "textColor":
                 setIconColor(weiuiParse.parseStr(val, null));
                 return true;
 
-            case "iconClickColor":
-            case "textClickColor":
+            case "fontSize":
+                setIconSize(val);
+                return true;
+
+            case "clickColor":
                 setIconClickColor(weiuiParse.parseStr(val, null));
                 return true;
 
@@ -115,7 +111,7 @@ public class Icon extends WXComponent<IconView> {
     private void appleStyleAfterCreated() {
         mIconView.setGravity(Gravity.CENTER);
         setIcon("home");
-        setIconSize(20);
+        setIconSize(38);
         setIconColor("#242424");
     }
 
@@ -136,6 +132,8 @@ public class Icon extends WXComponent<IconView> {
             mIconView.setText("");
             return;
         }
+        var = weiuiCommon.trim(var, "'");
+        //
         if (!var.startsWith("ion-") && !var.startsWith("tb-")) {
             var = "ion-" + var;
         }
@@ -148,7 +146,7 @@ public class Icon extends WXComponent<IconView> {
      */
     @JSMethod
     public void setIconSize(Object var) {
-        mIconView.setTextSize(weiuiParse.parseInt(var, 0));
+        mIconView.setTextSize(TypedValue.COMPLEX_UNIT_PX, weiuiScreenUtils.weexPx2dp(getInstance(), var, 38));
     }
 
     /**

@@ -17,7 +17,7 @@
     <weiui_recyler class="lists" :weiui="{ row: 5, pullTipsNo: '' }">
 
         <div v-for="item in iconLists" class="item" @click="copyIcon(item)">
-            <weiui_icon class="icon" :weiui="{ text: item, textSize: 20 }"></weiui_icon>
+            <weiui_icon class="icon" :weiui="{ content: item, fontSize: 38 }"></weiui_icon>
             <text class="text">{{item}}</text>
         </div>
 
@@ -73,12 +73,13 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
-| text  |`String`  | 图标的名称            | home       |
-| textSize      |`Number`  | 图标的大小  | 16 |
-| textColor         |`String`  | 图标颜色            | #242424       |
-| textClickColor         |`String`  | 图标点击颜色            | -      |
+| content  |`String`  | 图标的名称            | home       |
+| text  |`String`  | 同`content`            | -       |
+| color         |`String`  | 图标颜色            | #242424       |
+| fontSize      |`Number`  | 图标的大小  | 38 |
+| clickColor         |`String`  | 图标点击颜色            | -      |
 
-属性名`text`特别说明：
+属性名`content`特别说明：
 
 * 是否需要重写特定图标的文本大小，支持以下语法： `home 12px`, `home 12dp`, `home 12sp`, `home 120%`
 * 同样的原理，你可以使用图标颜色，语法： `home #RRGGBB`, `home #AARRGGBB`
@@ -90,7 +91,7 @@
 <weiui_icon 
         ref="reflectName"
         style="width:50px; height:50px;" 
-        :weiui="{text: 'home 24sp', textSize:'60px', textColor:'#ff0000'}" >
+        :weiui="{content: 'home 24sp', fontSize:'60px', color:'#ff0000'}" >
 </weiui_icon>
 ```
 
