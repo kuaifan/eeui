@@ -56,6 +56,10 @@ public class ScrollText extends WXVContainer<ViewGroup> implements View.OnClickL
         initPagerView();
         appleStyleAfterCreated();
         //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return (ViewGroup) mView;
     }
 

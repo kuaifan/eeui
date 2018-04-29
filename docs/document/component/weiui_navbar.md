@@ -135,6 +135,11 @@
 
 ``` js
 /**
+ * 组件加载完成
+ */
+@ready = function() { ... }
+
+/**
  * 子组件`<weiui_navbar_item type="back">`的返回事件
  * 返回参数：data = { }
  */

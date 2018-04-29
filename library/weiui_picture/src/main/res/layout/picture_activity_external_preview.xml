@@ -31,6 +31,16 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+        <ImageButton
+            android:id="@+id/right_del"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/transparent"
+            android:src="@drawable/picture_del"
+            android:visibility="gone" />
+
     </RelativeLayout>
 
     <com.luck.picture.lib.weiui.library.widget.PreviewViewPager

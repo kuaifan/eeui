@@ -23,6 +23,7 @@ import java.util.Map;
 
 
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
+import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
@@ -67,6 +68,11 @@ public class Icon extends WXComponent<IconView> {
     protected IconView initComponentHostView(@NonNull Context context) {
         mIconView = new IconView(context);
         appleStyleAfterCreated();
+        //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return mIconView;
     }
 

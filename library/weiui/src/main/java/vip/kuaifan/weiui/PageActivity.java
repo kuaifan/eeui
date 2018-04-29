@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AndroidRuntimeException;
@@ -39,8 +38,6 @@ import vip.kuaifan.weiui.extend.module.rxtools.tool.RxBeepTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxPhotoTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxQrBarTool;
 import vip.kuaifan.weiui.extend.module.utilcode.constant.PermissionConstants;
-import vip.kuaifan.weiui.extend.module.weiuiConstants;
-import vip.kuaifan.weiui.extend.module.weiuiHtml;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
@@ -50,13 +47,11 @@ import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;
 import vip.kuaifan.weiui.extend.integration.zxing.Result;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.WXSDKInstance;
-import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +68,6 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.view.ProgressWebView;
 import vip.kuaifan.weiui.extend.view.SwipeCaptchaView;
-import vip.kuaifan.weiui.ui.component.tabbar.bean.WXSDKBean;
 
 /**
  * Created by WDM on 2018/3/6.
@@ -914,6 +908,7 @@ public class PageActivity extends AppCompatActivity {
     private void weexRenderPage() {
         Map<String, Object> data = new HashMap<>();
         data.put(WXSDKInstance.BUNDLE_URL, mPageInfo.getUrl());
+        data.put("params", mPageInfo.getParams());
         if (mPageInfo.getCache() > 0) {
             data.put("setting:cache", mPageInfo.getCache());
             data.put("setting:cacheLabel", "page");
@@ -921,7 +916,7 @@ public class PageActivity extends AppCompatActivity {
                 @Override
                 public void success(String resData, boolean isCache) {
                     Log.d(TAG, "success: cache-" + isCache + ": " + mPageInfo.getUrl());
-                    mWXSDKInstance.render(mPageInfo.getPageName(), weiuiHtml.repairJsImage(resData, mPageInfo.getUrl()), data, null, WXRenderStrategy.APPEND_ASYNC);
+                    mWXSDKInstance.render(mPageInfo.getPageName(), resData, data, null, WXRenderStrategy.APPEND_ASYNC);
                 }
 
                 @Override

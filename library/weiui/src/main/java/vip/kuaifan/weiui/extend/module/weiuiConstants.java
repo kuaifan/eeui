@@ -6,6 +6,9 @@ public class weiuiConstants {
 
     public interface Event {
 
+        //组件已经加载
+        String READY = "ready";
+
         //返回事件
         String GO_BACK = "goBack";
 

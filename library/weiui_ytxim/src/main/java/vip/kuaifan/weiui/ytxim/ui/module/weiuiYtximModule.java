@@ -34,22 +34,15 @@ public class weiuiYtximModule extends WXModule {
      */
     @JSMethod
     public void login(String userphone, JSCallback callback) {
-        if (userphone == null) {
-            return;
-        }
         weiui_ytxim.login(userphone, callback);
     }
 
     /**
      * 登出
-     * @param userphone
      */
     @JSMethod
-    public void logout(String userphone) {
-        if (userphone == null) {
-            return;
-        }
-        weiui_ytxim.logout(userphone);
+    public void logout() {
+        weiui_ytxim.logout();
     }
 
     /**
@@ -59,9 +52,6 @@ public class weiuiYtximModule extends WXModule {
      */
     @JSMethod
     public void joinLiveChatRoom(String roomId, JSCallback callback) {
-        if (roomId == null) {
-            return;
-        }
         weiui_ytxim.joinLiveChatRoom(roomId, callback);
     }
 
@@ -82,9 +72,6 @@ public class weiuiYtximModule extends WXModule {
      */
     @JSMethod
     public void sendLiveChatRoomMessage(String roomId, String text, JSCallback callback) {
-        if (roomId == null) {
-            return;
-        }
         weiui_ytxim.sendLiveChatRoomMessage(roomId, text, callback);
     }
 
@@ -95,9 +82,6 @@ public class weiuiYtximModule extends WXModule {
      */
     @JSMethod
     public void exitLiveChatRoom(String roomId, JSCallback callback) {
-        if (roomId == null) {
-            return;
-        }
         weiui_ytxim.exitLiveChatRoom(roomId, callback);
     }
 }

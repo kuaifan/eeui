@@ -474,6 +474,9 @@ public class weiuiCommon {
      */
     public static void setViewWidthHeight(View view, int width, int height) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params == null) {
+            return;
+        }
         if (width > -1) {
             params.width = width;
         }
@@ -850,5 +853,41 @@ public class weiuiCommon {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 遍历删除目录下所有文件
+     * @param dir
+     * @return
+     */
+    public static JSONObject deleteAllInDir(File dir) {
+        if (dir == null) return weiuiJson.parseObject("{error:0,success:0}");
+        if (!dir.exists()) return weiuiJson.parseObject("{error:0,success:0}");
+        if (!dir.isDirectory()) return weiuiJson.parseObject("{error:0,success:0}");
+        int error = 0;
+        int success = 0;
+        File[] files = dir.listFiles();
+        if (files != null && files.length != 0) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    if (file.delete()) {
+                        success++;
+                    }else{
+                        error++;
+                    }
+                } else if (file.isDirectory()) {
+                    JSONObject tmpData = weiuiCommon.deleteAllInDir(file);
+                    error+= tmpData.getIntValue("error");
+                    success+= tmpData.getIntValue("success");
+                }
+            }
+        }
+        if (dir.delete()) {
+            success++;
+        }
+        JSONObject data = new JSONObject();
+        data.put("error", error);
+        data.put("success", success);
+        return data;
     }
 }

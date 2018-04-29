@@ -10,11 +10,14 @@ public class TabbarBean {
 
     private String tabName = weiuiCommon.randomString(8);
     private String title = "New Page";
+    private String url = "";
     private String selectedIcon = "";
     private String unSelectedIcon = "";
+    private Object params;
     private long cache = 0;
     private int message = 0;
     private boolean dot = false;
+    private String statusBarColor = "";
     private Object view;
 
     public String getTabName() {
@@ -31,6 +34,14 @@ public class TabbarBean {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getSelectedIcon() {
@@ -55,6 +66,14 @@ public class TabbarBean {
         this.unSelectedIcon = unSelectedIcon;
     }
 
+    public Object getParams() {
+        return params;
+    }
+
+    public void setParams(Object params) {
+        this.params = params;
+    }
+
     public long getCache() {
         return cache;
     }
@@ -77,6 +96,14 @@ public class TabbarBean {
 
     public void setDot(boolean dot) {
         this.dot = dot;
+    }
+
+    public String getStatusBarColor() {
+        return statusBarColor;
+    }
+
+    public void setStatusBarColor(String statusBarColor) {
+        this.statusBarColor = statusBarColor;
     }
 
     public Object getView() {

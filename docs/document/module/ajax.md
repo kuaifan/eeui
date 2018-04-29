@@ -81,14 +81,6 @@ weiui.ajax({
 });
 ```
 
-# weiui.ajaxClearCache
-
-> 清除跨域请求缓存
-
-```js
-weiui.ajaxClearCache()
-```
-
 # weiui.ajaxCancel
 
 > 取消跨域请求
@@ -98,6 +90,25 @@ weiui.ajaxClearCache()
  * @param name    请求名称（留空则取消所有请求）
  */
 weiui.ajaxCancel(name)
+```
+
+# weiui.getCacheSizeAjax
+
+> 获取跨域请求缓存
+
+```js
+/**
+ * @param callback  回调事件，{size:123123}，单位：字节B
+ */
+weiui.getCacheSizeAjax(callback(result))
+```
+
+# weiui.clearCacheAjax
+
+> 清除跨域请求缓存
+
+```js
+weiui.clearCacheAjax()
 ```
 
 

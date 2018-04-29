@@ -156,7 +156,7 @@ public class weiui_ytxim {
             if (callback != null) {
                 Map<String, Object> data = new HashMap<>();
                 data.put("status", "error");
-                data.put("code", -802);
+                data.put("code", -801);
                 data.put("msg", "err params");
                 callback.invoke(data);
             }
@@ -165,10 +165,10 @@ public class weiui_ytxim {
 
     /**
      * 登出
-     * @param userphone
      */
-    public static void logout(String userphone) {
+    public static void logout() {
         ECDevice.logout(() -> {
+            lastLogin = "";
             // SDK 回调通知当前登出成功
             // 这里可以做一些（与云通讯IM相关的）应用资源的释放工作
             // 如（关闭数据库，释放界面资源和跳转等）
@@ -181,9 +181,26 @@ public class weiui_ytxim {
      * @param callback
      */
     public static void joinLiveChatRoom(String roomId, JSCallback callback) {
+        if (roomId == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "no roomId");
+                callback.invoke(data);
+            }
+            return;
+        }
         //获得SDK聊天室管理类
         ECLiveChatRoomManager roomManager = ECDevice.getECLiveChatRoomManager();
         if (roomManager == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "null roomManager");
+                callback.invoke(data);
+            }
             return;
         }
         ECLiveChatRoomMemberInfoBuilder infoBuilder = new ECLiveChatRoomMemberInfoBuilder(lastLogin, "");
@@ -213,7 +230,7 @@ public class weiui_ytxim {
         } catch (Exception e) {
             Map<String, Object> data = new HashMap<>();
             data.put("status", "error");
-            data.put("code", -804);
+            data.put("code", -801);
             data.put("msg", e.getMessage());
             callback.invoke(data);
         }
@@ -292,11 +309,21 @@ public class weiui_ytxim {
      * @param callback
      */
     public static void sendLiveChatRoomMessage(String roomId, String text, JSCallback callback) {
+        if (roomId == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "no roomId");
+                callback.invoke(data);
+            }
+            return;
+        }
         if (text == null || text.trim().length() <= 0) {
             if (callback != null) {
                 Map<String, Object> data = new HashMap<>();
                 data.put("status", "error");
-                data.put("code", -803);
+                data.put("code", -801);
                 data.put("msg", "请输入要发送的内容");
                 callback.invoke(data);
             }
@@ -306,7 +333,7 @@ public class weiui_ytxim {
             if (callback != null) {
                 Map<String, Object> data = new HashMap<>();
                 data.put("status", "error");
-                data.put("code", -803);
+                data.put("code", -801);
                 data.put("msg", "发送内容不得超过2048个字符");
                 callback.invoke(data);
             }
@@ -324,6 +351,13 @@ public class weiui_ytxim {
         //获得SDK聊天室管理类
         ECLiveChatRoomManager roomManager = ECDevice.getECLiveChatRoomManager();
         if (roomManager == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "null roomManager");
+                callback.invoke(data);
+            }
             return;
         }
         //调用发送消息的方法，传入相应的参数
@@ -355,9 +389,26 @@ public class weiui_ytxim {
      * @param callback
      */
     public static void exitLiveChatRoom(String roomId, JSCallback callback) {
+        if (roomId == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "no roomId");
+                callback.invoke(data);
+            }
+            return;
+        }
         //获得SDK聊天室管理类
         ECLiveChatRoomManager roomManager = ECDevice.getECLiveChatRoomManager();
         if (roomManager == null) {
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("code", -801);
+                data.put("msg", "null roomManager");
+                callback.invoke(data);
+            }
             return;
         }
         //构建通知对象

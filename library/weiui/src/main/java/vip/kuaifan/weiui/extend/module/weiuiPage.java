@@ -45,7 +45,7 @@ public class weiuiPage {
         if (mBean.getPageName() == null) {
             mBean.setPageName("open_" + weiuiCommon.randomString(8));
         } else {
-            if (System.currentTimeMillis() - weiuiParse.parseLong(openTime.get(mBean.getPageName())) < 2000) {
+            if (System.currentTimeMillis() - weiuiParse.parseLong(openTime.get(mBean.getPageName())) < 1000) {
                 return;
             }
             openTime.put(mBean.getPageName(), System.currentTimeMillis());

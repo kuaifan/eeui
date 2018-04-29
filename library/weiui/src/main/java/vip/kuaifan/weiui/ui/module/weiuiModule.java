@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Handler;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -15,9 +14,14 @@ import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
+import vip.kuaifan.weiui.extend.module.utilcode.util.FileUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.utilcodeModule;
 import vip.kuaifan.weiui.extend.module.weiuiAdDialog;
 import vip.kuaifan.weiui.extend.module.weiuiAjax;
@@ -26,6 +30,7 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiOpenApp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
+import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiShareUtils;
@@ -36,8 +41,6 @@ import vip.kuaifan.weiui.extend.view.loading.LoadingDialog;
 public class weiuiModule extends WXModule {
 
     private static final String TAG = "weiuiModule";
-
-    private Handler mHandler = new Handler();
 
     private Object[] objectGroup(Object... var) {
         return var;
@@ -78,8 +81,8 @@ public class weiuiModule extends WXModule {
             mBean.setCache(json.getIntValue("cache"));
         }
         //转递数据（默认：无）
-        if (json.get("data") != null) {
-            mBean.setData(json.get("data"));
+        if (json.get("params") != null) {
+            mBean.setParams(json.get("params"));
         }
         //是否显示等待（默认：true）
         if (json.getBoolean("loading") != null) {
@@ -141,15 +144,15 @@ public class weiuiModule extends WXModule {
      * @return
      */
     @JSMethod(uiThread = false)
-    public Object getPageData(String object) {
+    public Object getPageParams(String object) {
         String pageName = weiuiPage.getPageName(object);
         if (pageName.isEmpty()) {
             if (mWXSDKInstance.getContext() instanceof PageActivity) {
-                return ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getData();
+                return ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getParams();
             }
             return null;
         }
-        return weiuiPage.getWinInfo(pageName).getData();
+        return weiuiPage.getWinInfo(pageName).getParams();
     }
 
     /**
@@ -279,11 +282,19 @@ public class weiuiModule extends WXModule {
     }
 
     /**
+     * 获取页面缓存大小
+     */
+    @JSMethod
+    public void getCacheSizePage(JSCallback callback) {
+        new weiuiIhttp.getCacheSize("page", callback).start();
+    }
+
+    /**
      * 清除缓存页面
      */
     @JSMethod
     public void clearCachePage() {
-        weiuiIhttp.clearCache("page");
+        new weiuiIhttp.clearCache("page").start();
     }
 
     /**
@@ -302,11 +313,30 @@ public class weiuiModule extends WXModule {
     }
 
     /**
+     * 返回桌面
+     */
+    @JSMethod
+    public void goDesktop() {
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        home.addCategory(Intent.CATEGORY_HOME);
+        mWXSDKInstance.getContext().startActivity(home);
+    }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
+
+    /**
      * 获取状态栏高度（屏幕像素）
      */
     @JSMethod(uiThread = false)
     public int getStatusBarHeight() {
-        return weiuiCommon.getStatusBarHeight(mWXSDKInstance.getContext());
+        Object var = weiuiCommon.getVariate("__weiuiModule::getStatusBarHeight");
+        if (var == null) {
+            var = weiuiCommon.getStatusBarHeight(mWXSDKInstance.getContext());
+            weiuiCommon.setVariate("__weiuiModule::getStatusBarHeight", var);
+        }
+        return weiuiParse.parseInt(var);
     }
 
     /**
@@ -314,7 +344,12 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod(uiThread = false)
     public int getStatusBarHeightPx() {
-        return weiuiScreenUtils.weexDp2px(mWXSDKInstance, weiuiCommon.getStatusBarHeight(mWXSDKInstance.getContext()));
+        Object var = weiuiCommon.getVariate("__weiuiModule::getStatusBarHeightPx");
+        if (var == null) {
+            var = weiuiScreenUtils.weexDp2px(mWXSDKInstance, weiuiCommon.getStatusBarHeight(mWXSDKInstance.getContext()));
+            weiuiCommon.setVariate("__weiuiModule::getStatusBarHeightPx", var);
+        }
+        return weiuiParse.parseInt(var);
     }
 
     /**
@@ -338,7 +373,12 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod(uiThread = false)
     public int getLocalVersion() {
-        return weiuiCommon.getLocalVersion(mWXSDKInstance.getContext());
+        Object var = weiuiCommon.getVariate("__weiuiModule::getLocalVersion");
+        if (var == null) {
+            var = weiuiCommon.getLocalVersion(mWXSDKInstance.getContext());
+            weiuiCommon.setVariate("__weiuiModule::getLocalVersion", var);
+        }
+        return weiuiParse.parseInt(var);
     }
 
     /**
@@ -346,7 +386,12 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod(uiThread = false)
     public String getLocalVersionName() {
-        return weiuiCommon.getLocalVersionName(mWXSDKInstance.getContext());
+        Object var = weiuiCommon.getVariate("__weiuiModule::getLocalVersionName");
+        if (var == null) {
+            var = weiuiCommon.getLocalVersionName(mWXSDKInstance.getContext());
+            weiuiCommon.setVariate("__weiuiModule::getLocalVersionName", var);
+        }
+        return weiuiParse.parseStr(var);
     }
 
     /**
@@ -370,8 +415,16 @@ public class weiuiModule extends WXModule {
      */
     @JSMethod(uiThread = false)
     public String getImei() {
-        return weiuiCommon.getImei(mWXSDKInstance.getContext());
+        Object var = weiuiCommon.getVariate("__weiuiModule::getImei");
+        if (var == null) {
+            var = weiuiCommon.getImei(mWXSDKInstance.getContext());
+            weiuiCommon.setVariate("__weiuiModule::getImei", var);
+        }
+        return weiuiParse.parseStr(var);
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 保存缓存信息
@@ -426,6 +479,105 @@ public class weiuiModule extends WXModule {
         return weiuiCommon.getVariateStr(key, defaultVal);
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
+    /**
+     * 获取内部缓存目录大小
+     * @param callback
+     */
+    @JSMethod
+    public void getCacheSizeDir(JSCallback callback) {
+        if (callback != null) {
+            new Thread(() -> {
+                Map<String, Object> data = new HashMap<>();
+                data.put("size", FileUtils.getDirLength(mWXSDKInstance.getContext().getCacheDir()));
+                callback.invoke(data);
+            }).start();
+        }
+    }
+
+    /**
+     * 清空内部缓存目录
+     */
+    @JSMethod
+    public void clearCacheDir(JSCallback callback) {
+        new Thread(() -> {
+            JSONObject json = weiuiCommon.deleteAllInDir(mWXSDKInstance.getContext().getCacheDir());
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("success", json.getIntValue("success"));
+                data.put("error", json.getIntValue("error"));
+                callback.invoke(data);
+            }
+        }).start();
+    }
+
+    /**
+     * 获取内部文件目录大小
+     * @param callback
+     */
+    @JSMethod
+    public void getCacheSizeFiles(JSCallback callback) {
+        if (callback != null) {
+            new Thread(() -> {
+                Map<String, Object> data = new HashMap<>();
+                data.put("size", FileUtils.getDirLength(mWXSDKInstance.getContext().getFilesDir()));
+                callback.invoke(data);
+            }).start();
+        }
+    }
+
+    /**
+     * 清空内部文件目录
+     */
+    @JSMethod
+    public void clearCacheFiles(JSCallback callback) {
+        new Thread(() -> {
+            JSONObject json = weiuiCommon.deleteAllInDir(mWXSDKInstance.getContext().getFilesDir());
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("success", json.getIntValue("success"));
+                data.put("error", json.getIntValue("error"));
+                callback.invoke(data);
+            }
+        }).start();
+    }
+
+    /**
+     * 获取内部数据库目录大小
+     * @param callback
+     */
+    @JSMethod
+    public void getCacheSizeDbs(JSCallback callback) {
+        if (callback != null) {
+            new Thread(() -> {
+                Map<String, Object> data = new HashMap<>();
+                data.put("size", FileUtils.getDirLength(new File(mWXSDKInstance.getContext().getFilesDir().getParent(), "databases")));
+                callback.invoke(data);
+            }).start();
+        }
+    }
+
+    /**
+     * 清空内部数据库目录
+     */
+    @JSMethod
+    public void clearCacheDbs(JSCallback callback) {
+        new Thread(() -> {
+            JSONObject json = weiuiCommon.deleteAllInDir(new File(mWXSDKInstance.getContext().getFilesDir().getParent(), "databases"));
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("success", json.getIntValue("success"));
+                data.put("error", json.getIntValue("error"));
+                callback.invoke(data);
+            }
+        }).start();
+    }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * weex px转dp
      * @param var
@@ -443,6 +595,9 @@ public class weiuiModule extends WXModule {
     public int weexDp2px(String var) {
         return weiuiScreenUtils.weexDp2px(mWXSDKInstance, var);
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * alert 警告框
@@ -468,6 +623,9 @@ public class weiuiModule extends WXModule {
         weiuiAlertDialog.input(mWXSDKInstance.getContext(), object, callback);
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * 显示等待图标
      * @param object        参数
@@ -487,6 +645,9 @@ public class weiuiModule extends WXModule {
         LoadingDialog.close(var);
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * 打开滑动验证码
      * @param imgUrl
@@ -497,6 +658,9 @@ public class weiuiModule extends WXModule {
         PageActivity.startSwipeCaptcha(mWXSDKInstance.getContext(), imgUrl, callback);
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * 打开二维码扫描
      * @param object
@@ -506,6 +670,9 @@ public class weiuiModule extends WXModule {
     public void openScaner(String object, JSCallback callback) {
         PageActivity.startScanerCode(mWXSDKInstance.getContext(), object, callback);
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 跨域异步请求
@@ -522,14 +689,6 @@ public class weiuiModule extends WXModule {
     }
 
     /**
-     * 清除跨域异步请求缓存
-     */
-    @JSMethod
-    public void ajaxClearCache() {
-        weiuiIhttp.clearCache("ajax");
-    }
-
-    /**
      * 取消跨域异步请求
      * @param name
      */
@@ -537,6 +696,25 @@ public class weiuiModule extends WXModule {
     public void ajaxCancel(String name) {
         weiuiAjax.ajaxCancel(name);
     }
+
+    /**
+     * 获取异步请求缓存大小
+     */
+    @JSMethod
+    public void getCacheSizeAjax(JSCallback callback) {
+        new weiuiIhttp.getCacheSize("ajax", callback).start();
+    }
+
+    /**
+     * 清除异步请求缓存
+     */
+    @JSMethod
+    public void clearCacheAjax() {
+        new weiuiIhttp.clearCache("ajax").start();
+    }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 复制文本到剪贴板
@@ -566,6 +744,9 @@ public class weiuiModule extends WXModule {
         return null;
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * 吐司(Toast)显示
      * @param object
@@ -582,6 +763,9 @@ public class weiuiModule extends WXModule {
     public void toastClose() {
         utilcodeModule.ToastClose();
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 图片广告弹窗
@@ -606,6 +790,9 @@ public class weiuiModule extends WXModule {
         weiuiAdDialog.close(dialogName);
     }
 
+    /****************************************************************************************/
+    /****************************************************************************************/
+
     /**
      * 保存图片到本地
      * @param url
@@ -614,6 +801,9 @@ public class weiuiModule extends WXModule {
     public void saveImage(String url, JSCallback callback) {
         weiuiCommon.saveImage(mWXSDKInstance.getContext(), url, callback);
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 打开其他APP
@@ -642,6 +832,9 @@ public class weiuiModule extends WXModule {
                 break;
         }
     }
+
+    /****************************************************************************************/
+    /****************************************************************************************/
 
     /**
      * 分享文字

@@ -36,6 +36,10 @@ public class Ripple extends WXVContainer<ViewGroup> {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_ripple, null);
         initPagerView();
         //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return (ViewGroup) mView;
     }
 

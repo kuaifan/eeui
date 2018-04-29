@@ -8,11 +8,12 @@ import java.util.regex.Pattern;
 public class weiuiHtml {
 
     /**
-     * 将js中的src进行二次包装
+     * （无用、保留只是为了示例）将js中的src进行二次包装
      * @param content       内容
      * @param websiteUrl    网站网址
      * @return
      */
+    @Deprecated
     public static String repairJsImage(String content, String websiteUrl) {
         String regexBody = "_c\\('image',\\s*\\{([^\\)]*)\\}";
         Pattern patternBody = Pattern.compile(regexBody, Pattern.CASE_INSENSITIVE);
@@ -33,11 +34,12 @@ public class weiuiHtml {
     }
 
     /**
-     * 将image标签中的src进行二次包装
+     * （无用、保留只是为了示例）将image标签中的src进行二次包装
      * @param content       内容
      * @param websiteUrl    网站网址
      * @return
      */
+    @Deprecated
     public static String repairImage(String content, String websiteUrl) {
         String patternStr = "<image\\s*([^>]*)\\s*src=((\\\"|\\')(.*?)(\\\"|\\'))\\s*([^>]*)>";
         Pattern pattern = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE);

@@ -23,10 +23,11 @@ weiui.openPage({params}, callback(result))
 | url | `String` | √ | `Weex Js`或`Web Url`地址 | - |
 | pageName | `String` | - | 页面名称 | - |
 | pageType | `String` | - | 页面类型：`weex`、`web`<br/>可填写`auto`系统自动识别 (不建议) | weex |
+| params |`Object`  | - | 页面传递参数，通过`weex.config.params`获取         | -       |
 | cache | `Number` | - | 页面缓存时间，仅`weex`类型有效，<br/>设置`0`不缓存（单位：毫秒） | 0 |
 | loading | `Boolean` | - | 是否显示等待效果：`true`、`false` | true |
 | swipeBack | `Boolean` | - | 是否支持滑动返回：`true`、`false` | true |
-| statusBarType | `String` | - | 状态栏样式：<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>设置时`statusBarType`、`statusBarAlpha`无效 | - |
+| statusBarType | `String` | - | 状态栏样式：<br/>正常: `normal`<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>_非默认下`statusBarType`、`statusBarAlpha`无效_ | normal |
 | statusBarColor | `String` | - | 状态栏颜色值 | #3EB4FF |
 | statusBarAlpha | `Number` | - | 状态栏透明度， 0-255 | 0 |
 | backgroundColor | `String` | - | 页面背景颜色 | #f4f8f9 |
@@ -279,6 +280,17 @@ weiui.setPageStatusListener('name_1', function(pageName){
 });
 ```
 
+# weiui.getCacheSizePage
+
+> 获取`Weex Js页面`缓存大小
+
+```js
+/**
+ * @param callback  回调事件，{size:123123}，单位：字节B
+ */
+weiui.getCacheSizePage(callback(result))
+```
+
 # weiui.clearCachePage
 
 > 手动清除缓存`Weex Js页面`
@@ -337,6 +349,17 @@ weiui.openWeb(url)
 
 ```js
 weiui.openWeb('http://kuaifan.vip');
+```
+
+# weiui.goDesktop
+
+> 返回手机桌面
+
+```js
+/**
+ * @param url
+ */
+weiui.goDesktop()
 ```
 
 

@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONArray;
+import com.taobao.weex.bridge.JSCallback;
+
 import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.xutils.cache.LruDiskCache;
 import vip.kuaifan.weiui.extend.integration.xutils.common.Callback.Cancelable;
@@ -31,12 +34,6 @@ public class weiuiIhttp {
     //缓存文件夹名称
     private static String cacheDirName = "weiuiIhttp";
 
-    //系统IMEI
-    private static String platformImei = "";
-
-    //系统版本
-    private static String platformRelease = "";
-
     //请求组
     private static Map<String, Cancelable> requestList = new HashMap<>();
 
@@ -50,12 +47,6 @@ public class weiuiIhttp {
     public static void init(Context context) {
         x.Ext.init((Application) context);
         x.Ext.setDebug(false);
-        //
-        platformRelease = weiuiCommon.getLocalVersionName(context);
-        platformImei = weiuiCommon.getImei(context);
-        //
-        Log.d(TAG, "platformRelease: " + platformRelease);
-        Log.d(TAG, "platformImei: " + platformImei);
     }
 
     /**
@@ -66,9 +57,6 @@ public class weiuiIhttp {
      */
     private static RequestParams FormatRequestParams(String url, Map<String, Object> data) {
         RequestParams params = new RequestParams(url + "");
-        params.addHeader("platform", "Android");
-        params.addHeader("platform-imei", platformImei);
-        params.addHeader("platform-release", platformRelease);
         //
         if (data != null) {
             boolean isMultipart = false;
@@ -102,10 +90,21 @@ public class weiuiIhttp {
                         params.addHeader(key, String.valueOf(value));
                     }else if (weiuiCommon.leftExists(key.toLowerCase(), "file:")) {
                         key = key.substring(5).trim();
-                        File tempFile = new File(String.valueOf(value));
-                        if (tempFile.exists()) {
-                            isMultipart = true;
-                            params.addBodyParameter(key, tempFile);
+                        if (value instanceof JSONArray) {
+                            JSONArray values = (JSONArray) value;
+                            for (int i = 0; i < values.size(); i++) {
+                                File tempFile = new File(String.valueOf(values.get(i)));
+                                if (tempFile.exists()) {
+                                    isMultipart = true;
+                                    params.addBodyParameter(key + "[]", tempFile);
+                                }
+                            }
+                        }else{
+                            File tempFile = new File(String.valueOf(value));
+                            if (tempFile.exists()) {
+                                isMultipart = true;
+                                params.addBodyParameter(key, tempFile);
+                            }
                         }
                     }else{
                         params.addQueryStringParameter(key, String.valueOf(value));
@@ -291,15 +290,50 @@ public class weiuiIhttp {
     }
 
     /**
-     * 清除缓存
-     * @param cacheLabel
+     * 线程获取缓存大小
      */
-    public static void clearCache(String cacheLabel) {
-        if (cacheLabel == null || cacheLabel.isEmpty()) {
-            return;
+    public static class getCacheSize extends Thread {
+
+        private String cacheLabel;
+        private JSCallback callback;
+
+        public getCacheSize(String cacheLabel, JSCallback callback) {
+            this.cacheLabel = cacheLabel;
+            this.callback = callback;
         }
-        LruDiskCache mLruDiskCache = LruDiskCache.getDiskCache(cacheDirName + "/" + cacheLabel);
-        mLruDiskCache.clearCache();
+
+        public void run(){
+            if (callback != null) {
+                Map<String, Object> data = new HashMap<>();
+                if (cacheLabel == null || cacheLabel.isEmpty()) {
+                    data.put("size", 0);
+                }else{
+                    LruDiskCache mLruDiskCache = LruDiskCache.getDiskCache(cacheDirName + "/" + cacheLabel);
+                    data.put("size", mLruDiskCache.getCacheSize());
+                }
+                callback.invoke(data);
+            }
+        }
+    }
+
+    /**
+     * 清除缓存
+     */
+    public static class clearCache extends Thread {
+
+        private String cacheLabel;
+
+        public clearCache(String cacheLabel) {
+            this.cacheLabel = cacheLabel;
+        }
+
+        public void run(){
+            if (cacheLabel == null || cacheLabel.isEmpty()) {
+                return;
+            }
+            LruDiskCache mLruDiskCache = LruDiskCache.getDiskCache(cacheDirName + "/" + cacheLabel);
+            mLruDiskCache.clearCache();
+        }
     }
 
     /**

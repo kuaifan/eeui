@@ -60,7 +60,7 @@ public final class LruDiskCache {
 
     private LruDiskCache(String dirName) {
         this.cacheDirName = dirName;
-        this.cacheDb = x.getDb(DbConfigs.HTTP.getConfig());
+        this.cacheDb = x.getDb(DbConfigs.getCustom(dirName));
         this.cacheDir = FileUtil.getCacheDir(dirName);
         if (this.cacheDir != null && (this.cacheDir.exists() || this.cacheDir.mkdirs())) {
             available = true;
@@ -180,6 +180,22 @@ public final class LruDiskCache {
         }
 
         return result;
+    }
+
+    /**
+     * 获取缓存大小
+     */
+    public long getCacheSize() {
+        long size = FileUtil.getFileOrDirSize(cacheDir);
+        try {
+            File tmp = new File(this.cacheDb.getDatabase().getPath());
+            if (tmp.exists() && tmp.isFile()) {
+                size+= FileUtil.getFileOrDirSize(tmp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
     }
 
     /**

@@ -86,30 +86,24 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/attr" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/intermediate-jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/packaged-aidl" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/packagedAssets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/packaged_res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/public_res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.alibaba:fastjson:1.2.46@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.taobao.android:weex_sdk-0.18.0" level="project" />
     <orderEntry type="library" name="Gradle: com.taobao.android:weexplugin-processor:1.3@jar" level="project" />
+    <orderEntry type="library" name="Gradle: vip.kuaifan:weiui-0.0.19" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/WEIDONGMING/wwwroot/weex_weiui/library/weiui_ytxim/libs/YTX_Android_Full_SDK_v5.4.1r.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: vip.kuaifan:weiui-0.0.18" level="project" />
     <orderEntry type="library" name="Gradle: com.taobao.android:weexplugin-annotation:1.3@jar" level="project" />
   </component>
 </module>

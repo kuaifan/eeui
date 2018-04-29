@@ -66,6 +66,10 @@ public class Button extends WXVContainer<ViewGroup> implements View.OnClickListe
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_button, null);
         initPagerView();
         //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return (ViewGroup) mView;
     }
 

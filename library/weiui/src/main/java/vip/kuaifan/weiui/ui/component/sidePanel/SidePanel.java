@@ -72,6 +72,10 @@ public class SidePanel extends WXVContainer<ViewGroup> {
             ((PageActivity) getContext()).setSwipeBackEnable(false);
         }
         //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return (ViewGroup) mView;
     }
 

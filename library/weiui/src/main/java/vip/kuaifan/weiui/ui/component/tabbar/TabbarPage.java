@@ -78,6 +78,10 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
                 barBean.setTitle(weiuiParse.parseStr(value, barBean.getTitle()));
                 break;
 
+            case "url":
+                barBean.setUrl(weiuiParse.parseStr(value, ""));
+                break;
+
             case "unSelectedIcon":
                 barBean.setUnSelectedIcon(weiuiParse.parseStr(value, ""));
                 break;
@@ -90,12 +94,20 @@ public class TabbarPage extends WXVContainer<TabbarPageView> {
                 barBean.setCache(weiuiParse.parseLong(value, 0));
                 break;
 
+            case "params":
+                barBean.setParams(value);
+                break;
+
             case "message":
                 barBean.setMessage(weiuiParse.parseInt(value, 0));
                 break;
 
             case "dot":
                 barBean.setDot(weiuiParse.parseBool(value, false));
+                break;
+
+            case "statusBarColor":
+                barBean.setStatusBarColor(weiuiParse.parseStr(value, "#00000000"));
                 break;
         }
         return barBean;

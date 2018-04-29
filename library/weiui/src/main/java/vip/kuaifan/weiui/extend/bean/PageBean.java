@@ -22,6 +22,7 @@ public class PageBean {
         temp.put("url", getUrl());
         temp.put("pageName", getPageName());
         temp.put("pageType", getPageType());
+        temp.put("params", getParams());
         temp.put("cache", getUrl());
         temp.put("loading", isLoading());
         temp.put("swipeBack", isSwipeBack());
@@ -37,8 +38,8 @@ public class PageBean {
      * url :                网址
      * pageName :           页面标识（可选）
      * pageType :           类型（可选，如：web|weex，默认：weex）
-     * cache :              缓存（可选，单位：毫秒，仅weex有效，默认：0不启用）
-     * data :               传递参数（可选）
+     * params :             传递参数（可选）
+     * cache :              缓存时间（可选，单位：毫秒，仅weex有效，默认：0不启用）
      * loading : true       是否显示等待（可选，默认：true）
      * swipeBack : true     是否支持滑动返回（可选，默认：true）
      * statusBarType :      状态栏样式（可选，等于fullscreen|immersion时statusBarType、statusBarAlpha无效）
@@ -54,8 +55,8 @@ public class PageBean {
     private String url;
     private String pageName;
     private String pageType = "weex";
+    private Object params;
     private long cache = 0;
-    private Object data = null;
     private boolean loading = true;
     private boolean swipeBack = true;
     private String statusBarType = "default";
@@ -91,20 +92,24 @@ public class PageBean {
         this.pageType = pageType;
     }
 
+    public Object getParams() {
+        return params;
+    }
+
+    public void setData(Object params) {
+        this.params = params;
+    }
+
+    public void setParams(Object params) {
+        this.params = params;
+    }
+
     public long getCache() {
         return cache;
     }
 
     public void setCache(long cache) {
         this.cache = cache;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 
     public boolean isLoading() {

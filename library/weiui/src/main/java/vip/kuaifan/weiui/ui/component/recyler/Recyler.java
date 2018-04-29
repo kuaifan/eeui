@@ -11,6 +11,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -53,7 +54,8 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     private SwipeRefreshLayout v_swipeRefresh;
     private RecyclerView v_recyler;
 
-    private boolean refreshAuto;
+    private boolean isSwipeRefresh;
+    private boolean isRefreshAuto;
     private int gridRow = 1;
     private int lastVisibleItem = 0;
     private boolean hasMore = false;
@@ -80,8 +82,12 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         };
         //
         formatAttrs(getDomObject().getAttrs());
-        if (refreshAuto) {
+        if (isRefreshAuto) {
             setRefreshing(true);
+        }
+        //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
         }
         //
         return (ViewGroup) mView;
@@ -104,7 +110,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                         break;
 
                     case "refreshAuto":
-                        refreshAuto = weiuiParse.parseBool(value);
+                        isRefreshAuto = weiuiParse.parseBool(value);
                         break;
                 }
             }
@@ -287,6 +293,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
             v_swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
             v_swipeRefresh.setOnRefreshListener(this);
+            isSwipeRefresh = true;
         }else{
             v_swipeRefresh.setEnabled(false);
         }
@@ -316,6 +323,9 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+                if (isSwipeRefresh) {
+                    v_swipeRefresh.setEnabled(mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+                }
             }
 
         });
@@ -391,7 +401,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             }
         }else{
             mAdapter.updateList(-1, null, false);
-            notifyUpdateList();
+            notifyUpdateFoot();
         }
     }
 
@@ -411,7 +421,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             }
         }else{
             isLoading = false;
-            v_swipeRefresh.setRefreshing(false);
+            v_swipeRefresh.post(()-> v_swipeRefresh.setRefreshing(false));
         }
     }
 
@@ -421,7 +431,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     @JSMethod
     public void refreshed() {
         isLoading = false;
-        v_swipeRefresh.setRefreshing(false);
+        v_swipeRefresh.post(()-> v_swipeRefresh.setRefreshing(false));
     }
 
     /**
@@ -433,7 +443,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         hasMore = var;
         if (mAdapter != null) {
             mAdapter.updateList(-1, null, hasMore);
-            notifyUpdateList();
+            notifyUpdateFoot();
         }
     }
 

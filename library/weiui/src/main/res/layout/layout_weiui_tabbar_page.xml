@@ -5,32 +5,46 @@
     android:fitsSystemWindows="true">
 
     <!-- weex -->
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/v_swipeRefresh"
+        <View
+            android:id="@+id/v_statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"/>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
-                android:id="@+id/v_container"
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/v_swipeRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/v_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                </FrameLayout>
 
-        <ProgressBar
-            android:id="@+id/v_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
 
-    </FrameLayout>
+            <ProgressBar
+                android:id="@+id/v_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 
     <!-- 错误提示 -->
     <include layout="@layout/activity_page_error"/>

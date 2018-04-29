@@ -5,20 +5,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
-import vip.kuaifan.weiui.extend.module.weiuiHtml;
 import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
@@ -90,6 +87,10 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_tabbar, null);
         initPagerView();
         //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
         return (ViewGroup) mView;
     }
 
@@ -150,7 +151,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                             for (Map.Entry<String, Object> entry : item.entrySet()) {
                                 barBean = TabbarPage.setBarAttr(barBean, entry.getKey(), entry.getValue());
                             }
-                            barBean.setView(weiuiPage.rewriteUrl(getContext(), weiuiJson.getString(item, "url")));
+                            barBean.setView(weiuiPage.rewriteUrl(getContext(), barBean.getUrl()));
                             addPageView(barBean);
                         }
                     }
@@ -446,7 +447,16 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         sdkBean.setErrorView(view.findViewById(R.id.v_error));
         sdkBean.setErrorCodeView(view.findViewById(R.id.v_error_code));
         sdkBean.setCache(barBean.getCache());
+        sdkBean.setParams(barBean.getParams());
         sdkBean.setView(barBean.getView());
+        //
+        if (!barBean.getStatusBarColor().isEmpty()) {
+            View statusBar = view.findViewById(R.id.v_statusBar);
+            statusBar.setVisibility(View.VISIBLE);
+            statusBar.setBackgroundColor(Color.parseColor(barBean.getStatusBarColor()));
+            weiuiCommon.setViewWidthHeight(statusBar, -1, weiuiCommon.getStatusBarHeight(getContext()));
+        }
+        //
         if (barBean.getView() instanceof String) {
             sdkBean.setType("urlView");
             WXSDKList.put(barBean.getTabName(), sdkBean);
@@ -596,14 +606,15 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         //
         Map<String, Object> data = new HashMap<>();
         data.put(WXSDKInstance.BUNDLE_URL, url);
+        data.put("params", sdkBean.getParams());
         if (sdkBean.getCache() > 0) {
             data.put("setting:cache", sdkBean.getCache());
-            data.put("setting:cacheLabel", "tabPage");
+            data.put("setting:cacheLabel", "page");
             weiuiIhttp.get(tabName, url, data, new weiuiIhttp.ResultCallback() {
                 @Override
                 public void success(String resData, boolean isCache) {
                     Log.d(TAG, "success: cache-" + isCache + ": " + url);
-                    sdkBean.getInstance().render(tabName, weiuiHtml.repairJsImage(resData, url), data, null, WXRenderStrategy.APPEND_ASYNC);
+                    sdkBean.getInstance().render(tabName, resData, data, null, WXRenderStrategy.APPEND_ASYNC);
                 }
 
                 @Override

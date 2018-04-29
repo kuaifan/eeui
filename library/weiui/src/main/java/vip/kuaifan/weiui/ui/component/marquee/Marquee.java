@@ -22,6 +22,7 @@ import vip.kuaifan.weiui.R;
 import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
+import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
@@ -53,6 +54,10 @@ public class Marquee extends WXVContainer<ViewGroup> {
         mView = ((Activity) context).getLayoutInflater().inflate(R.layout.layout_weiui_marquee, null);
         initPagerView();
         appleStyleAfterCreated();
+        //
+        if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
+            fireEvent(weiuiConstants.Event.READY, null);
+        }
         //
         return (ViewGroup) mView;
     }

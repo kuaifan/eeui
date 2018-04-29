@@ -9,11 +9,14 @@ import android.support.v4.app.Fragment;
 import com.luck.picture.lib.weiui.library.config.PictureConfig;
 import com.luck.picture.lib.weiui.library.entity.LocalMedia;
 import com.luck.picture.lib.weiui.library.tools.DoubleUtils;
+import com.taobao.weex.bridge.JSCallback;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 
 /**
  * author：luck
@@ -131,14 +134,27 @@ public final class PictureSelector {
      * @param position
      * @param medias
      */
-    public void externalPicturePreview(int position, List<LocalMedia> medias) {
+    public void externalPicturePreview(int position, List<LocalMedia> medias, JSCallback callback) {
         if (!DoubleUtils.isFastDoubleClick()) {
             Intent intent = new Intent(getActivity(), PictureExternalPreviewActivity.class);
             intent.putExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST, (Serializable) medias);
             intent.putExtra(PictureConfig.EXTRA_POSITION, position);
-            getActivity().startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.a5, 0);
+            //
+            if (callback != null) {
+                String callbackId = weiuiCommon.randomString(8);
+                PictureExternalPreviewActivity.mCallbackLists.put(callbackId, callback);
+                intent.putExtra("callbackId", callbackId);
+            }
+            //
+            if (getActivity() != null) {
+                getActivity().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.a5, 0);
+            }
         }
+    }
+
+    public void externalPicturePreview(int position, List<LocalMedia> medias) {
+        externalPicturePreview(position, medias, null);
     }
 
     /**

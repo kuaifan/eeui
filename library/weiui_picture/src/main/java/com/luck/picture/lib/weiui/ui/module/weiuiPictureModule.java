@@ -5,11 +5,16 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.alibaba.weex.plugin.annotation.WeexModule;
+import com.luck.picture.lib.weiui.library.PictureExternalPreviewActivity;
 import com.luck.picture.lib.weiui.library.PictureSelectionModel;
 import com.luck.picture.lib.weiui.library.PictureSelector;
+import com.luck.picture.lib.weiui.library.compress.Luban;
+import com.luck.picture.lib.weiui.library.compress.OnCompressListener;
 import com.luck.picture.lib.weiui.library.config.PictureConfig;
 import com.luck.picture.lib.weiui.library.config.PictureMimeType;
+import com.luck.picture.lib.weiui.library.entity.EventEntity;
 import com.luck.picture.lib.weiui.library.entity.LocalMedia;
+import com.luck.picture.lib.weiui.library.rxbus2.RxBus;
 import com.luck.picture.lib.weiui.library.tools.PictureFileUtils;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
@@ -24,6 +29,8 @@ import vip.kuaifan.weiui.PageActivity;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
+import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiMap;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
@@ -38,6 +45,29 @@ public class weiuiPictureModule extends WXModule {
     private static final String TAG = "weiuiPictureModule";
 
     private Handler mHandler = new Handler();
+
+    private List<LocalMedia> toLocalMedia(JSONArray selectedList) {
+        List<LocalMedia> selected = new ArrayList<>();
+        if (selectedList != null) {
+            for (int i = 0; i <  selectedList.size(); i++) {
+                JSONObject tempJson = weiuiJson.parseObject(selectedList.get(i));
+                LocalMedia tempMedia = new LocalMedia();
+                tempMedia.setDuration(tempJson.getInteger("duration"));
+                tempMedia.setPath(tempJson.getString("path"));
+                tempMedia.setCut(tempJson.getBoolean("cut"));
+                tempMedia.setNum(tempJson.getInteger("num"));
+                tempMedia.setWidth(tempJson.getInteger("width"));
+                tempMedia.setHeight(tempJson.getInteger("height"));
+                tempMedia.setChecked(tempJson.getBoolean("checked"));
+                tempMedia.setMimeType(tempJson.getInteger("mimeType"));
+                tempMedia.setPosition(tempJson.getInteger("position"));
+                tempMedia.setCompressed(tempJson.getBoolean("compressed"));
+                tempMedia.setPictureType(tempJson.getString("pictureType"));
+                selected.add(tempMedia);
+            }
+        }
+        return selected;
+    }
 
     /***************************************************************************************************/
     /***************************************************************************************************/
@@ -72,24 +102,7 @@ public class weiuiPictureModule extends WXModule {
                 }
                 switch (status) {
                     case "create":
-                        List<LocalMedia> selected = new ArrayList<>();
-                        JSONArray selectedList = weiuiJson.parseArray(json.getString("selected"));
-                        for (int i = 0; i <  selectedList.size(); i++) {
-                            JSONObject tempJson = weiuiJson.parseObject(selectedList.get(i));
-                            LocalMedia tempMedia = new LocalMedia();
-                            tempMedia.setDuration(tempJson.getInteger("duration"));
-                            tempMedia.setPath(tempJson.getString("path"));
-                            tempMedia.setCut(tempJson.getBoolean("cut"));
-                            tempMedia.setNum(tempJson.getInteger("num"));
-                            tempMedia.setWidth(tempJson.getInteger("width"));
-                            tempMedia.setHeight(tempJson.getInteger("height"));
-                            tempMedia.setChecked(tempJson.getBoolean("checked"));
-                            tempMedia.setMimeType(tempJson.getInteger("mimeType"));
-                            tempMedia.setPosition(tempJson.getInteger("position"));
-                            tempMedia.setCompressed(tempJson.getBoolean("compressed"));
-                            tempMedia.setPictureType(tempJson.getString("pictureType"));
-                            selected.add(tempMedia);
-                        }
+                        List<LocalMedia> selected = toLocalMedia(weiuiJson.parseArray(json.getString("selected")));
                         PictureSelectionModel model;
                         if (weiuiJson.getString(json, "type", "gallery").equals("camera")) {
                             model = PictureSelector.create(mBean.getActivity())
@@ -161,12 +174,53 @@ public class weiuiPictureModule extends WXModule {
     }
 
     /**
+     * 压缩图片
+     * @param object
+     * @param callback
+     */
+    @JSMethod
+    public void compressImage(String object, final JSCallback callback) {
+        JSONObject json = weiuiJson.parseObject(object);
+        final List<LocalMedia> selected = toLocalMedia(weiuiJson.parseArray(json.getString("lists")));
+        Luban.with(mWXSDKInstance.getContext())
+                .loadLocalMedia(selected)
+                .ignoreBy(weiuiJson.getInt(json, "compressSize", 100))
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onSuccess(List<LocalMedia> list) {
+                        RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
+                        if (callback != null) {
+                            Map<String, Object> callData = new HashMap<>();
+                            callData.put("status", "success");
+                            callData.put("lists", list);
+                            callback.invokeAndKeepAlive(callData);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        RxBus.getDefault().post(new EventEntity(PictureConfig.CLOSE_PREVIEW_FLAG));
+                        if (callback != null) {
+                            Map<String, Object> callData = new HashMap<>();
+                            callData.put("status", "error");
+                            callData.put("lists", selected);
+                            callback.invokeAndKeepAlive(callData);
+                        }
+                    }
+                }).launch();
+    }
+
+    /**
      * 预览图片
      * @param position
      * @param array
      */
     @JSMethod
-    public void picturePreview(int position, String array) {
+    public void picturePreview(int position, String array, JSCallback callback) {
         JSONArray lists = weiuiJson.parseArray(array);
         if (lists.size() == 0) {
             JSONObject tempJson = new JSONObject();
@@ -176,15 +230,19 @@ public class weiuiPictureModule extends WXModule {
         //
         List<LocalMedia> mediaLists = new ArrayList<>();
         for (int i = 0; i < lists.size(); i++) {
-            JSONObject tempJson = weiuiJson.parseObject(lists.get(i));
             LocalMedia tempMedia = new LocalMedia();
-            tempMedia.setPath(tempJson.getString("path"));
+            if (lists.get(i) instanceof String) {
+                tempMedia.setPath((String) lists.get(i));
+            }else{
+                JSONObject tempJson = weiuiJson.parseObject(lists.get(i));
+                tempMedia.setPath(tempJson.getString("path"));
+            }
             mediaLists.add(tempMedia);
         }
         if (mediaLists.size() == 0) {
             return;
         }
-        PictureSelector.create((Activity) mWXSDKInstance.getContext()).externalPicturePreview(position, mediaLists);
+        PictureSelector.create((Activity) mWXSDKInstance.getContext()).externalPicturePreview(position, mediaLists, callback);
     }
 
     /**

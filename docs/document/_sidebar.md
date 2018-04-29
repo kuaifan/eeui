@@ -24,7 +24,8 @@
 - 模块 Module
     - [newPage 页面功能](module/newPage)
     - [system 系统信息](module/system)
-    - [caches 数据缓存](module/caches)
+    - [storage 数据储存](module/storage)
+    - [caches 缓存管理 <font color="red" size="2">[新]</font>](module/caches)
     - [weex px单位转换](module/weexpx)
     - [loading 等待弹窗](module/loading)
     - [captcha 验证弹窗](module/captcha)
@@ -52,15 +53,16 @@
     - [vibrateTool 震动相关](module/expand/vibrateTool)
 
 - 第三方模块 Third Module
-    - pictureSelector 多图片选择器
+    - <b>pictureSelector 多图片选择器</b>
         - [install 安装接入示例](module/third/pictureSelector/install)
         - [create 启动相册拍照](module/third/pictureSelector/create)
+        - [compress 压缩图片 <font color="red" size="2">[新]</font>](module/third/pictureSelector/compress)
         - [preview 预览图片视频](module/third/pictureSelector/preview)
         - [deleteCache 缓存清除](module/third/pictureSelector/deleteCache)
-    - umeng 友盟推送统计模块 <font color="red" size="2">[新]</font>
+    - <b>umeng 友盟推送统计模块 <font color="red" size="2">[新]</font></b>
         - [create 创建应用](module/third/umeng/create)
         - [install 安装接入](module/third/umeng/install)
         - [notification 监听通知](module/third/umeng/notification)
-    - 城市选择器 <font color="red" size="2">[新]</font>
+    - <b>城市选择器 <font color="red" size="2">[新]</font></b>
         - [install 接入使用](module/third/citypicker/install)
 

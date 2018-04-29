@@ -41,6 +41,7 @@ import com.luck.picture.lib.weiui.library.widget.PreviewViewPager;
 import com.luck.picture.lib.weiui.library.widget.longimage.ImageSource;
 import com.luck.picture.lib.weiui.library.widget.longimage.ImageViewState;
 import com.luck.picture.lib.weiui.library.widget.longimage.SubsamplingScaleImageView;
+import com.taobao.weex.bridge.JSCallback;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -48,7 +49,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -62,6 +65,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class PictureExternalPreviewActivity extends PictureBaseActivity implements View.OnClickListener {
     private ImageButton left_back;
+    private ImageButton right_del;
     private TextView tv_title;
     private PreviewViewPager viewPager;
     private List<LocalMedia> images = new ArrayList<>();
@@ -72,6 +76,10 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
     private RxPermissions rxPermissions;
     private loadDataThread loadDataThread;
 
+    private String callbackId;
+    private JSCallback mCallback;
+    public static Map<String, JSCallback> mCallbackLists = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +87,20 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
         inflater = LayoutInflater.from(this);
         tv_title = (TextView) findViewById(R.id.picture_title);
         left_back = (ImageButton) findViewById(R.id.left_back);
+        right_del = (ImageButton) findViewById(R.id.right_del);
         viewPager = (PreviewViewPager) findViewById(R.id.preview_pager);
         position = getIntent().getIntExtra(PictureConfig.EXTRA_POSITION, 0);
         directory_path = getIntent().getStringExtra(PictureConfig.DIRECTORY_PATH);
         images = (List<LocalMedia>) getIntent().getSerializableExtra(PictureConfig.EXTRA_PREVIEW_SELECT_LIST);
         left_back.setOnClickListener(this);
+
+        callbackId = getIntent().getStringExtra("callbackId");
+        if (callbackId != null && mCallbackLists.get(callbackId) != null) {
+            mCallback = mCallbackLists.get(callbackId);
+            right_del.setVisibility(View.VISIBLE);
+            right_del.setOnClickListener(this);
+        }
+
         initViewPageAdapterData();
     }
 
@@ -111,11 +128,35 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
 
     @Override
     public void onClick(View v) {
-        finish();
-        overridePendingTransition(0, R.anim.a3);
+        if (v.getId() == R.id.left_back) {
+            finish();
+            overridePendingTransition(0, R.anim.a3);
+        }else if (v.getId() == R.id.right_del) {
+            int size = images.size();
+            int index = viewPager.getCurrentItem();
+            if (size == 1) {
+                if (mCallback != null) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("position", index);
+                    mCallback.invoke(data);
+                }
+                finish();
+                overridePendingTransition(0, R.anim.a3);
+            }else{
+                if (mCallback != null) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("position", index);
+                    mCallback.invokeAndKeepAlive(data);
+                }
+                images.remove(index);
+                position = Math.min(index, images.size() - 1);
+                initViewPageAdapterData();
+            }
+        }
     }
 
     public class SimpleFragmentAdapter extends PagerAdapter {
+
 
         @Override
         public int getCount() {

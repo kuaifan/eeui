@@ -10,6 +10,11 @@
 
 ``` js
 /**
+ * 组件加载完成
+ */
+@ready = function() { ... }
+
+/**
  * 点击事件
  */
 @itemClick = function(data) { ... }

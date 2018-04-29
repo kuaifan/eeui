@@ -169,12 +169,14 @@
 | ------------- | ------ | -------------------------- | ------- |
 | tabName |`String`  | tab页签名称         | -       |
 | title |`String`  | tab名称         | New Page       |
+| url |`String`  | Weex Js文件`url`地址         | -       |
 | unSelectedIcon |`String`  | tab未选图标         | home       |
 | selectedIcon |`String`  | tab已选图标         | home       |
+| params |`Object`  | tab页面传递参数，通过`weex.config.params`获取         | -       |
 | cache | `Number` | tab页面缓存时间，设置`0`不缓存（单位：毫秒） | 0 |
 | message |`Number`  | tab未读信息数         | 0       |
 | dot |`Boolean`  | 是否显示tab未读红点         | false       |
-| url |`String`  | Weex Js文件`url`地址         | -       |
+| statusBarColor | `String` | 状态栏颜色值，默认：隐藏<br/>_主要用于主页面沉浸式时设置每个页面不同的状态栏效果_ | - |
 
 > 例如：
 
@@ -194,6 +196,11 @@
 ### 事件回调 `callback`
 
 ``` js
+/**
+ * 组件加载完成
+ */
+@ready = function() { ... }
+
 /**
  * 标签页切换时调用，滑动被停止之前一直调用
  * 返回参数：data = {position: 1, positionOffset: 1, positionOffsetPixels: 100}

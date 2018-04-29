@@ -86,6 +86,7 @@ weiui_picture.create({params}, callback(result))
 ```
 
 ###### 注①：
+
 - `create`页面创建完毕
 - `destroy`页面已销毁
 - `success`成功返回

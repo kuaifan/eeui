@@ -9,45 +9,10 @@ import vip.kuaifan.weiui.extend.integration.xutils.ex.DbException;
  * 全局db配置
  */
 public enum DbConfigs {
-    HTTP(new DbManager.DaoConfig()
-            .setDbName("xUtils_http_cache.db")
-            .setDbVersion(1)
-            .setDbOpenListener(new DbManager.DbOpenListener() {
-                @Override
-                public void onDbOpened(DbManager db) {
-                    db.getDatabase().enableWriteAheadLogging();
-                }
-            })
-            .setDbUpgradeListener(new DbManager.DbUpgradeListener() {
-                @Override
-                public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
-                    try {
-                        db.dropDb(); // 默认删除所有表
-                    } catch (DbException ex) {
-                        LogUtil.e(ex.getMessage(), ex);
-                    }
-                }
-            })),
 
-    COOKIE(new DbManager.DaoConfig()
-            .setDbName("xUtils_http_cookie.db")
-            .setDbVersion(1)
-            .setDbOpenListener(new DbManager.DbOpenListener() {
-                @Override
-                public void onDbOpened(DbManager db) {
-                    db.getDatabase().enableWriteAheadLogging();
-                }
-            })
-            .setDbUpgradeListener(new DbManager.DbUpgradeListener() {
-                @Override
-                public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
-                    try {
-                        db.dropDb(); // 默认删除所有表
-                    } catch (DbException ex) {
-                        LogUtil.e(ex.getMessage(), ex);
-                    }
-                }
-            }));
+    HTTP(getCustom("cache")),
+
+    COOKIE(getCustom("cookie"));
 
     private DbManager.DaoConfig config;
 
@@ -57,5 +22,20 @@ public enum DbConfigs {
 
     public DbManager.DaoConfig getConfig() {
         return config;
+    }
+
+    public static DbManager.DaoConfig getCustom(String dirName) {
+        dirName = dirName == null ? "cache" : dirName.replaceAll("/", "_");
+        return new DbManager.DaoConfig()
+                .setDbName("xUtils_http_" + dirName + ".db")
+                .setDbVersion(1)
+                .setDbOpenListener(db -> db.getDatabase().enableWriteAheadLogging())
+                .setDbUpgradeListener((db, oldVersion, newVersion) -> {
+                    try {
+                        db.dropDb(); // 默认删除所有表
+                    } catch (DbException ex) {
+                        LogUtil.e(ex.getMessage(), ex);
+                    }
+                });
     }
 }

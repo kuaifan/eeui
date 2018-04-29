@@ -160,6 +160,11 @@
 
 ``` js
 /**
+ * 组件加载完成
+ */
+@ready = function() { ... }
+
+/**
  * 侧边栏项目点击事件
  * 返回参数：data = {name: 'pageName', position: 1}
  */

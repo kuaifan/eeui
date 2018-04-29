@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -46,41 +47,52 @@ public class LoadingDialog extends weiuiDialog {
         if (json.size() == 0 && obj != null && obj.equals("null")) {
             json.put("title", String.valueOf(obj));
         }
+        String loadName = weiuiCommon.randomString(8);
+        //
         LoadingDialog mLoadingCustom;
         mLoadingCustom = new LoadingDialog(context, weiuiJson.getBoolean(json, "cancelable", true), dialogInterface -> {
             if (callback != null) {
                 callback.invoke(null);
             }
+            close(loadName, true);
         });
         if (mLoadingCustom.show(json)) {
             loadBean temp = new loadBean();
-            temp.setName(weiuiCommon.randomString(8));
+            temp.setName(loadName);
             temp.setLoading(mLoadingCustom);
             mLoadBean.add(temp);
             //
             int duration = weiuiJson.getInt(json, "duration");
             if (duration > 0) {
-                mHandler.postDelayed(()-> close(temp.getName()), duration);
+                mHandler.postDelayed(()-> close(loadName), duration);
             }
             //
-            return temp.getName();
+            return loadName;
         }else{
             return "";
         }
     }
 
     public static void close(String var) {
+        close(var, false);
+    }
+
+    public static void close(String var, boolean onlyRemoveData) {
         if (mLoadBean.size() > 0) {
             for (int i = 0; i < mLoadBean.size(); i++) {
                 loadBean temp = mLoadBean.get(i);
                 if (temp != null) {
                     if (var == null) {
-                        try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
+                        if (!onlyRemoveData) {
+                            try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
+                        }
                         mLoadBean.remove(i);
                         break;
                     }else{
                         if (temp.getName().equals(var)) {
-                            try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
+                            if (!onlyRemoveData) {
+                                try { temp.getLoading().cancel(); } catch (IllegalArgumentException ignored) { }
+                            }
                             mLoadBean.remove(i);
                             break;
                         }

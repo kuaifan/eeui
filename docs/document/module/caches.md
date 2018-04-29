@@ -4,44 +4,102 @@
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 保存数据信息
+# 获取内部缓存目录大小
 ```js
 /**
- * @param key       数据键名
- * @param value     数据值
- * @param expired   有效时间（单位：秒），0：不限制有效时间
+ * @param callback  回调事件
  */
-weiui.setCachesString(key, value, expired)
+weiui.getCacheSizeDir(callback(result))
 ```
 
-#### 获取数据信息
+#### callback 回调`result`说明
+
 ```js
-/**
- * @param key           数据键名
- * @param defaultVal    无数据时返回值
- * 
- * @return String
- */
-let variable = weiui.getCachesString(key, defaultVal)
+{
+    size: 1012  //缓存大小，单位：字节B
+}
 ```
 
-#### 设置全局变量
+# 清空内部缓存目录
 ```js
 /**
- * @param key       数据键名
- * @param value     数据值
+ * @param callback  回调事件
  */
-weiui.setVariate(key, value)
+weiui.clearCacheDir(callback(result))
 ```
 
-#### 获取全局变量
+#### callback 回调`result`说明
+
+```js
+{
+    success: 12,    //成功清除多少个
+    error: 0,       //清除失败多少个
+}
+```
+
+# 获取内部文件目录大小
 ```js
 /**
- * @param key           数据键名
- * @param defaultVal    无数据时返回值
- * 
- * @return String
+ * @param callback  回调事件
  */
-let variable = weiui.getVariate(key, defaultVal)
+weiui.getCacheSizeFiles(callback(result))
 ```
+
+#### callback 回调`result`说明
+
+```js
+{
+    size: 1012  //缓存大小，单位：字节B
+}
+```
+
+# 清空内部文件目录
+```js
+/**
+ * @param callback  回调事件
+ */
+weiui.clearCacheFiles(callback(result))
+```
+
+#### callback 回调`result`说明
+
+```js
+{
+    success: 12,    //成功清除多少个
+    error: 0,       //清除失败多少个
+}
+```
+# 获取内部数据库目录大小
+```js
+/**
+ * @param callback  回调事件
+ */
+weiui.getCacheSizeDbs(callback(result))
+```
+
+#### callback 回调`result`说明
+
+```js
+{
+    size: 1012  //缓存大小，单位：字节B
+}
+```
+
+# 清空内部数据库目录
+```js
+/**
+ * @param callback  回调事件
+ */
+weiui.clearCacheDbs(callback(result))
+```
+
+#### callback 回调`result`说明
+
+```js
+{
+    success: 12,    //成功清除多少个
+    error: 0,       //清除失败多少个
+}
+```
+
 

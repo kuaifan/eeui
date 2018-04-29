@@ -25,6 +25,7 @@ public class WXSDKBean {
     private WXSDKInstance instance;
 
     private String type = "";
+    private Object params;
     private long cache = 0;
 
     private Object view;
@@ -99,6 +100,14 @@ public class WXSDKBean {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Object getParams() {
+        return params;
+    }
+
+    public void setParams(Object params) {
+        this.params = params;
     }
 
     public long getCache() {
