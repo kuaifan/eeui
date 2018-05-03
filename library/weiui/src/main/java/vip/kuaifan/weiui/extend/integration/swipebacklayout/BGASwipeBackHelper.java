@@ -72,7 +72,7 @@ public class BGASwipeBackHelper {
                 public void onPanelSlide(View panel, float slideOffset) {
                     // 开始滑动返回时关闭软键盘
                     if (slideOffset < 0.03) {
-                        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+                        BGAKeyboardUtil.closeKeyboard(mActivity);
                     }
 
                     mDelegate.onSwipeBackLayoutSlide(slideOffset);
@@ -263,7 +263,7 @@ public class BGASwipeBackHelper {
      * @param cls 下一个 Activity 的 Class
      */
     public void forward(Class<?> cls) {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.startActivity(new Intent(mActivity, cls));
         executeForwardAnim();
     }
@@ -294,7 +294,7 @@ public class BGASwipeBackHelper {
      * @param intent 下一个 Activity 的意图对象
      */
     public void forward(Intent intent) {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.startActivity(intent);
         executeForwardAnim();
     }
@@ -306,7 +306,7 @@ public class BGASwipeBackHelper {
      * @param requestCode 请求码
      */
     public void forward(Intent intent, int requestCode) {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.startActivityForResult(intent, requestCode);
         executeForwardAnim();
     }
@@ -315,7 +315,7 @@ public class BGASwipeBackHelper {
      * 回到上一个 Activity，并销毁当前 Activity
      */
     public void backward() {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.finish();
         executeBackwardAnim();
     }
@@ -324,7 +324,7 @@ public class BGASwipeBackHelper {
      * 滑动返回上一个 Activity，并销毁当前 Activity
      */
     public void swipeBackward() {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.finish();
         executeSwipeBackAnim();
     }
@@ -335,7 +335,7 @@ public class BGASwipeBackHelper {
      * @param cls 上一个 Activity 的 Class
      */
     public void backwardAndFinish(Class<?> cls) {
-        vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil.closeKeyboard(mActivity);
+        BGAKeyboardUtil.closeKeyboard(mActivity);
         mActivity.startActivity(new Intent(mActivity, cls));
         mActivity.finish();
         executeBackwardAnim();

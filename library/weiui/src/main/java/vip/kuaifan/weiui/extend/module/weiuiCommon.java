@@ -46,6 +46,8 @@ import java.util.regex.PatternSyntaxException;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
 import vip.kuaifan.weiui.extend.integration.glide.request.target.SimpleTarget;
 import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;
+import vip.kuaifan.weiui.extend.integration.xutils.common.util.FileUtil;
+import vip.kuaifan.weiui.extend.integration.xutils.x;
 
 public class weiuiCommon {
 
@@ -555,38 +557,41 @@ public class weiuiCommon {
      * @param context
      * @param bmp
      */
-    public static String saveImageToGallery(Context context, Bitmap bmp) {
-        // 首先保存图片
-        File file = Environment.getExternalStorageDirectory();
-        File appDir = new File(file, "weiui");
-        if (!appDir.exists()) {
-            appDir.mkdirs();
+    public static String saveImageToGallery(Context context, Bitmap bmp, File appDir, String fileName) {
+        if (appDir == null) {
+            appDir = FileUtil.getCacheDir("image");
         }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File currentFile = new File(appDir, fileName);
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(currentFile);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        if (fileName == null) {
+            fileName = System.currentTimeMillis() + ".jpg";
+        }
+        if (appDir != null && (appDir.exists() || appDir.mkdirs())) {
+            // 保存图片
+            File currentFile = new File(appDir, fileName);
+            FileOutputStream fos = null;
             try {
-                if (fos != null) {
-                    fos.close();
-                }
+                fos = new FileOutputStream(currentFile);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.flush();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            // 通知图库更新
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(currentFile.getPath()))));
+            //
+            return currentFile.getPath();
+        }else{
+            return null;
         }
-        // 最后通知图库更新
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(currentFile.getPath()))));
-        //
-        return currentFile.getPath();
     }
 
     /**
@@ -807,7 +812,8 @@ public class weiuiCommon {
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                         if (!loadSure[0]) {
                             loadSure[0] = true;
-                            String path = weiuiCommon.saveImageToGallery(context, resource);
+                            File appDir = new File(Environment.getExternalStorageDirectory(), x.app().getPackageName());
+                            String path = weiuiCommon.saveImageToGallery(context, resource, appDir, null);
                             if (mJSCallback != null) {
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "success");

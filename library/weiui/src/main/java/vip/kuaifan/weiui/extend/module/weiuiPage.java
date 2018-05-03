@@ -3,8 +3,11 @@ package vip.kuaifan.weiui.extend.module;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
+import com.taobao.weex.WXSDKInstance;
+import com.taobao.weex.common.WXRenderStrategy;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +22,8 @@ import vip.kuaifan.weiui.extend.bean.PageBean;
  */
 
 public class weiuiPage {
+
+    private static final String TAG = "weiuiPage";
 
     private static Map<String, PageBean> mPageBean = new HashMap<>();
 
@@ -38,6 +43,11 @@ public class weiuiPage {
         }
     }
 
+    /**
+     * 打开页面
+     * @param context
+     * @param mBean
+     */
     public static void openWin(Context context, PageBean mBean) {
         if (mBean == null) {
             return;
@@ -67,6 +77,11 @@ public class weiuiPage {
         context.startActivity(intent);
     }
 
+    /**
+     * 获取页面详细参数
+     * @param name
+     * @return
+     */
     public static PageBean getWinInfo(String name) {
         if (name == null) {
             return null;
@@ -85,6 +100,10 @@ public class weiuiPage {
         return null;
     }
 
+    /**
+     * 刷新页面
+     * @param name
+     */
     public static void reloadWin(String name) {
         if (name == null) {
             return;
@@ -102,6 +121,10 @@ public class weiuiPage {
         }
     }
 
+    /**
+     * 关闭页面
+     * @param name
+     */
     public static void closeWin(String name) {
         if (name == null) {
             return;
@@ -117,6 +140,11 @@ public class weiuiPage {
         activity.finish();
     }
 
+    /**
+     * 获取页面名称
+     * @param object
+     * @return
+     */
     public static String getPageName(String object) {
         JSONObject json = weiuiJson.parseObject(object);
         if (json.size() == 0) {
@@ -129,6 +157,12 @@ public class weiuiPage {
         return pageName;
     }
 
+    /**
+     * 补全地址
+     * @param context
+     * @param url
+     * @return
+     */
     public static String rewriteUrl(Context context, String url) {
         if (url == null || url.startsWith("http") || url.startsWith("ftp://")) {
             return url;
@@ -140,5 +174,60 @@ public class weiuiPage {
             }
         }
         return url;
+    }
+
+    /**
+     * 缓存页面
+     * @param url       缓存地址
+     * @param cache     缓存时长，单位：毫秒
+     * @param params    传递参数
+     * @param mOnCachePageCallback
+     */
+    public static void cachePage(String url, long cache, Object params, OnCachePageCallback mOnCachePageCallback) {
+        if (url == null || mOnCachePageCallback == null) {
+            return;
+        }
+        Map<String, Object> resParams = new HashMap<>();
+        resParams.put(WXSDKInstance.BUNDLE_URL, url);
+        resParams.put("params", params);
+        //
+        if (cache < 1000) {
+            Log.d(TAG, "cachePage nocache: " + url);
+            mOnCachePageCallback.error(resParams);
+            return;
+        }
+        //
+        Map<String, Object> data = new HashMap<>();
+        data.put(WXSDKInstance.BUNDLE_URL, url);
+        data.put("params", params);
+        data.put("setting:cache", cache);
+        data.put("setting:cacheLabel", "page");
+        weiuiIhttp.get("weiuiPage", url, data, new weiuiIhttp.ResultCallback() {
+            @Override
+            public void success(String resData, boolean isCache) {
+                Log.d(TAG, "cachePage success: " + isCache + ": " + url);
+                mOnCachePageCallback.success(resParams, resData);
+            }
+
+            @Override
+            public void error(String error) {
+                Log.d(TAG, "cachePage error: " + url);
+                mOnCachePageCallback.error(resParams);
+            }
+
+            @Override
+            public void complete() {
+                mOnCachePageCallback.complete(resParams);
+            }
+        });
+    }
+
+    /**
+     * 缓存页面相应函数
+     */
+    public interface OnCachePageCallback {
+        void success(Map<String, Object> resParams, String resData);
+        void error(Map<String, Object> resParams);
+        void complete(Map<String, Object> resParams);
     }
 }

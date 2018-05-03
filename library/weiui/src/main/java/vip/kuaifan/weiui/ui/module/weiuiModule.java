@@ -433,11 +433,11 @@ public class weiuiModule extends WXModule {
      * @param expired
      */
     @JSMethod(uiThread = false)
-    public void setCachesString(String key, String value, long expired) {
+    public void setCachesString(String key, String value, Long expired) {
         if (key == null || value == null) {
             return;
         }
-        weiuiCommon.setCachesString(mWXSDKInstance.getContext(), "weiuiCaches", key, value, expired);
+        weiuiCommon.setCachesString(mWXSDKInstance.getContext(), "weiuiCaches", key, value, weiuiParse.parseLong(expired));
     }
 
     /**

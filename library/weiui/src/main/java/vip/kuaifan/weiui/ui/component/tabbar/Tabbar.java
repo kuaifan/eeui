@@ -57,6 +57,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
 
     private String tabbarType;
 
+    private String loadedViewTabName;
+
     private NoAnimationViewPager mViewPager;
 
     private TabbarAdapter mTabPagerAdapter;
@@ -510,13 +512,28 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             String getTabName = getTabName(position);
             WXSDKBean sdkBean = WXSDKList.get(getTabName);
             if (sdkBean != null && !sdkBean.isLoaded()) {
-                sdkBean.setLoaded(true);
-                WXSDKList.put(getTabName, sdkBean);
-                //
+                if (!sdkBean.isLoaded()) {
+                    sdkBean.setLoaded(true);
+                    WXSDKList.put(getTabName, sdkBean);
+                    if (sdkBean.getType().equals("urlView")) {
+                        addWXSDKView(getTabName);
+                    }else if (sdkBean.getType().equals("pageView")) {
+                        addWXPageView(getTabName);
+                    }
+                }
                 if (sdkBean.getType().equals("urlView")) {
-                    addWXSDKView(getTabName);
-                }else if (sdkBean.getType().equals("pageView")) {
-                    addWXPageView(getTabName);
+                    if (loadedViewTabName != null && !loadedViewTabName.equals(getTabName)) {
+                        WXSDKBean lastSdkBean = WXSDKList.get(loadedViewTabName);
+                        if (lastSdkBean != null) {
+                            if (lastSdkBean.getInstance() != null) {
+                                lastSdkBean.getInstance().onActivityPause();
+                            }
+                        }
+                        if (sdkBean.getInstance() != null) {
+                            sdkBean.getInstance().onActivityResume();
+                        }
+                    }
+                    loadedViewTabName = getTabName;
                 }
             }
         }
@@ -604,34 +621,22 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             }
         });
         //
-        Map<String, Object> data = new HashMap<>();
-        data.put(WXSDKInstance.BUNDLE_URL, url);
-        data.put("params", sdkBean.getParams());
-        if (sdkBean.getCache() > 0) {
-            data.put("setting:cache", sdkBean.getCache());
-            data.put("setting:cacheLabel", "page");
-            weiuiIhttp.get(tabName, url, data, new weiuiIhttp.ResultCallback() {
-                @Override
-                public void success(String resData, boolean isCache) {
-                    Log.d(TAG, "success: cache-" + isCache + ": " + url);
-                    sdkBean.getInstance().render(tabName, resData, data, null, WXRenderStrategy.APPEND_ASYNC);
-                }
+        weiuiPage.cachePage(url, sdkBean.getCache(), sdkBean.getParams(), new weiuiPage.OnCachePageCallback() {
+            @Override
+            public void success(Map<String, Object> resParams, String resData) {
+                sdkBean.getInstance().render(tabName, resData, resParams, null, WXRenderStrategy.APPEND_ASYNC);
+            }
 
-                @Override
-                public void error(String error) {
-                    Log.d(TAG, "error: cache: " + url);
-                    sdkBean.getInstance().renderByUrl(tabName, url, data, null, WXRenderStrategy.APPEND_ASYNC);
-                }
+            @Override
+            public void error(Map<String, Object> resParams) {
+                sdkBean.getInstance().renderByUrl("Tabbar:" + tabName, url, resParams, null, WXRenderStrategy.APPEND_ASYNC);
+            }
 
-                @Override
-                public void complete() {
+            @Override
+            public void complete(Map<String, Object> resParams) {
 
-                }
-            });
-        }else{
-            Log.d(TAG, "success: default: " + url);
-            sdkBean.getInstance().renderByUrl("Tabbar:" + tabName, url, data, null, WXRenderStrategy.APPEND_ASYNC);
-        }
+            }
+        });
     }
 
     /**

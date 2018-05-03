@@ -35,6 +35,7 @@ import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
+import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
@@ -592,9 +593,9 @@ public class BGASwipeBackLayout extends ViewGroup {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         // ======================== 新加的 START ========================
 //        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int widthSize = vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getRealScreenWidth(mActivity);
+        int widthSize = UIUtil.getRealScreenWidth(mActivity);
 //        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        int heightSize = vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getRealScreenHeight(mActivity);
+        int heightSize = UIUtil.getRealScreenHeight(mActivity);
         // ======================== 新加的 END ========================
 
         if (widthMode != MeasureSpec.EXACTLY) {
@@ -638,12 +639,12 @@ public class BGASwipeBackLayout extends ViewGroup {
         }
 
         // ======================== 新加的 START ========================
-        if (!mIsNavigationBarOverlap && vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.isPortrait(mActivity)) {
-            maxLayoutHeight -= vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getNavigationBarHeight(mActivity);
+        if (!mIsNavigationBarOverlap && UIUtil.isPortrait(mActivity)) {
+            maxLayoutHeight -= UIUtil.getNavigationBarHeight(mActivity);
         }
 
-        if (mIsNavigationBarOverlap && !vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.isPortrait(mActivity)) {
-            widthSize += vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getNavigationBarHeight(mActivity);
+        if (mIsNavigationBarOverlap && !UIUtil.isPortrait(mActivity)) {
+            widthSize += UIUtil.getNavigationBarHeight(mActivity);
         }
         // ======================== 新加的 END ========================
 
@@ -1601,7 +1602,7 @@ public class BGASwipeBackLayout extends ViewGroup {
         }
     }
 
-    public static class LayoutParams extends MarginLayoutParams {
+    public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         private static final int[] ATTRS = new int[]{
                 android.R.attr.layout_weight
         };
@@ -1633,7 +1634,7 @@ public class BGASwipeBackLayout extends ViewGroup {
             super(width, height);
         }
 
-        public LayoutParams(ViewGroup.LayoutParams source) {
+        public LayoutParams(android.view.ViewGroup.LayoutParams source) {
             super(source);
         }
 

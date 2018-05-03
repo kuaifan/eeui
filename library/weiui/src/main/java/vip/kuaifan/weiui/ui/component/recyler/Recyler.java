@@ -290,11 +290,13 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         v_swipeRefresh = mView.findViewById(R.id.v_swipeRefresh);
         v_recyler = mView.findViewById(R.id.v_recyler);
         //
+        v_swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        v_swipeRefresh.setOnRefreshListener(this);
         if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
-            v_swipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-            v_swipeRefresh.setOnRefreshListener(this);
             isSwipeRefresh = true;
+            v_swipeRefresh.setEnabled(true);
         }else{
+            isSwipeRefresh = false;
             v_swipeRefresh.setEnabled(false);
         }
         //
@@ -305,7 +307,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
         v_recyler.setAdapter(mAdapter);
         v_recyler.setItemAnimator(new DefaultItemAnimator());
         itemDefaultAnimator(false);
-        v_recyler.addOnScrollListener(new RecylerOnBottomScrollListener() {
+        v_recyler.addOnScrollListener((RecyclerView.OnScrollListener) new RecylerOnBottomScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -432,6 +434,15 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     public void refreshed() {
         isLoading = false;
         v_swipeRefresh.post(()-> v_swipeRefresh.setRefreshing(false));
+    }
+
+    /**
+     * 设置下拉刷新是否可用
+     */
+    @JSMethod
+    public void refreshEnabled(boolean enabled) {
+        isSwipeRefresh = enabled;
+        v_swipeRefresh.setEnabled(enabled);
     }
 
     /**

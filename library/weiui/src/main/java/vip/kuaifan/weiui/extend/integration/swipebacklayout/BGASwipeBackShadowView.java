@@ -120,7 +120,7 @@ class BGASwipeBackShadowView extends FrameLayout {
         }
 
         if (mPreActivity == null) {
-            Activity preActivity = vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackManager.getInstance().getPenultimateActivity(mActivity);
+            Activity preActivity = BGASwipeBackManager.getInstance().getPenultimateActivity(mActivity);
             if (preActivity != null) {
                 mPreActivity = new WeakReference<>(preActivity);
                 mPreDecorView = (ViewGroup) preActivity.getWindow().getDecorView();
@@ -156,15 +156,15 @@ class BGASwipeBackShadowView extends FrameLayout {
             removeView(mPreContentView);
 
             ViewGroup.LayoutParams lp = null;
-            if (!(mPreContentView instanceof vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackLayout)) {
+            if (!(mPreContentView instanceof BGASwipeBackLayout)) {
                 int width = mPreDecorView.getWidth();
-                int height = mPreDecorView.getHeight() - vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getNavigationBarHeight(activity);
-                if (!vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.isPortrait(activity)) {
-                    width = mPreDecorView.getWidth() - vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getNavigationBarHeight(activity);
+                int height = mPreDecorView.getHeight() - UIUtil.getNavigationBarHeight(activity);
+                if (!UIUtil.isPortrait(activity)) {
+                    width = mPreDecorView.getWidth() - UIUtil.getNavigationBarHeight(activity);
                     height = mPreDecorView.getHeight();
                 }
                 if (mPreDecorView instanceof FrameLayout) {
-                    lp = new LayoutParams(width, height);
+                    lp = new FrameLayout.LayoutParams(width, height);
                 } else if (mPreDecorView instanceof LinearLayout) {
                     lp = new LinearLayout.LayoutParams(width, height);
                 } else if (mPreDecorView instanceof RelativeLayout) {
@@ -204,8 +204,8 @@ class BGASwipeBackShadowView extends FrameLayout {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache(), 0, 0,
-                vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getRealScreenWidth(mActivity),
-                vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getRealScreenHeight(mActivity) - vip.kuaifan.weiui.extend.integration.swipebacklayout.UIUtil.getNavigationBarHeight(mActivity));
+                UIUtil.getRealScreenWidth(mActivity),
+                UIUtil.getRealScreenHeight(mActivity) - UIUtil.getNavigationBarHeight(mActivity));
         view.destroyDrawingCache();
         return bitmap;
     }
@@ -218,7 +218,7 @@ class BGASwipeBackShadowView extends FrameLayout {
         View childView;
         for (int i = 0; i < childCount; i++) {
             childView = viewGroup.getChildAt(i);
-            if (vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackManager.getInstance().isProblemView(childView)) {
+            if (BGASwipeBackManager.getInstance().isProblemView(childView)) {
                 return true;
             } else if (childView instanceof ViewGroup) {
                 if (containsProblemView((ViewGroup) childView)) {
@@ -255,7 +255,7 @@ class BGASwipeBackShadowView extends FrameLayout {
 
     private void onPanelSlide(Activity currentActivity, float slideOffset) {
         try {
-            Activity preActivity = vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackManager.getInstance().getPenultimateActivity(currentActivity);
+            Activity preActivity = BGASwipeBackManager.getInstance().getPenultimateActivity(currentActivity);
             if (preActivity != null) {
                 View decorView = preActivity.getWindow().getDecorView();
                 ViewCompat.setTranslationX(decorView, -decorView.getMeasuredWidth() * (1 - WE_CHAT_STYLE_MAX_OFFSET) * (1 - slideOffset));
@@ -281,7 +281,7 @@ class BGASwipeBackShadowView extends FrameLayout {
 
     private void onPanelClosed(Activity currentActivity) {
         try {
-            Activity preActivity = vip.kuaifan.weiui.extend.integration.swipebacklayout.BGASwipeBackManager.getInstance().getPenultimateActivity(currentActivity);
+            Activity preActivity = BGASwipeBackManager.getInstance().getPenultimateActivity(currentActivity);
             if (preActivity != null) {
                 View decorView = preActivity.getWindow().getDecorView();
                 ViewCompat.setTranslationX(decorView, 0);

@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,12 +40,16 @@ public class BannerLayout extends RelativeLayout {
 
     private LinearLayout indicatorContainer;
 
+    private LoopPagerAdapter pagerAdapter;
+
     private Drawable unSelectedDrawable;
     private Drawable selectedDrawable;
 
     private int WHAT_AUTO_PLAY = 1000;
 
     private boolean isAutoPlay = true;
+
+    private boolean isViewsMode = false;
 
     private int itemCount;
 
@@ -100,8 +105,12 @@ public class BannerLayout extends RelativeLayout {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == WHAT_AUTO_PLAY) {
-                if (pager != null && isAutoPlay) {
-                    pager.setCurrentItem(pager.getCurrentItem() + 1, true);
+                if (pager != null && pagerAdapter != null && isAutoPlay) {
+                    if (pagerAdapter.getCount() > 2){
+                        pager.setCurrentItem(pager.getCurrentItem() + 1, true);
+                    } else if (pagerAdapter.getCount() == 2) {
+                        pager.setCurrentItem(pager.getCurrentItem() == 0 ? pager.getCurrentItem() + 1 : pager.getCurrentItem() - 1, true);
+                    }
                     handler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, autoPlayDuration);
                 }
             }
@@ -199,7 +208,7 @@ public class BannerLayout extends RelativeLayout {
         //初始化indicatorContainer
         indicatorContainer = new LinearLayout(getContext());
         indicatorContainer.setGravity(Gravity.CENTER_VERTICAL);
-        if (!indicatorShow) {
+        if (!indicatorShow || views.size() < 2) {
             indicatorContainer.setVisibility(GONE);
         }
         RelativeLayout.LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -243,11 +252,11 @@ public class BannerLayout extends RelativeLayout {
             indicator.setImageDrawable(unSelectedDrawable);
             indicatorContainer.addView(indicator);
         }
-        LoopPagerAdapter pagerAdapter = new LoopPagerAdapter(views);
+        pagerAdapter = new LoopPagerAdapter(views);
         pager.setAdapter(pagerAdapter);
         //设置当前item到Integer.MAX_VALUE中间的一个值，看起来像无论是往前滑还是往后滑都是ok的
         //如果不设置，用户往左边滑动的时候已经划不动了
-        int targetItemPosition = Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount;
+        int targetItemPosition = pagerAdapter.getCount() < 3 ? 0 : (Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % itemCount);
         currentPosition = targetItemPosition;
         pager.setCurrentItem(targetItemPosition);
         switchIndicator(targetItemPosition % itemCount);
@@ -403,7 +412,9 @@ public class BannerLayout extends RelativeLayout {
 
         @Override
         public int getCount() {
-            //Integer.MAX_VALUE = 2147483647
+            if (isViewsMode && this.views.size() < 3) {
+                return this.views.size();
+            }
             return Integer.MAX_VALUE;
         }
 
@@ -490,20 +501,11 @@ public class BannerLayout extends RelativeLayout {
      * @param viewLists
      */
     public void setViews(final List<View> viewLists) {
+        isViewsMode = true;
         List<View> views = new ArrayList<>();
         itemCount = viewLists.size();
-        //主要是解决当item为小于3个的时候滑动有问题，这里将其拼凑成3个以上
-        if (itemCount < 1) {//当item个数0
+        if (itemCount < 1) {
             throw new IllegalStateException("item count not equal zero");
-        } else if (itemCount < 2) { //当item个数为1
-            views.add(getView(viewLists.get(0), 0));
-            views.add(getView(viewLists.get(0), 0));
-            views.add(getView(viewLists.get(0), 0));
-        } else if (itemCount < 3) {//当item个数为2
-            views.add(getView(viewLists.get(0), 0));
-            views.add(getView(viewLists.get(1), 1));
-            views.add(getView(viewLists.get(0), 0));
-            views.add(getView(viewLists.get(1), 1));
         } else {
             for (int i = 0; i < viewLists.size(); i++) {
                 views.add(getView(viewLists.get(i), i));

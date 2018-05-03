@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--设置语音消息的码率 (单位 bps)-->
+    <integer name="rc_audio_encoding_bit_rate">7950</integer>
+
+    <!--原图压缩比例-->
+    <integer name="rc_image_quality">85</integer>
+    <!--原图压缩宽、高-->
+    <integer name="rc_image_size">960</integer>
+    <!-- 设置发送输入状态 -->
+    <bool name="rc_typing_status">false</bool>
+    <!-- 下载文件默认存储路径 -->
+    <string name="rc_media_message_default_save_path">/RongCloud/Media/</string>
+    <!-- 是否开启 Extension 记忆功能 -->
+    <bool name="rc_extension_history">false</bool>
+    <!-- 设置心跳包的timer, 默认2分半（150000） , 最小值为10秒（10000）建议不要超过3分钟-->
+    <string name="rc_heartbeat_timer">150000</string>
+    <!--&lt;!&ndash;实时位置共享最大人数&ndash;&gt;-->
+    <!--<integer name="rc_max_realtime_location_perticipants">5</integer>-->
+    <!--&lt;!&ndash;实时位置共享会话类型&ndash;&gt;-->
+    <!--<string-array name="rc_realtime_support_conversation_types" translatable="false">-->
+        <!--<item>private</item>-->
+        <!--<item>group</item>-->
+    <!--</string-array>-->
+
+    <!--自定义配置重连间隔-->
+    <!--SDK 会自动启动重连机制进行10次重连(根据配置的数量)，分别是1, 2, 4, 8, 16, 32, 64, 128, 256, 512秒后-->
+    <!--轮询一遍后，再从 1 秒开始-->
+    <integer-array name="rc_reconnect_interval">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+        <item>16</item>
+        <item>32</item>
+        <item>64</item>
+        <item>128</item>
+        <item>256</item>
+        <item>512</item>
+    </integer-array>
+
+</resources>

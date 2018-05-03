@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
 import vip.kuaifan.weiui.extend.module.rxtools.module.scaner.CameraManager;
 import vip.kuaifan.weiui.extend.module.rxtools.module.scaner.CaptureActivityHandler;
 import vip.kuaifan.weiui.extend.module.rxtools.module.scaner.decoding.InactivityTimer;
@@ -453,6 +454,7 @@ public class PageActivity extends AppCompatActivity {
                 return;
             }
         }
+        BGAKeyboardUtil.closeKeyboard(this);
         super.onBackPressed();
     }
 
@@ -906,34 +908,22 @@ public class PageActivity extends AppCompatActivity {
      * Weex
      */
     private void weexRenderPage() {
-        Map<String, Object> data = new HashMap<>();
-        data.put(WXSDKInstance.BUNDLE_URL, mPageInfo.getUrl());
-        data.put("params", mPageInfo.getParams());
-        if (mPageInfo.getCache() > 0) {
-            data.put("setting:cache", mPageInfo.getCache());
-            data.put("setting:cacheLabel", "page");
-            weiuiIhttp.get(mPageInfo.getPageName(), mPageInfo.getUrl(), data, new weiuiIhttp.ResultCallback() {
-                @Override
-                public void success(String resData, boolean isCache) {
-                    Log.d(TAG, "success: cache-" + isCache + ": " + mPageInfo.getUrl());
-                    mWXSDKInstance.render(mPageInfo.getPageName(), resData, data, null, WXRenderStrategy.APPEND_ASYNC);
-                }
+        weiuiPage.cachePage(mPageInfo.getUrl(), mPageInfo.getCache(), mPageInfo.getParams(), new weiuiPage.OnCachePageCallback() {
+            @Override
+            public void success(Map<String, Object> resParams, String resData) {
+                mWXSDKInstance.render(mPageInfo.getPageName(), resData, resParams, null, WXRenderStrategy.APPEND_ASYNC);
+            }
 
-                @Override
-                public void error(String error) {
-                    Log.d(TAG, "error: cache: " + mPageInfo.getUrl());
-                    mWXSDKInstance.renderByUrl(mPageInfo.getPageName(), mPageInfo.getUrl(), data, null, WXRenderStrategy.APPEND_ASYNC);
-                }
+            @Override
+            public void error(Map<String, Object> resParams) {
+                mWXSDKInstance.renderByUrl(mPageInfo.getPageName(), mPageInfo.getUrl(), resParams, null, WXRenderStrategy.APPEND_ASYNC);
+            }
 
-                @Override
-                public void complete() {
+            @Override
+            public void complete(Map<String, Object> resParams) {
 
-                }
-            });
-        }else{
-            Log.d(TAG, "success: default: " + mPageInfo.getUrl());
-            mWXSDKInstance.renderByUrl(mPageInfo.getPageName(), mPageInfo.getUrl(), data, null, WXRenderStrategy.APPEND_ASYNC);
-        }
+            }
+        });
     }
 
     /**
