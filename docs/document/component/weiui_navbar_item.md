@@ -14,7 +14,7 @@
 </weiui_navbar_item>
 ```
 
-### 配置参数`type`
+## 配置参数`type`
 >说明：子组件类型；数据格式：字符串。
 
 | 类型     | 描述                          | 默认值     |
@@ -33,11 +33,11 @@
 ```vue
 <weiui_navbar_item type="back"></weiui_navbar_item>
 ```
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 无
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 无
 

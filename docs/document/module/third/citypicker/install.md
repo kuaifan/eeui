@@ -1,10 +1,12 @@
-## weiui_citypicker
+# 接入使用
+
+## 简介
 
 fork from [https://github.com/crazyandcoder/citypicker](https://github.com/crazyandcoder/citypicker)
 
 一款针对android平台下的城市选择器
 
-### Android 接入
+## Android 接入
 
 > 集成，添加 Gradle 依赖
 
@@ -26,17 +28,11 @@ dependencies {
 }
 ```
 
-### iOS 接入
-> 暂不支持iOS系统
-
-### H5 接入
-> 暂不支持H5系统
-
-## 预览效果
+### 预览效果
 
 ![](media/ezgif-4-82378e086c.png)
 
-## 示例代码
+### 示例代码
 
 ```vue
 <template>
@@ -94,3 +90,8 @@ dependencies {
 </script>
 ```
 
+## iOS 接入
+> 暂不支持iOS系统
+
+## H5 接入
+> 暂不支持H5系统

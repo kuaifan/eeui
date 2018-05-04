@@ -114,7 +114,7 @@
 </script>
 ```
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 
 >说明：tab自定义ui；数据格式：对象数据。
 
@@ -161,7 +161,7 @@
     :weiui="{ tabType: 'bottom' }"></weiui_tabbar>
 ```
 
-### 配置参数 `tabPages`
+## 配置参数 `tabPages`
 
 >说明：`tabPages`模式支持`url`定义页面；数据格式：对象数组。
 
@@ -193,7 +193,7 @@
                 } ]"></weiui_tabbar>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -257,7 +257,7 @@
 @scrollStateChanged = function(data) { ... }
 ```
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**

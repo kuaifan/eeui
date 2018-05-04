@@ -1,10 +1,12 @@
-#### 需要的模块
+# 等待弹窗
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.loading
+## weiui.loading
 
 > 显示等待弹窗
 
@@ -18,7 +20,7 @@ const weiui = weex.requireModule('weiui');
 let loaddingName = weiui.loading({params}, callback())
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
@@ -31,7 +33,7 @@ let loaddingName = weiui.loading({params}, callback())
 | styleColor | `String` | - | loading样式颜色 | - |
 | amount | `Float ` | - | 背景透明程度，取值：0-1 | - |
 
-###### 注①
+> 注①
 
 Style | Preview
 ------------     |   -------------
@@ -48,11 +50,11 @@ FadingCircle     | <img src='document/module/media/FadingCircle.gif' alt='Fading
 FoldingCube      | <img src='document/module/media/FoldingCube.gif' alt='FoldingCube' width="60px" height="60px"/>
 RotatingCircle   | <img src='document/module/media/RotatingCircle.gif' alt='RotatingCircle' width="60px" height="60px"/>
 
-#### callback 回调说明
+### callback 回调说明
 
 * 返回键或点击空白处取消回调事件
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①
@@ -65,7 +67,7 @@ weiui.loading({
 });
 ```
 
-# weiui.loadingClose
+## weiui.loadingClose
 
 > 关闭等待弹窗
 
@@ -77,7 +79,7 @@ weiui.loadingClose();
 weiui.loadingClose(loaddingName);
 ```
 
-#### loaddingName 参数说明
+### loaddingName 参数说明
 
 * 关闭指定名称的弹窗，留空则关闭正在显示的第一个弹窗
 

@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;

@@ -38,7 +38,7 @@
 ```
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -56,7 +56,7 @@
     }"></weiui_grid>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -79,13 +79,13 @@
 @stateChanged = function(data) { ... }
 ```
 
-###### 注①：
+> 注①：
 - `start`开始加载
 - `success`加载完毕
 - `error`加载错误
 - `title`标题发生改变
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**

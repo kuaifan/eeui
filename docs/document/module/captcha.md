@@ -1,12 +1,18 @@
-#### 需要的模块
+# 验证弹窗
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.swipeCaptcha
+## weiui.swipeCaptcha
 
 > 显示滑动验证码弹窗
+
+### 预览效果
+
+![](media/ezgif-4-b98acee0ba.gif)
 
 ```js
 /**
@@ -16,12 +22,8 @@ const weiui = weex.requireModule('weiui');
 weiui.swipeCaptcha(imgUrl, callback(result))
 ```
 
-#### 预览效果
 
-![](media/ezgif-4-b98acee0ba.gif)
-
-
-#### 示例代码
+### 示例代码
 
 ```vue
 <template>
@@ -73,13 +75,13 @@ weiui.swipeCaptcha(imgUrl, callback(result))
 </script>
 ```
 
-#### imgUrl 参数说明
+### imgUrl 参数说明
 
 | 类型 | 必须 | 描述 | 默认值 |
 | --- | :-: | --- | --- |
 | `String` | - | 自定义显示的图片 | - |
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -88,13 +90,14 @@ weiui.swipeCaptcha(imgUrl, callback(result))
 }
 ```
 
-###### 注①：
+> 注①：
+
 - `create`页面创建完毕
 - `destroy`页面已销毁
 - `success`验证成功
 - `failed`验证失败
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①

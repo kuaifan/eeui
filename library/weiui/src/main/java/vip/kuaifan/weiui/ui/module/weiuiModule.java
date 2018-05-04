@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
 import vip.kuaifan.weiui.extend.module.utilcode.util.FileUtils;
@@ -88,7 +88,7 @@ public class weiuiModule extends WXModule {
         if (json.getBoolean("loading") != null) {
             mBean.setLoading(json.getBoolean("loading"));
         }
-        //是否支持滑动返回（默认：true）
+        //是否支持滑动返回（默认：false）
         if (json.getBoolean("swipeBack") != null) {
             mBean.setSwipeBack(json.getBoolean("swipeBack"));
         }
@@ -103,6 +103,10 @@ public class weiuiModule extends WXModule {
         //状态栏透明度（默认：0）
         if (json.getInteger("statusBarAlpha") != null) {
             mBean.setStatusBarAlpha(json.getInteger("statusBarAlpha"));
+        }
+        //透明底色窗口（默认：false）
+        if (json.getBoolean("translucent") != null) {
+            mBean.setTranslucent(json.getBoolean("translucent"));
         }
         //页面背景颜色（默认：#f4f8f9）
         if (json.getString("backgroundColor") != null) {
@@ -279,6 +283,27 @@ public class weiuiModule extends WXModule {
         }
         PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
         mPageActivity.setPageStatusListener(name, callback);
+    }
+
+    /**
+     * 取消监听页面状态变化
+     * @param name
+     */
+    @JSMethod
+    public void clearPageStatusListener(String name) {
+        if (name == null) {
+            return;
+        }
+        String pageName = null;
+        if (mWXSDKInstance.getContext() instanceof PageActivity) {
+            pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        mPageActivity.clearPageStatusListener(name);
     }
 
     /**

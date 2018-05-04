@@ -1,10 +1,12 @@
-#### 需要的模块
+# vibrateTool
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 开始震动
+## 开始震动
 ```js
 /**
 * @参数一      固定值
@@ -13,7 +15,7 @@ const weiui = weex.requireModule('weiui');
 weiui.vibrateTool('vibrateOnce', millisecond)
 ```
 
-#### 停止震动
+## 停止震动
 ```js
 /**
 * @参数一      固定值

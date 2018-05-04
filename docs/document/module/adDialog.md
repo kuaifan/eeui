@@ -1,16 +1,18 @@
-#### 需要的模块
+# 广告弹窗
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 效果
-
-![](media/ezgif-1-459e6f8c95.gif)
-
-# weiui.adDialog
+## weiui.adDialog
 
 > 图片广告弹窗
+
+### 预览效果
+
+![](media/ezgif-1-459e6f8c95.gif)
 
 ```js
 /**
@@ -20,7 +22,7 @@ const weiui = weex.requireModule('weiui');
 weiui.adDialog({params}, callback(result))
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
@@ -33,7 +35,7 @@ weiui.adDialog({params}, callback(result))
 
 * `width`、`height` 两个只赋值一个时，另一个参数自动等比缩放
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -42,7 +44,8 @@ weiui.adDialog({params}, callback(result))
     imgUrl: 'http://....',     //弹窗图片地址
 }
 ```
-###### 注①：
+
+> 注①：
 
 - `load`图片加载中
 - `ready`就绪
@@ -50,7 +53,7 @@ weiui.adDialog({params}, callback(result))
 - `click`点击弹窗图片
 - `destroy`已销毁
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①
@@ -67,7 +70,7 @@ weiui.adDialog("http://..../xxx.png", (res) => {
 });
 ```
 
-# weiui.adDialogClose
+## weiui.adDialogClose
 
 > 手动关闭弹窗
 

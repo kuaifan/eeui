@@ -18,7 +18,7 @@ public class WXSDKBean {
     private boolean swipeRefreshEnable;
 
     private FrameLayout container;
-    private ProgressBar progress;
+    private View progress;
     private View errorView;
     private TextView errorCodeView;
 
@@ -62,11 +62,11 @@ public class WXSDKBean {
         this.container = container;
     }
 
-    public ProgressBar getProgress() {
+    public View getProgress() {
         return progress;
     }
 
-    public void setProgress(ProgressBar progress) {
+    public void setProgress(View progress) {
         this.progress = progress;
     }
 

@@ -1,10 +1,12 @@
-#### 需要的模块
+# 预览图片视频
+
+> 需要的模块
 
 ```js
 const weiui_picture = weex.requireModule('weiui_picture');
 ```
 
-# weiui_picture.picturePreview
+## weiui_picture.picturePreview
 
 > 预览图片。效果及示例代码请[点击这里查看](module/third/pictureSelector/install?id=预览效果)
 
@@ -17,7 +19,7 @@ const weiui_picture = weex.requireModule('weiui_picture');
 weiui_picture.picturePreview(position, [path], callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -25,7 +27,7 @@ weiui_picture.picturePreview(position, [path], callback(result))
 }
 ```
 
-# weiui_picture.videoPreview
+## weiui_picture.videoPreview
 
 > 预览视频。效果及示例代码请[点击这里查看](module/third/pictureSelector/install?id=预览效果)
 

@@ -128,24 +128,32 @@ public class Grid extends WXVContainer<ViewGroup> {
                 setDividerWidth(weiuiParse.parseInt(val, 1));
                 return true;
 
-            case "indicator":
-                setIndicator(weiuiParse.parseBool(val, true));
+            case "indicatorShow":
+                setIndicatorShow(val);
                 return true;
 
-            case "indicatorUnSelectedColor":
-                setIndicatorUnSelectedColor(weiuiParse.parseStr(val, "#E0E0E0"));
+            case "indicatorShape":
+                setIndicatorShape(weiuiParse.parseInt(val));
                 return true;
 
-            case "indicatorSelectedColor":
-                setIndicatorSelectedColor(weiuiParse.parseStr(val, "#ff0000"));
+            case "indicatorSpace":
+                setIndicatorSpace(weiuiParse.parseInt(val));
+                return true;
+
+            case "selectedIndicatorColor":
+                setSelectedIndicatorColor(weiuiParse.parseStr(val));
+                return true;
+
+            case "unSelectedIndicatorColor":
+                setUnSelectedIndicatorColor(weiuiParse.parseStr(val));
                 return true;
 
             case "indicatorWidth":
-                setIndicatorWidth(weiuiParse.parseInt(val, 8));
+                setIndicatorWidth(weiuiParse.parseInt(val));
                 return true;
 
             case "indicatorHeight":
-                setIndicatorHeight(weiuiParse.parseInt(val, 8));
+                setIndicatorHeight(weiuiParse.parseInt(val));
                 return true;
 
             default:
@@ -268,11 +276,31 @@ public class Grid extends WXVContainer<ViewGroup> {
 
     /**
      * 设置是否显示指示器
-     * @param indicatorShow
+     * @param show
      */
     @JSMethod
-    public void setIndicator(boolean indicatorShow) {
-        v_gridPager.setIndicator(indicatorShow);
+    public void setIndicatorShow(Object show) {
+        v_gridPager.setIndicatorShow(weiuiParse.parseBool(show));
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 设置指示器形状
+     * @param shape
+     */
+    @JSMethod
+    public void setIndicatorShape(int shape) {
+        v_gridPager.setIndicatorShape(shape);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 设置指示器间距
+     * @param space
+     */
+    @JSMethod
+    public void setIndicatorSpace(int space) {
+        v_gridPager.setIndicatorSpace(weiuiScreenUtils.weexPx2dp(getInstance(), space));
         notifyDataSetChanged();
     }
 
@@ -281,8 +309,8 @@ public class Grid extends WXVContainer<ViewGroup> {
      * @param indicatorUnSelectedColor
      */
     @JSMethod
-    public void setIndicatorUnSelectedColor(String indicatorUnSelectedColor) {
-        v_gridPager.setIndicatorUnSelectedColor(Color.parseColor(indicatorUnSelectedColor));
+    public void setUnSelectedIndicatorColor(String indicatorUnSelectedColor) {
+        v_gridPager.setUnSelectedIndicatorColor(Color.parseColor(indicatorUnSelectedColor));
         notifyDataSetChanged();
     }
 
@@ -291,8 +319,8 @@ public class Grid extends WXVContainer<ViewGroup> {
      * @param indicatorSelectedColor
      */
     @JSMethod
-    public void setIndicatorSelectedColor(String indicatorSelectedColor) {
-        v_gridPager.setIndicatorSelectedColor(Color.parseColor(indicatorSelectedColor));
+    public void setSelectedIndicatorColor(String indicatorSelectedColor) {
+        v_gridPager.setSelectedIndicatorColor(Color.parseColor(indicatorSelectedColor));
         notifyDataSetChanged();
     }
 

@@ -1,10 +1,12 @@
-#### 需要的模块
+# timeUtils
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 获取当前毫秒时间戳
+## 获取当前毫秒时间戳
 ```js
 /**
 * @参数一      固定值
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.timeUtils('getNowMills')
 ```
 
-#### 获取当前时间字符串
+## 获取当前时间字符串
 ```js
 /**
 * @参数一      固定值
@@ -24,7 +26,7 @@ let variable = weiui.timeUtils('getNowMills')
 let variable = weiui.timeUtils('getNowString')
 ```
 
-#### 获取当前 Date
+## 获取当前 Date
 ```js
 /**
 * @参数一      固定值

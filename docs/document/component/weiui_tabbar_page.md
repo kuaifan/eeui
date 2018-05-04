@@ -22,7 +22,7 @@
 </weiui_tabbar_page>
 ```
 
-### 配置参数
+## 配置参数
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -47,11 +47,11 @@
     .....
 </weiui_tabbar_page>
 ```
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 无
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 请参考父级组件 [weiui_tabbar](component/weiui_tabbar?id=调用方法-methods)
 

@@ -13,6 +13,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <!-- 非透明主题 -->
+    <style name="noTransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/weiui_background</item>
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
     <!-- SpinKit -->
     <style name="SpinKitView">
         <item name="android:indeterminateOnly">true</item>

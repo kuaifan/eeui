@@ -73,7 +73,7 @@
 ```
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -81,6 +81,7 @@
 | autoPlayDuration |`Number`  | 设置切换间隔时间，单位：毫秒           | 6000      |
 | scrollDuration |`Number`  | 设置切换过程时间，单位：毫秒           | 900     |
 | indicatorShow |`Boolean`  | 是否显示指示器           | true     |
+| indicatorShape |`Number`  | 设置指示器形状：<br/>`0`: 矩形、`1`: 圆形           | 1       |
 | indicatorPosition |`Number`  | 设置指示器位置：<br/>`0`: 中下、`1`: 右下、`2`: 左下<br/>`3`: 中上、`4`: 右上、`5`: 左上           | 0       |
 | indicatorMargin |`Number`  | 设置指示器边缘距离           | 8      |
 | indicatorSpace |`Number`  | 设置指示器间距           | 3       |
@@ -98,7 +99,7 @@
     :weiui="{autoPlayDuration:3000}"></weiui_banner>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -121,8 +122,7 @@
 @itemLongClick = function(data) { ... }
 ```
 
-
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**
@@ -152,6 +152,12 @@ this.$refs.reflectName.setScrollDuration(900);
  * 参数一：true|false
  */
 this.$refs.reflectName.setIndicatorShow(true);
+
+/**
+ * 设置指示器形状
+ * 参数一：0-1，详细看weiui.indicatorShape参数
+ */
+this.$refs.reflectName.setIndicatorShape(0);
 
 /**
  * 设置指示器位置

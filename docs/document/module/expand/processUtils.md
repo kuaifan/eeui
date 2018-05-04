@@ -1,10 +1,12 @@
-#### 需要的模块
+# processUtils
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 获取前台线程包名
+## 获取前台线程包名
 ```js
 /**
 * @参数一      固定值
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.processUtils('getForegroundProcessName')
 ```
 
-#### 杀死所有的后台服务进程
+## 杀死所有的后台服务进程
 ```js
 /**
 * @参数一      固定值
@@ -22,7 +24,7 @@ let variable = weiui.processUtils('getForegroundProcessName')
 weiui.processUtils('killAllBackgroundProcesses')
 ```
 
-#### 杀死指定后台服务进程
+## 杀死指定后台服务进程
 ```js
 /**
 * @参数一      固定值

@@ -34,12 +34,29 @@
 
             </android.support.v4.widget.SwipeRefreshLayout>
 
-            <ProgressBar
+            <FrameLayout
                 android:id="@+id/v_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/weiui_background"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/load_page"/>
+
+
+                <ProgressBar
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
 
         </FrameLayout>
 

@@ -1,10 +1,12 @@
-#### 需要的模块
+# 缓存管理
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# 获取内部缓存目录大小
+## 获取内部缓存目录大小
 ```js
 /**
  * @param callback  回调事件
@@ -12,7 +14,7 @@ const weiui = weex.requireModule('weiui');
 weiui.getCacheSizeDir(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -20,7 +22,7 @@ weiui.getCacheSizeDir(callback(result))
 }
 ```
 
-# 清空内部缓存目录
+## 清空内部缓存目录
 ```js
 /**
  * @param callback  回调事件
@@ -28,7 +30,7 @@ weiui.getCacheSizeDir(callback(result))
 weiui.clearCacheDir(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -37,7 +39,7 @@ weiui.clearCacheDir(callback(result))
 }
 ```
 
-# 获取内部文件目录大小
+## 获取内部文件目录大小
 ```js
 /**
  * @param callback  回调事件
@@ -45,7 +47,7 @@ weiui.clearCacheDir(callback(result))
 weiui.getCacheSizeFiles(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -53,7 +55,7 @@ weiui.getCacheSizeFiles(callback(result))
 }
 ```
 
-# 清空内部文件目录
+## 清空内部文件目录
 ```js
 /**
  * @param callback  回调事件
@@ -61,7 +63,7 @@ weiui.getCacheSizeFiles(callback(result))
 weiui.clearCacheFiles(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -69,7 +71,7 @@ weiui.clearCacheFiles(callback(result))
     error: 0,       //清除失败多少个
 }
 ```
-# 获取内部数据库目录大小
+## 获取内部数据库目录大小
 ```js
 /**
  * @param callback  回调事件
@@ -77,7 +79,7 @@ weiui.clearCacheFiles(callback(result))
 weiui.getCacheSizeDbs(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -85,7 +87,7 @@ weiui.getCacheSizeDbs(callback(result))
 }
 ```
 
-# 清空内部数据库目录
+## 清空内部数据库目录
 ```js
 /**
  * @param callback  回调事件
@@ -93,7 +95,7 @@ weiui.getCacheSizeDbs(callback(result))
 weiui.clearCacheDbs(callback(result))
 ```
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {

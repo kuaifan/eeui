@@ -1,10 +1,12 @@
-#### 需要的模块
+# permissionUtils
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 获取应用权限
+## 获取应用权限
 ```js
 /**
 * @参数一      固定值
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.permissionUtils('getPermissions')
 ```
 
-#### 判断权限是否被授予
+## 判断权限是否被授予
 ```js
 /**
 * @参数一      固定值
@@ -25,7 +27,7 @@ let variable = weiui.permissionUtils('getPermissions')
 let variable = weiui.permissionUtils('isGranted', permissions)
 ```
 
-#### 打开应用详情设置
+## 打开应用详情设置
 ```js
 /**
 * @参数一      固定值

@@ -1,10 +1,12 @@
-#### 需要的模块
+# 数据储存
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 保存数据信息
+## 保存数据信息
 ```js
 /**
  * @param key       数据键名
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 weiui.setCachesString(key, value, expired)
 ```
 
-#### 获取数据信息
+## 获取数据信息
 ```js
 /**
  * @param key           数据键名
@@ -25,7 +27,7 @@ weiui.setCachesString(key, value, expired)
 let variable = weiui.getCachesString(key, defaultVal)
 ```
 
-#### 设置全局变量
+## 设置全局变量
 ```js
 /**
  * @param key       数据键名
@@ -34,7 +36,7 @@ let variable = weiui.getCachesString(key, defaultVal)
 weiui.setVariate(key, value)
 ```
 
-#### 获取全局变量
+## 获取全局变量
 ```js
 /**
  * @param key           数据键名

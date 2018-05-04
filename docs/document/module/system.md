@@ -1,10 +1,12 @@
-#### 需要的模块
+# 系统信息
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 获取状态栏高度（屏幕像素）
+## 获取状态栏高度（屏幕像素）
 ```js
 /**
  * @return int
@@ -12,7 +14,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.getStatusBarHeight()
 ```
 
-#### 获取状态栏高度（weex px单位）
+## 获取状态栏高度（weex px单位）
 ```js
 /**
  * @return int
@@ -20,7 +22,7 @@ let variable = weiui.getStatusBarHeight()
 let variable = weiui.getStatusBarHeightPx()
 ```
 
-#### 获取虚拟键盘高度（屏幕像素）
+## 获取虚拟键盘高度（屏幕像素）
 ```js
 /**
  * @return int
@@ -28,7 +30,7 @@ let variable = weiui.getStatusBarHeightPx()
 let variable = weiui.getNavigationBarHeight()
 ```
 
-#### 获取虚拟键盘高度（weex px单位）
+## 获取虚拟键盘高度（weex px单位）
 ```js
 /**
  * @return int
@@ -36,7 +38,7 @@ let variable = weiui.getNavigationBarHeight()
 let variable = weiui.getNavigationBarHeightPx()
 ```
 
-#### 获取本地软件版本号
+## 获取本地软件版本号
 ```js
 /**
  * @return int
@@ -44,7 +46,7 @@ let variable = weiui.getNavigationBarHeightPx()
 let variable = weiui.getLocalVersion()
 ```
 
-#### 获取本地软件版本号名称
+## 获取本地软件版本号名称
 ```js
 /**
  * @return String
@@ -52,7 +54,7 @@ let variable = weiui.getLocalVersion()
 let variable = weiui.getLocalVersionName()
 ```
 
-#### 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
+## 比较版本号的大小,前者大则返回一个正数,后者大返回一个负数,相等则返回0
 ```js
 /**
  * @param version1      比较的版本1
@@ -63,7 +65,7 @@ let variable = weiui.getLocalVersionName()
 let variable = weiui.compareVersion(version1, version2)
 ```
 
-#### 获取手机的IMEI
+## 获取手机的IMEI
 ```js
 /**
  * @return String

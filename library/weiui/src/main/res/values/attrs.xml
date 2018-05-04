@@ -252,7 +252,7 @@
         <attr name="SpinKit_Color" format="color" />
     </declare-styleable>
 
-    <!--BannerView-->
+    <!--GridPager/BannerView-->
     <declare-styleable name="BannerLayoutStyle">
         <attr name="selectedIndicatorColor" format="color|reference" />
         <attr name="unSelectedIndicatorColor" format="color|reference" />

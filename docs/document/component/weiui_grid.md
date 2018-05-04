@@ -75,7 +75,7 @@
 ```
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -85,11 +85,13 @@
 | divider |`Boolean`  | 设置是否显示分隔线           | true       |
 | dividerColor |`String`  | 设置分隔线颜色           | #E8E8E8       |
 | dividerWidth |`Number`  | 设置分隔线尺寸           | 1      |
-| indicator |`Boolean`  | 设置是否显示指示器           | true      |
-| indicatorUnSelectedColor |`String`  | 设置指示器未选颜色           | #E0E0E0       |
-| indicatorSelectedColor |`String`  | 设置指示器已选颜色           | #FF0000      |
-| indicatorWidth |`Number`  | 设置指示器宽度           | 6      |
-| indicatorHeight |`Number`  | 设置指示器高度           | 6      |
+| indicatorShow |`Boolean`  | 是否显示指示器           | true     |
+| indicatorShape |`Number`  | 设置指示器形状：<br/>`0`: 矩形、`1`: 圆形           | 1       |
+| indicatorSpace |`Number`  | 设置指示器间距           | 3       |
+| selectedIndicatorColor |`String`  | 设置指示器已选颜色           | #3EB4FF       |
+| unSelectedIndicatorColor |`String`  | 设置指示器未选颜色           | #E0E0E0      |
+| indicatorWidth |`Number`  | 设置指示器宽           | 6      |
+| indicatorHeight |`Number`  | 设置指示器高           | 6      |
 
 > 例如：
 
@@ -102,7 +104,7 @@
     }"></weiui_grid>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -127,7 +129,7 @@
 @itemLongClick = function(data) { ... }
 ```
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**
@@ -176,31 +178,43 @@ let variable = this.$refs.reflectName.getCurrentIndex();
  * 设置是否显示指示器
  * 参数一：true|false
  */
- this.$refs.reflectName.setIndicator(true);
+this.$refs.reflectName.setIndicatorShow(true);
 
 /**
- * 设置指示器未选颜色
- * 参数一：指示器未选颜色
+ * 设置指示器形状
+ * 参数一：0-1，详细看weiui.indicatorShape参数
  */
-this.$refs.reflectName.setIndicatorUnSelectedColor(color);
+this.$refs.reflectName.setIndicatorShape(0);
+
+/**
+ * 设置指示器间距
+ * 参数一：间距
+ */
+this.$refs.reflectName.setIndicatorSpace(3);
 
 /**
  * 设置指示器已选颜色
- * 参数一：指示器未选颜色
+ * 参数一：颜色代码
  */
-this.$refs.reflectName.setIndicatorSelectedColor(color);
+this.$refs.reflectName.setSelectedIndicatorColor('#3EB4FF');
 
 /**
- * 设置指示器宽度
- * 参数一：宽度
+ * 设置指示器未选颜色
+ * 参数一：颜色代码
  */
-this.$refs.reflectName.setIndicatorWidth(width);
+this.$refs.reflectName.setUnSelectedIndicatorColor('#E0E0E0');
 
 /**
- * 设置指示器高度
- * 参数一：高度
+ * 设置指示器宽
+ * 参数一：宽
  */
-this.$refs.reflectName.setIndicatorHeight(height);
+this.$refs.reflectName.setIndicatorWidth(6);
+
+/**
+ * 设置指示器高
+ * 参数一：高
+ */
+this.$refs.reflectName.setIndicatorHeight(6);
 ```
 
 

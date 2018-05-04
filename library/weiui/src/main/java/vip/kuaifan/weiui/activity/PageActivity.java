@@ -1,4 +1,4 @@
-package vip.kuaifan.weiui;
+package vip.kuaifan.weiui.activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AndroidRuntimeException;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -24,12 +23,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
 import vip.kuaifan.weiui.extend.module.rxtools.module.scaner.CameraManager;
 import vip.kuaifan.weiui.extend.module.rxtools.module.scaner.CaptureActivityHandler;
@@ -71,9 +71,8 @@ import vip.kuaifan.weiui.extend.view.ProgressWebView;
 import vip.kuaifan.weiui.extend.view.SwipeCaptchaView;
 
 /**
- * Created by WDM on 2018/3/6.
+ * 默认透明底色窗口
  */
-
 public class PageActivity extends AppCompatActivity {
 
     private static final String TAG = "PageActivity";
@@ -94,7 +93,8 @@ public class PageActivity extends AppCompatActivity {
     private ViewGroup mBody, mWeex, mWeb, mAuto, mError;
     private TextView mErrorCode;
     private ViewGroup mWeexView;
-    private ProgressBar mWeexProgress;
+    private FrameLayout mWeexProgress;
+    private ImageView mWeexProgressBg;
     private SwipeRefreshLayout mWeexSwipeRefresh;
     private ProgressWebView mWebView;
     private WXSDKInstance mWXSDKInstance;
@@ -129,6 +129,7 @@ public class PageActivity extends AppCompatActivity {
     public static void startPermission(final Context context) {
         PageBean mBean = new PageBean();
         mBean.setPageType("permission");
+        mBean.setTranslucent(true);
         weiuiPage.openWin(context, mBean);
     }
 
@@ -142,6 +143,7 @@ public class PageActivity extends AppCompatActivity {
         PageBean mBean = new PageBean();
         mBean.setUrl(img);
         mBean.setPageType("swipeCaptcha");
+        mBean.setTranslucent(true);
         mBean.setCallback(callback);
         weiuiPage.openWin(context, mBean);
     }
@@ -167,6 +169,7 @@ public class PageActivity extends AppCompatActivity {
                         PageBean mBean = new PageBean();
                         mBean.setUrl(weiuiJson.getString(json, "desc", "将二维码图片对准扫描框即可自动扫描"));
                         mBean.setPageType("scanerCode");
+                        mBean.setTranslucent(true);
                         mBean.setCallback(callback);
                         mBean.setOtherObject(json);
                         weiuiPage.openWin(context, mBean);
@@ -189,14 +192,14 @@ public class PageActivity extends AppCompatActivity {
     public static void startTransparentPage(Context context, JSCallback callback) {
         PageBean mBean = new PageBean();
         mBean.setPageType("transparentPage");
+        mBean.setTranslucent(true);
         mBean.setCallback(callback);
         weiuiPage.openWin(context, mBean);
     }
 
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-    }
+    /****************************************************************************************************/
+    /****************************************************************************************************/
+    /****************************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -268,7 +271,7 @@ public class PageActivity extends AppCompatActivity {
                 break;
 
             case "transparentPage":
-                setContentView(R.layout.activity_transparent);
+                setContentView(R.layout.activity_page_transparent);
                 setImmersionStatusBar();
                 break;
 
@@ -634,6 +637,7 @@ public class PageActivity extends AppCompatActivity {
                 mWeex.setVisibility(View.VISIBLE);
                 mWeexView = findViewById(R.id.v_weexview);
                 mWeexProgress = findViewById(R.id.v_weexprogress);
+                mWeexProgressBg = findViewById(R.id.v_weexprogressbg);
 
                 mWeexSwipeRefresh = findViewById(R.id.v_weexswiperefresh);
                 mWeexSwipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -881,7 +885,15 @@ public class PageActivity extends AppCompatActivity {
      */
     private void weexLoad() {
         if (mPageInfo.isLoading()) {
-            mWeexProgress.setVisibility(View.VISIBLE);
+            mWeexProgress.setVisibility(View.INVISIBLE);
+            mHandler.postDelayed(()-> mWeexProgress.post(()->{
+                if (mWeexProgress.getVisibility() == View.INVISIBLE) {
+                    mWeexProgress.setVisibility(View.VISIBLE);
+                    if (!mPageInfo.isTranslucent()) {
+                        mWeexProgressBg.setVisibility(View.VISIBLE);
+                    }
+                }
+            }), 100);
         }
         //
         weexCreateInstance();
@@ -1137,5 +1149,16 @@ public class PageActivity extends AppCompatActivity {
         if (mOnPageStatusListener != null) {
             this.mOnPageStatusListeners.put(name, mOnPageStatusListener);
         }
+    }
+
+    /**
+     * 取消监听页面状态
+     * @param name
+     */
+    public void clearPageStatusListener(String name){
+        if (name == null) {
+            return;
+        }
+        this.mOnPageStatusListeners.remove(name);
     }
 }

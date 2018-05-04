@@ -1,10 +1,12 @@
-#### 需要的模块
+# 跨域异步请求
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.ajax
+## weiui.ajax
 
 > 跨域请求
 
@@ -19,7 +21,7 @@ const weiui = weex.requireModule('weiui');
 weiui.ajax({params}, callback(result))
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
@@ -34,7 +36,7 @@ weiui.ajax({params}, callback(result))
 | files | `Object` | - | 提交文件  | - |
 
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -45,7 +47,9 @@ weiui.ajax({params}, callback(result))
     result: { .... },       //请求结果
 }
 ```
-###### 注①：
+
+> 注①：
+
 - `ready`就绪
 - `success`请求成功
 - `error`请求失败
@@ -53,7 +57,7 @@ weiui.ajax({params}, callback(result))
 
 流程：`ready` -> (`success` | `error`) -> `complete`
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①
@@ -81,7 +85,7 @@ weiui.ajax({
 });
 ```
 
-# weiui.ajaxCancel
+## weiui.ajaxCancel
 
 > 取消跨域请求
 
@@ -92,7 +96,7 @@ weiui.ajax({
 weiui.ajaxCancel(name)
 ```
 
-# weiui.getCacheSizeAjax
+## weiui.getCacheSizeAjax
 
 > 获取跨域请求缓存
 
@@ -103,7 +107,7 @@ weiui.ajaxCancel(name)
 weiui.getCacheSizeAjax(callback(result))
 ```
 
-# weiui.clearCacheAjax
+## weiui.clearCacheAjax
 
 > 清除跨域请求缓存
 

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;

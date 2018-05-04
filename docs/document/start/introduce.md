@@ -1,4 +1,6 @@
-# 开始使用
+# introduce 介绍
+
+## 开始使用
 
 > 一个基于 [Weex](https://github.com/apache/incubator-weex) 的富交互、轻量级、高性能的 UI 组件库（目前仅支持安卓端）
 

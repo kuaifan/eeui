@@ -4,7 +4,6 @@ package io.rong.imlib.weiui.ui.module;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.weex.plugin.annotation.WeexModule;
@@ -228,7 +227,6 @@ public class weiuiRongmModule extends WXModule {
                                 data.put("userimg", content.getUserInfo().getPortraitUri().toString());
                                 data.put("body", message.getContent());
                                 data.put("extra", message.getExtra());
-                                Log.d("ggggggg", "handleMessageC: " + data);
                                 invokeAndKeepAlive(mEventHandlerJSCallback, data);
                             }
                             break;

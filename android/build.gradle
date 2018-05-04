@@ -9,7 +9,7 @@ buildscript {
         maven { url 'https://maven.google.com/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.taobao.android:weexplugin-gradle-plugin:1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -36,13 +36,13 @@ task clean(type: Delete) {
 
 subprojects {
     ext {
-        versionCode = 9
-        versionName = "1.0.9"
+        versionCode = 10
+        versionName = "1.0.10"
 
         compileSdkVersion = 27
         appMinSdkVersion = 18
         targetSdkVersion = 27
-        supportLibVersion = "27.1.0"
+        supportLibVersion = "27.1.1"
 
         fastjsonLibVersion = "1.2.46"
         weex_sdkLibVersion = "0.18.0"

@@ -1,12 +1,18 @@
-#### 需要的模块
+# 二维码扫描
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.openScaner
+## weiui.openScaner
 
 > 二维码扫描页面
+
+### 预览效果
+
+![](media/ezgif-4-3b09f9a395.gif)
 
 ```js
 /**
@@ -16,11 +22,7 @@ const weiui = weex.requireModule('weiui');
 weiui.openScaner({params}, callback(result))
 ```
 
-#### 预览效果
-
-![](media/ezgif-4-3b09f9a395.gif)
-
-#### 示例代码
+### 示例代码
 
 ```vue
 <template>
@@ -72,7 +74,7 @@ weiui.openScaner({params}, callback(result))
 </script>
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
@@ -80,7 +82,7 @@ weiui.openScaner({params}, callback(result))
 | successClose | `Boolean` | - | 扫描成功过自动关闭页面 | true |
 
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -98,7 +100,8 @@ weiui.openScaner({params}, callback(result))
 }
 ```
 
-###### 注①：
+> 注①：
+
 - `create`页面创建完毕
 - `destroy`页面已销毁
 - `success`扫码识别成功
@@ -108,7 +111,7 @@ weiui.openScaner({params}, callback(result))
 - `openLight`打开闪光灯
 - `offLight`关闭闪光灯
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①

@@ -240,7 +240,7 @@
 ```
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -256,7 +256,7 @@
 | loading |`Boolean`  | 是否加载中           | false      |
 | model |`String`  | 预设风格，详细注①           | -      |
 
-###### 注①
+> 注①
 
 `red`：红色；`green`：绿色；`blue`：蓝色；`pink`：粉红；
 
@@ -271,7 +271,7 @@
     :weiui="{text:'红色', model:'red'}"></weiui_button>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -280,7 +280,7 @@
 @ready = function() { ... }
 ```
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**

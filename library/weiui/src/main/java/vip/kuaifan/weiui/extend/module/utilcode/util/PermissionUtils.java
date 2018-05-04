@@ -10,7 +10,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.extend.module.utilcode.constant.PermissionConstants;
 
 

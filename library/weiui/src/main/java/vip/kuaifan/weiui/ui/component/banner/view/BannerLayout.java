@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,9 +41,6 @@ public class BannerLayout extends RelativeLayout {
 
     private LoopPagerAdapter pagerAdapter;
 
-    private Drawable unSelectedDrawable;
-    private Drawable selectedDrawable;
-
     private int WHAT_AUTO_PLAY = 1000;
 
     private boolean isAutoPlay = true;
@@ -53,31 +49,20 @@ public class BannerLayout extends RelativeLayout {
 
     private int itemCount;
 
+    private Drawable unSelectedDrawable;
+    private Drawable selectedDrawable;
+    private boolean indicatorShow = true;
     private int selectedIndicatorColor = 0xffff0000;
     private int unSelectedIndicatorColor = 0x88888888;
-
-    private boolean indicatorShow = true;
     private Shape indicatorShape = Shape.oval;
+    private Position indicatorPosition = Position.centerBottom;
     private int selectedIndicatorHeight = 6;
     private int selectedIndicatorWidth = 6;
     private int unSelectedIndicatorHeight = 6;
     private int unSelectedIndicatorWidth = 6;
-
-    private Position indicatorPosition = Position.centerBottom;
-    private int autoPlayDuration = 4000;
-    private int scrollDuration = 900;
-
     private int indicatorSpace = 3;
     private int indicatorMargin = 10;
-
-    private int currentPosition;
-
-    private ImageLoader imageLoader;
-
-    private enum Shape {
-        rect, oval
-    }
-
+    private enum Shape { rect, oval }
     private enum Position {
         centerBottom,
         rightBottom,
@@ -86,6 +71,13 @@ public class BannerLayout extends RelativeLayout {
         rightTop,
         leftTop
     }
+
+    private int autoPlayDuration = 4000;
+    private int scrollDuration = 900;
+
+    private int currentPosition;
+
+    private ImageLoader imageLoader;
 
     @Override
     protected void onAttachedToWindow() {
@@ -200,6 +192,9 @@ public class BannerLayout extends RelativeLayout {
     }
 
     private void setViewPager(final List<View> views) {
+        if (itemCount == 0) {
+            return;
+        }
         //初始化pager
         pager = new ViewPager(getContext());
         //添加viewpager到SliderLayout
@@ -598,6 +593,17 @@ public class BannerLayout extends RelativeLayout {
         indicatorShow = show;
     }
 
+    /**
+     * 设置指示器形状
+     * @param shape
+     */
+    public void setIndicatorShape(int shape) {
+        for (Shape shape1 : Shape.values()) {
+            if (shape == shape1.ordinal()) {
+                indicatorShape = shape1;
+            }
+        }
+    }
     /**
      * 设置指示器位置
      * @param position

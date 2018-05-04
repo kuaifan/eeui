@@ -1,10 +1,12 @@
-#### 需要的模块
+# cameraTool
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 打开闪光灯
+## 打开闪光灯
 ```js
 /**
 * @参数一      固定值
@@ -12,7 +14,7 @@ const weiui = weex.requireModule('weiui');
 weiui.cameraTool('openFlashLight')
 ```
 
-#### 关闭闪光灯
+## 关闭闪光灯
 ```js
 /**
 * @参数一      固定值

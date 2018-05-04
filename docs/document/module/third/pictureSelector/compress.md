@@ -1,10 +1,12 @@
-#### 需要的模块
+# 压缩图片
+
+> 需要的模块
 
 ```js
 const weiui_picture = weex.requireModule('weiui_picture');
 ```
 
-# weiui_picture.compressImage
+## weiui_picture.compressImage
 
 > 压缩图片列表
 
@@ -16,16 +18,14 @@ const weiui_picture = weex.requireModule('weiui_picture');
 weiui_picture.compressImage({params}, callback(result))
 ```
 
-#### params 参数说明
-
-> 以下参数不要被表面吓到，用不到的可以不写（简单使用基本不用）
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | compressSize | `Number` | - | 小于`compressSize`kb的图片不压缩 | 100 |
 | selected | `[{Object}]` | - | 已选图片，一般传入回调的`result.lists`数据 | - |
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -46,7 +46,7 @@ weiui_picture.compressImage({params}, callback(result))
 }
 ```
 
-###### 注①：
+> 注①：
 
 - `success`压缩成功返回
 - `error`压缩失败返回

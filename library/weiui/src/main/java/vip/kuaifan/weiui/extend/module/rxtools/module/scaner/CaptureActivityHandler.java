@@ -5,7 +5,7 @@ import android.os.Message;
 
 import vip.kuaifan.weiui.extend.integration.zxing.Result;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.R;
 
 

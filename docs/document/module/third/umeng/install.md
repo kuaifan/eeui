@@ -1,14 +1,16 @@
-## weiui_umeng
+# 安装接入
+
+## 简介
 
 友盟推送、统计模块
 
-### Android 接入
+## Android 接入
 
-#### 1、下载SDK
+### 1、下载SDK
 
 SDK已上传至github，[https://github.com/kuaifan/weiui](https://github.com/kuaifan/weiui)，`weiui_umeng`SDK路径为：library/weiui_umeng
 
-#### 2、导入SDK
+### 2、导入SDK
 
 ![](media/01.png)
 ![](media/02.png)
@@ -19,7 +21,7 @@ SDK已上传至github，[https://github.com/kuaifan/weiui](https://github.com/ku
 ![](media/07.png)
 
 
-#### 3、初始化SDK
+### 3、初始化SDK
 
 > 必须在 Application 的 onCreate 方法中执行 weiui_umeng.init 来初始化工程
 

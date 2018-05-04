@@ -17,7 +17,7 @@ import vip.kuaifan.weiui.extend.integration.zxing.common.HybridBinarizer;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.R;
 
 import static android.content.ContentValues.TAG;

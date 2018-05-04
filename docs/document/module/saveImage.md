@@ -1,10 +1,12 @@
-#### 需要的模块
+# 保存图片至本地
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.saveImage
+## weiui.saveImage
 
 > 保存图片至本地
 
@@ -16,13 +18,13 @@ const weiui = weex.requireModule('weiui');
 weiui.saveImage(url, callback(result))
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | url | `String` | √ | 图片地址 | - |
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -33,7 +35,7 @@ weiui.saveImage(url, callback(result))
 }
 ```
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例

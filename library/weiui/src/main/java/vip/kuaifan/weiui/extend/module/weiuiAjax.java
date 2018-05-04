@@ -8,7 +8,7 @@ import com.taobao.weex.bridge.JSCallback;
 import java.util.HashMap;
 import java.util.Map;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 
 public class weiuiAjax {
 

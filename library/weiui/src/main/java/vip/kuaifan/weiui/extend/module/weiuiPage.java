@@ -7,14 +7,13 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.taobao.weex.WXSDKInstance;
-import com.taobao.weex.common.WXRenderStrategy;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivityNoTransparent;
+import vip.kuaifan.weiui.activity.PageActivityTransparent;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 
 /**
@@ -72,7 +71,8 @@ public class weiuiPage {
             mBean.getCallback().invokeAndKeepAlive(ret);
         }
         //
-        Intent intent = new Intent(context, PageActivity.class);
+        Intent intent = new Intent();
+        intent.setClass(context, mBean.isTranslucent() ? PageActivityTransparent.class : PageActivityNoTransparent.class);
         intent.putExtra("name", mBean.getPageName());
         context.startActivity(intent);
     }

@@ -9,9 +9,14 @@
     <link rel="icon" href="./assets/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="./assets/css/weiui.min.css">
     <style type="text/css">
-        .markdown-section h1 {
-            border-top: 1px solid #e4e4e4;
-            padding-top: 0.5rem;
+        .markdown-section h2:before {
+            content: "";
+            width: 100%;
+            display: block;
+            height: 1px;
+            background: #e4e4e4;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
         }
         .docsify-copy-code-button {
             background: #ccc;
@@ -135,84 +140,98 @@
 <div id="app"></div>
 <script>
     window.$docsify = {
-        name: 'Weiui (Weex Ui)',
-        repo: 'kuaifan/weiui',
         search: {
             placeholder: '搜索',
             noData: '找不到结果',
         },
+        alias: {
+            '/.*/_sidebar.md': '_sidebar.md'
+        },
 
+        name: 'Weiui (Weex Ui)',
+        repo: 'kuaifan/weiui',
         basePath: 'document',
         homepage: 'start/introduce.md',
+        auto2top: true,
+        executeScript: true,
         loadSidebar: '_sidebar.md',
-        alias: {
-          '/.*/_sidebar.md': '_sidebar.md'
-        },
+        maxLevel: 4,
+        subMaxLevel: 4,
+
         plugins: [
-          function (hook, vm) {
-            hook.beforeEach(function (html) {
-              var url = 'https://github.com/kuaifan/weiui/tree/master/docs/document' + vm.route.file;
-              var github = "<div  data-tooltip-title=\"Star it if you like\" data-tooltip-position=\"top\" class=\"tool-tip\"><iframe src=\"https://ghbtns.com/github-btn.html?user=kuaifan&amp;repo=weiui&amp;type=watch&amp;count=true\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"0\" width=\"110\" height=\"20\" style='margin:0 10px -6px'></iframe></div>";
+            function (hook, vm) {
+                hook.beforeEach(function (html) {
+                    var url = 'https://github.com/kuaifan/weiui/tree/master/docs/document' + vm.route.file;
+                    var github = "<div  data-tooltip-title=\"Star it if you like\" data-tooltip-position=\"top\" class=\"tool-tip\"><iframe src=\"https://ghbtns.com/github-btn.html?user=kuaifan&amp;repo=weiui&amp;type=watch&amp;count=true\" allowtransparency=\"true\" frameborder=\"0\" scrolling=\"0\" width=\"110\" height=\"20\" style='margin:0 10px -6px'></iframe></div>";
 
-              var editHtml = '<a href='+ url +' data-tooltip-title=\"Correct this doc\" data-tooltip-position=\"top\" class=\"tool-tip\" target=\"_blank\"><img class=\"emoji\" src=\"https://img.alicdn.com/tfs/TB1ica2lcLJ8KJjy0FnXXcFDpXa-128-128.png\" alt=\"Edit\"></a>';
-              return "<div class=\"tool-docs-header\">"
-                + editHtml
-                + github
-                + "</div>"
-                + '\n\n'
-                + html
-                + '\n----\n'
-                + '**Please feel free to use and contribute to the development.**'
-            })
-          },
-          function (hook, vm) {
-            hook.doneEach(function () {
-              var codeBlocks = document.querySelectorAll("pre[v-pre]");
-              codeBlocks.forEach((element, i, obj) => {
-                var button = document.createElement("button");
-                button.appendChild(document.createTextNode("Click to copy"));
-                button.classList.add("docsify-copy-code-button");
-
-                if (vm.config.themeColor) {
-                  button.style.background = vm.config.themeColor;
-                }
-
-                button.addEventListener("click", function (event) {
-                  var range = document.createRange();
-                  var codeBlock = element.querySelector("code");
-                  range.selectNode(codeBlock);
-                  window.getSelection().addRange(range);
-
-                  try {
-                    // Now that we've selected the anchor text, execute the copy command
-                    var successful = document.execCommand("copy");
-                    if (successful) {
-                      button.classList.add("success");
-                      setTimeout(function () {
-                        button.classList.remove("success");
-                      }, 1000);
+                    var editHtml = '<a href='+ url +' data-tooltip-title=\"Correct this doc\" data-tooltip-position=\"top\" class=\"tool-tip\" target=\"_blank\"><img class=\"emoji\" src=\"https://img.alicdn.com/tfs/TB1ica2lcLJ8KJjy0FnXXcFDpXa-128-128.png\" alt=\"Edit\"></a>';
+                    return "<div class=\"tool-docs-header\">"
+                        + editHtml
+                        + github
+                        + "</div>"
+                        + '\n\n'
+                        + html
+                        + '\n----\n'
+                        + '**Please feel free to use and contribute to the development.**'
+                })
+            },
+            function (hook, vm) {
+                hook.ready(function() {
+                    var sidebar = document.querySelector("aside.sidebar");
+                    var active = sidebar.querySelector("li.active");
+                    if (active != null) {
+                        sidebar.scrollTop = active.offsetTop - document.body.clientHeight / 2;
                     }
-                  } catch (err) {
-                    button.classList.add("error");
-                    setTimeout(function () {
-                      button.classList.remove("error");
-                    }, 1000);
-                  }
+                })
+            },
+            function (hook, vm) {
+                hook.doneEach(function () {
+                    var codeBlocks = document.querySelectorAll("pre[v-pre]");
+                    codeBlocks.forEach((element, i, obj) => {
+                        var button = document.createElement("button");
+                        button.appendChild(document.createTextNode("Click to copy"));
+                        button.classList.add("docsify-copy-code-button");
 
-                  var selection = window.getSelection();
-                  if (typeof selection.removeRange === "function") {
-                    selection.removeRange(range);
-                  } else if (typeof selection.removeAllRanges === "function") {
-                    selection.removeAllRanges();
-                  }
+                        if (vm.config.themeColor) {
+                            button.style.background = vm.config.themeColor;
+                        }
+
+                        button.addEventListener("click", function (event) {
+                            var range = document.createRange();
+                            var codeBlock = element.querySelector("code");
+                            range.selectNode(codeBlock);
+                            window.getSelection().addRange(range);
+
+                            try {
+                                // Now that we've selected the anchor text, execute the copy command
+                                var successful = document.execCommand("copy");
+                                if (successful) {
+                                    button.classList.add("success");
+                                    setTimeout(function () {
+                                        button.classList.remove("success");
+                                    }, 1000);
+                                }
+                            } catch (err) {
+                                button.classList.add("error");
+                                setTimeout(function () {
+                                    button.classList.remove("error");
+                                }, 1000);
+                            }
+
+                            var selection = window.getSelection();
+                            if (typeof selection.removeRange === "function") {
+                                selection.removeRange(range);
+                            } else if (typeof selection.removeAllRanges === "function") {
+                                selection.removeAllRanges();
+                            }
+                        });
+                        element.appendChild(button);
+                    });
                 });
-                element.appendChild(button);
-              });
-            });
-          }]
+            }]
     }
 </script>
-<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+<script src="./assets/js/docsify.min.js"></script>
+<script src="./assets/js/search.min.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ import android.os.Looper;
 
 import java.util.concurrent.CountDownLatch;
 
-import vip.kuaifan.weiui.PageActivity;
+import vip.kuaifan.weiui.activity.PageActivity;
 
 /**
  * @author Vondear

@@ -68,7 +68,7 @@
 图标代码可以参考 [ionicons](http://ionicons.com/)、 [ionicons+](http://kuaifan.vip/weiui/assets/tb-icon/)
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -95,7 +95,7 @@
 </weiui_icon>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -104,7 +104,7 @@
 @ready = function() { ... }
 ```
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**

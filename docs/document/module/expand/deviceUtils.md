@@ -1,10 +1,12 @@
-#### 需要的模块
+# deviceUtils
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 判断设备是否 rooted
+## 判断设备是否 rooted
 ```js
 /**
 * @参数一      固定值
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.deviceUtils('isDeviceRooted')
 ```
 
-#### 获取设备系统版本号
+## 获取设备系统版本号
 ```js
 /**
 * @参数一      固定值
@@ -24,7 +26,7 @@ let variable = weiui.deviceUtils('isDeviceRooted')
 let variable = weiui.deviceUtils('getSDKVersionCode')
 ```
 
-#### 获取设备系统版本名称
+## 获取设备系统版本名称
 ```js
 /**
 * @参数一      固定值
@@ -34,7 +36,7 @@ let variable = weiui.deviceUtils('getSDKVersionCode')
 let variable = weiui.deviceUtils('getSDKVersionName')
 ```
 
-#### 获取设备 AndroidID
+## 获取设备 AndroidID
 ```js
 /**
 * @参数一      固定值
@@ -44,7 +46,7 @@ let variable = weiui.deviceUtils('getSDKVersionName')
 let variable = weiui.deviceUtils('getAndroidID')
 ```
 
-#### 获取设备 MAC 地址
+## 获取设备 MAC 地址
 ```js
 /**
 * @参数一      固定值
@@ -54,7 +56,7 @@ let variable = weiui.deviceUtils('getAndroidID')
 let variable = weiui.deviceUtils('getMacAddress')
 ```
 
-#### 获取设备厂商
+## 获取设备厂商
 ```js
 /**
 * @参数一      固定值
@@ -64,7 +66,7 @@ let variable = weiui.deviceUtils('getMacAddress')
 let variable = weiui.deviceUtils('getManufacturer')
 ```
 
-#### 获取设备型号
+## 获取设备型号
 ```js
 /**
 * @参数一      固定值
@@ -74,7 +76,7 @@ let variable = weiui.deviceUtils('getManufacturer')
 let variable = weiui.deviceUtils('getModel')
 ```
 
-#### 关机
+## 关机
 ```js
 /**
 * @参数一      固定值
@@ -82,7 +84,7 @@ let variable = weiui.deviceUtils('getModel')
 weiui.deviceUtils('shutdown')
 ```
 
-#### 重启
+## 重启
 ```js
 /**
 * @参数一      固定值
@@ -90,7 +92,7 @@ weiui.deviceUtils('shutdown')
 weiui.deviceUtils('reboot')
 ```
 
-#### 重启到 recovery
+## 重启到 recovery
 ```js
 /**
 * @参数一      固定值
@@ -98,7 +100,7 @@ weiui.deviceUtils('reboot')
 weiui.deviceUtils('reboot2Recovery')
 ```
 
-#### 重启到 bootloader
+## 重启到 bootloader
 ```js
 /**
 * @参数一      固定值

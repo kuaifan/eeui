@@ -33,11 +33,9 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 PageBean mBean = new PageBean();
-                //mBean.setUrl("http://192.168.2.125:8878/dist/index.js");
                 //mBean.setUrl("http://192.168.1.6:8878/dist/index.js");
                 mBean.setUrl("http://kuaifan.vip/weiui/dist/index.js");
                 mBean.setPageType("weex");
-                //mBean.setCache(24 * 60 * 60 * 1000);
                 weiuiPage.openWin(WelcomeActivity.this, mBean);
                 finish();
             }

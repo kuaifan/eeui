@@ -3,9 +3,9 @@ package vip.kuaifan.weiui.ui.component.tabbar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
-import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
@@ -52,6 +51,8 @@ import java.util.Map;
 public class Tabbar extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Tabbar";
+
+    private Handler mHandler = new Handler();
 
     private View mView;
 
@@ -144,6 +145,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 return true;
 
             case "tabPages":
+                removePageAll();
                 JSONArray pagesArray = weiuiJson.parseArray(weiuiParse.parseStr(val, null));
                 if (pagesArray.size() > 0) {
                     for (int i = 0; i < pagesArray.size(); i++) {
@@ -558,7 +560,12 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             sdkBean.getInstance().destroy();
         }
         //
-        sdkBean.getProgress().setVisibility(View.VISIBLE);
+        sdkBean.getProgress().setVisibility(View.INVISIBLE);
+        mHandler.postDelayed(()-> sdkBean.getProgress().post(()->{
+            if (sdkBean.getProgress().getVisibility() == View.INVISIBLE) {
+                sdkBean.getProgress().setVisibility(View.VISIBLE);
+            }
+        }), 200);
         sdkBean.setInstance(new WXSDKInstance(getContext()));
         sdkBean.getInstance().registerRenderListener(new IWXRenderListener() {
             @Override
@@ -782,6 +789,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
      */
     @JSMethod
     public void removePageAll() {
+        WXSDKList = new HashMap<>();
         mTabEntity = new ArrayList<>();
         setTabData();
         //
@@ -789,6 +797,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         mViewPager.removeAllViews();
         mTabPagerAdapter.setListViews(mViewList);
         mTabPagerAdapter.notifyDataSetChanged();
+        mTabLayoutSlidingTop.notifyDataSetChanged();
     }
 
     /**
@@ -802,6 +811,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             if (mViewPager.getCurrentItem() >= mTabEntity.size() - 1) {
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
             }
+            WXSDKList.remove(tabName);
             mTabEntity.remove(position);
             setTabData();
             //
@@ -809,6 +819,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             mViewPager.removeAllViews();
             mTabPagerAdapter.setListViews(mViewList);
             mTabPagerAdapter.notifyDataSetChanged();
+            mTabLayoutSlidingTop.notifyDataSetChanged();
         }
     }
 

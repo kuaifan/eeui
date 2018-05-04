@@ -80,7 +80,7 @@
 ```
 
 
-### 配置参数 `weiui`
+## 配置参数 `weiui`
 >说明：ui自定义；数据格式：对象数据。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -89,6 +89,7 @@
 | text  |`String`  | 同`content`            | -       |
 | color |`String`  | 滚动的文字颜色           | #000000       |
 | fontSize |`Number`  | 字体大小           | 24       |
+| textAlign |`String`  | 对齐方式:`left` `center` `right`           | left       |
 | backgroundColor |`String`  | 滚动的文字背景颜色           | #00ffffff       |
 
 > 例如：
@@ -104,7 +105,7 @@
     }"></weiui_marquee>
 ```
 
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 ``` js
 /**
@@ -113,7 +114,7 @@
 @ready = function() { ... }
 ```
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 ```js
 /**

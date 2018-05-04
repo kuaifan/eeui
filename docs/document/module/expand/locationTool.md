@@ -1,10 +1,12 @@
-#### 需要的模块
+# locationTool
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 判断Gps是否可用
+## 判断Gps是否可用
 ```js
 /**
 * @参数一      固定值
@@ -14,7 +16,7 @@ const weiui = weex.requireModule('weiui');
 let variable = weiui.locationTool('isGpsEnabled')
 ```
 
-#### 判断定位是否可用
+## 判断定位是否可用
 ```js
 /**
 * @参数一      固定值
@@ -24,7 +26,7 @@ let variable = weiui.locationTool('isGpsEnabled')
 let variable = weiui.locationTool('isLocationEnabled')
 ```
 
-#### 打开Gps设置界面
+## 打开Gps设置界面
 ```js
 /**
 * @参数一      固定值
@@ -32,7 +34,7 @@ let variable = weiui.locationTool('isLocationEnabled')
 weiui.locationTool('openGpsSettings')
 ```
 
-#### 注册Location
+## 注册Location
 ```js
 /**
 * @参数一      固定值
@@ -57,7 +59,7 @@ let variable = weiui.locationTool('registerLocation', minTime, minDistance, call
 }
 ```
 
-#### 注销Location
+## 注销Location
 ```js
 /**
 * @参数一      固定值
@@ -65,7 +67,7 @@ let variable = weiui.locationTool('registerLocation', minTime, minDistance, call
 weiui.locationTool('unRegisterLocation')
 ```
 
-#### 根据经纬度获取地理位置
+## 根据经纬度获取地理位置
 ```js
 /**
 * @参数一      固定值
@@ -77,7 +79,7 @@ weiui.locationTool('unRegisterLocation')
 let variable = weiui.locationTool('getAddress', latitude, longitude)
 ```
 
-#### 根据经纬度获取所在国家
+## 根据经纬度获取所在国家
 ```js
 /**
 * @参数一      固定值
@@ -89,7 +91,7 @@ let variable = weiui.locationTool('getAddress', latitude, longitude)
 let variable = weiui.locationTool('getCountryName', latitude, longitude)
 ```
 
-#### 根据经纬度获取所在地
+## 根据经纬度获取所在地
 ```js
 /**
 * @参数一      固定值
@@ -101,7 +103,7 @@ let variable = weiui.locationTool('getCountryName', latitude, longitude)
 let variable = weiui.locationTool('getLocality', latitude, longitude)
 ```
 
-#### 根据经纬度获取所在街道
+## 根据经纬度获取所在街道
 ```js
 /**
 * @参数一      固定值

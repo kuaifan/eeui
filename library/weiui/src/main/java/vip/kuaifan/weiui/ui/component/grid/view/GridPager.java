@@ -1,14 +1,19 @@
 package vip.kuaifan.weiui.ui.component.grid.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -16,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vip.kuaifan.weiui.R;
-import vip.kuaifan.weiui.extend.view.CircleView;
 import vip.kuaifan.weiui.ui.component.grid.adapter.GridAdapter;
 import vip.kuaifan.weiui.ui.component.grid.adapter.GridPagerAdapter;
 
@@ -31,7 +35,6 @@ public class GridPager extends RelativeLayout {
     private List<View> mPagerList;
 
     private OnPageItemClickListener mOnPageItemClickListener;
-    private LinearLayout.LayoutParams mDotParams;
 
     private int pageCount;
     private int curIndex = 0;
@@ -43,24 +46,30 @@ public class GridPager extends RelativeLayout {
     private int dividerColor = 0xFFE8E8E8;
     private int dividerWidth = 1;
 
+    private Drawable unSelectedDrawable;
+    private Drawable selectedDrawable;
     private boolean indicatorShow = true;
-    private int indicatorUnSelectedColor = 0xFFE0E0E0;
-    private int indicatorSelectedColor = 0XFFFF0000;
-    private int indicatorWidth = 6;
-    private int indicatorHeight = 6;
+    private Shape indicatorShape = Shape.oval;
+    private int selectedIndicatorColor = 0xffff0000;
+    private int unSelectedIndicatorColor = 0x88888888;
+    private int selectedIndicatorHeight = 6;
+    private int selectedIndicatorWidth = 6;
+    private int unSelectedIndicatorHeight = 6;
+    private int unSelectedIndicatorWidth = 6;
+    private int indicatorSpace = 3;
+    private enum Shape { rect, oval }
 
     public GridPager(Context context) {
-        super(context);
-        initView(context);
+        this(context, null);
     }
 
     public GridPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initView(context);
+        this(context, attrs, 0);
     }
 
     public GridPager(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs, defStyleAttr);
         initView(context);
     }
 
@@ -70,6 +79,61 @@ public class GridPager extends RelativeLayout {
         View mView = inflater.inflate(R.layout.layout_weiui_grid_pager, this);
         v_pager = mView.findViewById(R.id.v_pager);
         l_dots = mView.findViewById(R.id.l_dots);
+    }
+
+    @SuppressLint("CustomViewStyleable")
+    private void init(AttributeSet attrs, int defStyle) {
+
+        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.BannerLayoutStyle, defStyle, 0);
+        selectedIndicatorColor = array.getColor(R.styleable.BannerLayoutStyle_selectedIndicatorColor, selectedIndicatorColor);
+        unSelectedIndicatorColor = array.getColor(R.styleable.BannerLayoutStyle_unSelectedIndicatorColor, unSelectedIndicatorColor);
+
+        int shape = array.getInt(R.styleable.BannerLayoutStyle_indicatorShape, Shape.oval.ordinal());
+        for (Shape shape1 : Shape.values()) {
+            if (shape1.ordinal() == shape) {
+                indicatorShape = shape1;
+                break;
+            }
+        }
+        selectedIndicatorHeight = (int) array.getDimension(R.styleable.BannerLayoutStyle_selectedIndicatorHeight, selectedIndicatorHeight);
+        selectedIndicatorWidth = (int) array.getDimension(R.styleable.BannerLayoutStyle_selectedIndicatorWidth, selectedIndicatorWidth);
+        unSelectedIndicatorHeight = (int) array.getDimension(R.styleable.BannerLayoutStyle_unSelectedIndicatorHeight, unSelectedIndicatorHeight);
+        unSelectedIndicatorWidth = (int) array.getDimension(R.styleable.BannerLayoutStyle_unSelectedIndicatorWidth, unSelectedIndicatorWidth);
+
+
+        indicatorSpace = (int) array.getDimension(R.styleable.BannerLayoutStyle_indicatorSpace, indicatorSpace);
+        array.recycle();
+    }
+
+    private void indicatorDrawable() {
+        //绘制未选中状态图形
+        LayerDrawable unSelectedLayerDrawable;
+        LayerDrawable selectedLayerDrawable;
+        GradientDrawable unSelectedGradientDrawable;
+        unSelectedGradientDrawable = new GradientDrawable();
+
+        //绘制选中状态图形
+        GradientDrawable selectedGradientDrawable;
+        selectedGradientDrawable = new GradientDrawable();
+        switch (indicatorShape) {
+            case rect:
+                unSelectedGradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                selectedGradientDrawable.setShape(GradientDrawable.RECTANGLE);
+                break;
+            case oval:
+                unSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
+                selectedGradientDrawable.setShape(GradientDrawable.OVAL);
+                break;
+        }
+        unSelectedGradientDrawable.setColor(unSelectedIndicatorColor);
+        unSelectedGradientDrawable.setSize(unSelectedIndicatorWidth, unSelectedIndicatorHeight);
+        unSelectedLayerDrawable = new LayerDrawable(new Drawable[]{unSelectedGradientDrawable});
+        unSelectedDrawable = unSelectedLayerDrawable;
+
+        selectedGradientDrawable.setColor(selectedIndicatorColor);
+        selectedGradientDrawable.setSize(selectedIndicatorWidth, selectedIndicatorHeight);
+        selectedLayerDrawable = new LayerDrawable(new Drawable[]{selectedGradientDrawable});
+        selectedDrawable = selectedLayerDrawable;
     }
 
     /****************************************************************************************/
@@ -93,6 +157,7 @@ public class GridPager extends RelativeLayout {
      * 通知数据集变化
      */
     public void notifyDataSetChanged() {
+        indicatorDrawable();
         this.pageSize = this.rowSize * this.columnsSize;
         pageCount = (int) Math.ceil(viewDatas.size() * 1.0 / pageSize);
         mPagerList = new ArrayList<>();
@@ -138,22 +203,16 @@ public class GridPager extends RelativeLayout {
         //设置适配器
         v_pager.setAdapter(new GridPagerAdapter<>(mPagerList));
         //设置底部圆点
-        if (mDotParams == null) {
-            mDotParams = new LinearLayout.LayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorWidth, getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorHeight, getResources().getDisplayMetrics()));
-            mDotParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorWidth / 2, getResources().getDisplayMetrics());
-            mDotParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, indicatorWidth / 2, getResources().getDisplayMetrics());
-        }
         l_dots.removeAllViews();
         if (pageCount > 1 && indicatorShow) {
             for (int i = 0; i < pageCount; i++) {
-                CircleView view = new CircleView(mContext);
-                view.setLockScale(false);
-                view.setBackgroundColor(indicatorUnSelectedColor);
-                view.setSelected(false);
-                l_dots.addView(view, mDotParams);
+                ImageView indicator = new ImageView(getContext());
+                indicator.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                indicator.setPadding(indicatorSpace, indicatorSpace, indicatorSpace, indicatorSpace);
+                indicator.setImageDrawable(unSelectedDrawable);
+                l_dots.addView(indicator);
             }
-            l_dots.getChildAt(0).setBackgroundColor(indicatorSelectedColor);
-            l_dots.getChildAt(0).setSelected(true);
+            switchIndicator(0);
             //
             v_pager.addOnPageChangeListener(dotsOnPageChangeListener);
         }
@@ -168,14 +227,7 @@ public class GridPager extends RelativeLayout {
 
         @Override
         public void onPageSelected(int position) {
-            // 取消圆点选中
-            l_dots.getChildAt(curIndex).setBackgroundColor(indicatorUnSelectedColor);
-            l_dots.getChildAt(curIndex).setSelected(false);
-            // 圆点选中
-            l_dots.getChildAt(position).setBackgroundColor(indicatorSelectedColor);
-            l_dots.getChildAt(position).setSelected(true);
-            //
-            curIndex = position;
+            switchIndicator(position);
         }
 
         @Override
@@ -183,6 +235,12 @@ public class GridPager extends RelativeLayout {
 
         }
     };
+
+    private void switchIndicator(int currentPosition) {
+        for (int i = 0; i < l_dots.getChildCount(); i++) {
+            ((ImageView) l_dots.getChildAt(i)).setImageDrawable(i == currentPosition ? selectedDrawable : unSelectedDrawable);
+        }
+    }
 
     /****************************************************************************************/
     /****************************************************************************************/
@@ -257,42 +315,64 @@ public class GridPager extends RelativeLayout {
 
     /**
      * 是否显示指示器
-     * @param indicatorShow
+     * @param show
      */
-    public void setIndicator(boolean indicatorShow) {
-        this.indicatorShow = indicatorShow;
+    public void setIndicatorShow(boolean show) {
+        indicatorShow = show;
     }
 
     /**
-     * 指示器未选择颜色
-     * @param indicatorUnSelectedColor
+     * 设置指示器形状
+     * @param shape
      */
-    public void setIndicatorUnSelectedColor(int indicatorUnSelectedColor) {
-        this.indicatorUnSelectedColor = indicatorUnSelectedColor;
+    public void setIndicatorShape(int shape) {
+        for (Shape shape1 : Shape.values()) {
+            if (shape == shape1.ordinal()) {
+                indicatorShape = shape1;
+            }
+        }
     }
 
     /**
-     * 指示器已选颜色
-     * @param indicatorSelectedColor
+     * 设置指示器间距
+     * @param space
      */
-    public void setIndicatorSelectedColor(int indicatorSelectedColor) {
-        this.indicatorSelectedColor = indicatorSelectedColor;
+    public void setIndicatorSpace(int space) {
+        indicatorSpace = space;
     }
 
     /**
-     * 指示器宽度
-     * @param indicatorWidth
+     * 设置指示器已选颜色
+     * @param color
      */
-    public void setIndicatorWidth(int indicatorWidth) {
-        this.indicatorWidth = indicatorWidth;
+    public void setSelectedIndicatorColor(int color) {
+        selectedIndicatorColor = color;
     }
 
     /**
-     * 指示器高度
-     * @param indicatorHeight
+     * 设置指示器未选颜色
+     * @param color
      */
-    public void setIndicatorHeight(int indicatorHeight) {
-        this.indicatorHeight = indicatorHeight;
+    public void setUnSelectedIndicatorColor(int color) {
+        unSelectedIndicatorColor = color;
+    }
+
+    /**
+     * 设置指示器高
+     * @param height
+     */
+    public void setIndicatorHeight(int height) {
+        selectedIndicatorHeight = height;
+        unSelectedIndicatorHeight = height;
+    }
+
+    /**
+     * 设置指示器宽
+     * @param width
+     */
+    public void setIndicatorWidth(int width) {
+        selectedIndicatorWidth = width;
+        unSelectedIndicatorWidth = width;
     }
 
     /**

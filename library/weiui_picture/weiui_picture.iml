@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":weiui_picture" external.linked.project.path="$MODULE_DIR$" external.root.project.path="/Volumes/wwwroot/school/platforms/android" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":weiui_picture" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/../../android" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -129,7 +129,7 @@
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils-27.1.1" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:runtime-1.1.0" level="project" />
-    <orderEntry type="module" module-name="weiui" />
     <orderEntry type="module" module-name="weiui_picture_ucrop" />
+    <orderEntry type="module" module-name="weiui" />
   </component>
 </module>

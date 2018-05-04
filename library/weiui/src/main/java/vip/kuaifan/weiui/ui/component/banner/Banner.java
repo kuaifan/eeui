@@ -130,6 +130,10 @@ public class Banner extends WXVContainer<ViewGroup> {
                 setIndicatorShow(val);
                 return true;
 
+            case "indicatorShape":
+                setIndicatorShape(weiuiParse.parseInt(val));
+                return true;
+
             case "indicatorPosition":
                 setIndicatorPosition(weiuiParse.parseInt(val));
                 return true;
@@ -249,6 +253,16 @@ public class Banner extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setIndicatorShow(Object show) {
         v_banner.setIndicatorShow(weiuiParse.parseBool(show));
+        notifyDataSetChanged(false);
+    }
+
+    /**
+     * 设置指示器形状
+     * @param shape
+     */
+    @JSMethod
+    public void setIndicatorShape(int shape) {
+        v_banner.setIndicatorShape(shape);
         notifyDataSetChanged(false);
     }
 

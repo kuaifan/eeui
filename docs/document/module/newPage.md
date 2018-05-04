@@ -1,12 +1,14 @@
-#### 需要的模块
+# 页面功能
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.openPage
+## weiui.openPage
 
-> 打开新`Weex Js页面` 或 打开新`Web页面`
+* 打开新`Weex Js页面` 或 打开新`Web页面`
 
 ```js
 /**
@@ -16,24 +18,25 @@ const weiui = weex.requireModule('weiui');
 weiui.openPage({params}, callback(result))
 ```
 
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | url | `String` | √ | `Weex Js`或`Web Url`地址 | - |
 | pageName | `String` | - | 页面名称 | - |
-| pageType | `String` | - | 页面类型：`weex`、`web`<br/>可填写`auto`系统自动识别 (不建议) | weex |
+| pageType | `String` | - | 页面类型：`weex`、`web`<br/>_可填写`auto`系统自动识别 (不建议)_ | weex |
 | params |`Object`  | - | 页面传递参数，通过`weex.config.params`获取         | -       |
 | cache | `Number` | - | 页面缓存时间，仅`weex`类型有效，<br/>设置`0`不缓存（单位：毫秒） | 0 |
 | loading | `Boolean` | - | 是否显示等待效果：`true`、`false` | true |
-| swipeBack | `Boolean` | - | 是否支持滑动返回：`true`、`false` | true |
+| swipeBack | `Boolean` | - | 是否支持滑动返回：`true`、`false` | false |
 | statusBarType | `String` | - | 状态栏样式：<br/>正常: `normal`<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>_非默认下`statusBarType`、`statusBarAlpha`无效_ | normal |
 | statusBarColor | `String` | - | 状态栏颜色值 | #3EB4FF |
 | statusBarAlpha | `Number` | - | 状态栏透明度， 0-255 | 0 |
+| translucent | `Boolean` | - | 透明底色窗口：`true`、`false`<br/>_启用滑动返回时建议true_ | false |
 | backgroundColor | `String` | - | 页面背景颜色 | #f4f8f9 |
 | backPressedClose | `Boolean` | - | 允许按返回键关闭页面 | true |
 
-#### callback 回调`result`说明
+> callback 回调`result`说明
 
 ```js
 {
@@ -52,7 +55,9 @@ weiui.openPage({params}, callback(result))
     title: '',      //网页标题
 }
 ```
-###### 注①：
+
+> 注①：
+
 - `create`页面创建完毕
 - `start`页面正在启动
 - `resume`页面已在前台可见
@@ -67,7 +72,7 @@ weiui.openPage({params}, callback(result))
 - `errorChanged`Web运行时报告异常
 - `titleChanged`Web标题发生改变
 
-#### 简单示例
+> 简单示例
 
 ```js
 const weiui = weex.requireModule('weiui');
@@ -96,9 +101,9 @@ weiui.openPage({
 });
 ```
 
-# weiui.getPageInfo
+## weiui.getPageInfo
 
-> 获取页面信息
+* 获取页面信息
 
 ```js
 /**
@@ -107,13 +112,13 @@ weiui.openPage({
 weiui.getPageInfo({params})
 ```
 
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空获取当前页面（不建议） | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例①
@@ -139,9 +144,9 @@ let variable = weiui.getPageInfo('pageName_1');
 }
 ```
 
-# weiui.reloadPage
+## weiui.reloadPage
 
-> 重新加载`Weex Js页面` 或 `Web页面`
+* 重新加载`Weex Js页面` 或 `Web页面`
 
 ```js
 /**
@@ -150,13 +155,13 @@ let variable = weiui.getPageInfo('pageName_1');
 weiui.reloadPage({params})
 ```
 
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空重载当前页面（不建议） | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例①
@@ -168,9 +173,9 @@ weiui.reloadPage({
 weiui.reloadPage('pageName_1');
 ```
 
-# weiui.setPageBackPressed
+## weiui.setPageBackPressed
 
-> 拦截返回按键事件
+* 拦截返回按键事件
 
 ```js
 /**
@@ -179,13 +184,13 @@ weiui.reloadPage('pageName_1');
  */
 weiui.setPageBackPressed({params}, callback())
 ```
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例①
@@ -201,9 +206,9 @@ weiui.setPageBackPressed('pageName_1', function(){
 });
 ```
 
-# weiui.setOnRefreshListener
+## weiui.setOnRefreshListener
 
-> 仅对`Weex Js页面`有效，监听下拉刷新事件，下拉刷新事件结束后请使用`weiui.setRefreshing(pageName, false)`设置下拉刷新结束状态
+* 仅对`Weex Js页面`有效，监听下拉刷新事件，下拉刷新事件结束后请使用`weiui.setRefreshing(pageName, false)`设置下拉刷新结束状态
 
 ```js
 /**
@@ -212,13 +217,13 @@ weiui.setPageBackPressed('pageName_1', function(){
  */
 weiui.setOnRefreshListener({params}, callback(pageName))
 ```
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例①
@@ -236,9 +241,9 @@ weiui.setOnRefreshListener('pageName_1', function(pageName){
 });
 ```
 
-# weiui.setRefreshing
+## weiui.setRefreshing
 
-> 仅对`Weex Js页面`有效，设置下拉刷新状态，主要用于`weiui.setOnRefreshListener`回调处理完成后设置结束状态
+* 仅对`Weex Js页面`有效，设置下拉刷新状态，主要用于`weiui.setOnRefreshListener`回调处理完成后设置结束状态
 
 ```js
 /**
@@ -247,16 +252,16 @@ weiui.setOnRefreshListener('pageName_1', function(pageName){
  */
 weiui.setRefreshing({params}, refreshing)
 ```
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
 
 
-# weiui.setPageStatusListener
+## weiui.setPageStatusListener
 
-> 添加监听页面状态变化
+* 添加监听页面状态变化
 
 ```js
 /**
@@ -265,13 +270,13 @@ weiui.setRefreshing({params}, refreshing)
  */
 weiui.setPageStatusListener(name, callback(result))
 ```
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | name | `String` | √ | 监听名称，用于防止重复监听 | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例
@@ -279,10 +284,26 @@ weiui.setPageStatusListener('name_1', function(pageName){
     //回调事件，参数详见【weiui.openPage】的回调事件
 });
 ```
+## weiui.clearPageStatusListener
 
-# weiui.getCacheSizePage
+* 清除监听页面状态变化
 
-> 获取`Weex Js页面`缓存大小
+```js
+/**
+ * @param name    监听名称
+ */
+weiui.clearPageStatusListener(name)
+```
+> params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| name | `String` | √ | 监听名称 | - |
+
+
+## weiui.getCacheSizePage
+
+* 获取`Weex Js页面`缓存大小
 
 ```js
 /**
@@ -291,17 +312,17 @@ weiui.setPageStatusListener('name_1', function(pageName){
 weiui.getCacheSizePage(callback(result))
 ```
 
-# weiui.clearCachePage
+## weiui.clearCachePage
 
-> 手动清除缓存`Weex Js页面`
+* 手动清除缓存`Weex Js页面`
 
 ```js
 weiui.clearCachePage()
 ```
 
-# weiui.closePage
+## weiui.closePage
 
-> 关闭`Weex Js页面` 或 `Web页面`
+* 关闭`Weex Js页面` 或 `Web页面`
 
 ```js
 /**
@@ -310,13 +331,13 @@ weiui.clearCachePage()
 weiui.closePage({params})
 ```
 
-#### params 参数说明
+> params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
 | pageName | `String` | - | 页面名称，留空关闭当前页面（不建议） | - |
 
-#### 简单示例
+> 简单示例
 
 ```js
 //示例①
@@ -328,9 +349,9 @@ weiui.closePage({
 weiui.closePage('pageName_1');
 ```
 
-# weiui.openWeb
+## weiui.openWeb
 
-> 调用系统浏览器打开页面
+* 调用系统浏览器打开页面
 
 ```js
 /**
@@ -338,22 +359,22 @@ weiui.closePage('pageName_1');
  */
 weiui.openWeb(url)
 ```
-#### url 参数说明
+> url 参数说明
 
 | 类型 | 必须 | 描述 | 默认值 |
 | --- | :-: | --- | --- |
 |  `String` | √ | 打开的页面url | - |
 
 
-#### 简单示例
+> 简单示例
 
 ```js
 weiui.openWeb('http://kuaifan.vip');
 ```
 
-# weiui.goDesktop
+## weiui.goDesktop
 
-> 返回手机桌面
+* 返回手机桌面
 
 ```js
 /**

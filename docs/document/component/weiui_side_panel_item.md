@@ -14,7 +14,7 @@
 </weiui_side_panel_menu>
 ```
 
-### 配置参数
+## 配置参数
 >说明：子组件类型；数据格式：字符串。
 
 | 属性名           | 类型     | 描述                          | 默认值     |
@@ -28,11 +28,11 @@
     .....
 </weiui_side_panel_menu>
 ```
-### 事件回调 `callback`
+## 事件回调 `callback`
 
 无
 
-### 调用方法 `methods`
+## 调用方法 `methods`
 
 无
 

@@ -1,10 +1,12 @@
-#### 需要的模块
+# 监听通知
+
+> 需要的模块
 
 ```js
 const weiui_umeng = weex.requireModule('weiui_umeng');
 ```
 
-# weiui_umeng.getToken
+## weiui_umeng.getToken
 
 > 获取友盟token
 
@@ -15,7 +17,7 @@ const weiui_umeng = weex.requireModule('weiui_umeng');
 let variable = weiui_umeng.getToken()
 ``` 
 
-# weiui_umeng.setNotificationClickHandler
+## weiui_umeng.setNotificationClickHandler
 
 > 自定义通知打开动作（点击通知事件）
 
@@ -26,7 +28,7 @@ let variable = weiui_umeng.getToken()
 weiui_umeng.setNotificationClickHandler(callback(result))
 ```
 
-#### callback 回调`result`说明
+### callback 回调`result`说明
 
 ```js
 {
@@ -47,7 +49,7 @@ weiui_umeng.setNotificationClickHandler(callback(result))
 }
 ```
 
-#### 简单示例
+### 简单示例
 
 ```js
 weiui_umeng.setNotificationClickHandler(function(result) {

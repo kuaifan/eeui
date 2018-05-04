@@ -44,10 +44,13 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
+import vip.kuaifan.weiui.extend.integration.glide.load.engine.DiskCacheStrategy;
+import vip.kuaifan.weiui.extend.integration.glide.request.RequestOptions;
 import vip.kuaifan.weiui.extend.integration.glide.request.target.SimpleTarget;
 import vip.kuaifan.weiui.extend.integration.glide.request.transition.Transition;
 import vip.kuaifan.weiui.extend.integration.xutils.common.util.FileUtil;
 import vip.kuaifan.weiui.extend.integration.xutils.x;
+import vip.kuaifan.weiui.extend.module.rxtools.tool.RxEncryptTool;
 
 public class weiuiCommon {
 
@@ -556,8 +559,11 @@ public class weiuiCommon {
      * 保存图片
      * @param context
      * @param bmp
+     * @param fileName      自定义文件名
+     * @param appDir        保存目录地址
+     * @return
      */
-    public static String saveImageToGallery(Context context, Bitmap bmp, File appDir, String fileName) {
+    public static String saveImageToGallery(Context context, Bitmap bmp, String fileName, File appDir) {
         if (appDir == null) {
             appDir = FileUtil.getCacheDir("image");
         }
@@ -803,17 +809,28 @@ public class weiuiCommon {
      * @param mJSCallback
      */
     public static void saveImage(Context context, String url, JSCallback mJSCallback) {
+        if (url == null) {
+            if (mJSCallback != null) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                data.put("error", "地址出错");
+                mJSCallback.invoke(data);
+            }
+            return;
+        }
         final boolean[] loadSure = {false};
         Glide.with(context)
                 .asBitmap()
                 .load(url)
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                         if (!loadSure[0]) {
                             loadSure[0] = true;
                             File appDir = new File(Environment.getExternalStorageDirectory(), x.app().getPackageName());
-                            String path = weiuiCommon.saveImageToGallery(context, resource, appDir, null);
+                            String fileName = RxEncryptTool.encryptMD5ToString(url) + ".jpg";
+                            String path = weiuiCommon.saveImageToGallery(context, resource, fileName, appDir);
                             if (mJSCallback != null) {
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "success");

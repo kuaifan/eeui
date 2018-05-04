@@ -1,10 +1,12 @@
-#### 需要的模块
+# 吐司提示
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-# weiui.toast
+## weiui.toast
 
 > 吐司(Toast)提示
 
@@ -15,7 +17,7 @@ const weiui = weex.requireModule('weiui');
 weiui.toast({params})
 ```
 
-#### params 参数说明
+### params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
@@ -27,7 +29,7 @@ weiui.toast({params})
 | x | `Number` | - | x轴偏移像素 | 0 |
 | y | `Number` | - | y轴偏移像素 | 0 |
 
-#### 简单示例
+### 简单示例
 
 ```js
 //示例①
@@ -40,7 +42,7 @@ weiui.toast({
 });
 ```
 
-# weiui.toastClose
+## weiui.toastClose
 
 > 吐司(Toast)隐藏
 

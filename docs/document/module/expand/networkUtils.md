@@ -1,10 +1,12 @@
-#### 需要的模块
+# networkUtils
+
+> 需要的模块
 
 ```js
 const weiui = weex.requireModule('weiui');
 ```
 
-#### 打开网络设置界面
+## 打开网络设置界面
 ```js
 /**
 * @参数一      固定值
@@ -12,7 +14,7 @@ const weiui = weex.requireModule('weiui');
 weiui.networkUtils('openWirelessSettings')
 ```
 
-#### 判断网络是否连接
+## 判断网络是否连接
 ```js
 /**
 * @参数一      固定值
@@ -22,7 +24,7 @@ weiui.networkUtils('openWirelessSettings')
 let variable = weiui.networkUtils('isConnected')
 ```
 
-#### 判断网络是否可用
+## 判断网络是否可用
 ```js
 /**
 * @参数一      固定值
@@ -32,7 +34,7 @@ let variable = weiui.networkUtils('isConnected')
 let variable = weiui.networkUtils('isAvailableByPing')
 ```
 
-#### 判断移动数据是否打开
+## 判断移动数据是否打开
 ```js
 /**
 * @参数一      固定值
@@ -42,7 +44,7 @@ let variable = weiui.networkUtils('isAvailableByPing')
 let variable = weiui.networkUtils('getMobileDataEnabled')
 ```
 
-#### 打开或关闭移动数据
+## 打开或关闭移动数据
 ```js
 /**
 * @参数一      固定值
@@ -51,7 +53,7 @@ let variable = weiui.networkUtils('getMobileDataEnabled')
 weiui.networkUtils('setMobileDataEnabled', enabled)
 ```
 
-#### 判断网络是否是移动数据
+## 判断网络是否是移动数据
 ```js
 /**
 * @参数一      固定值
@@ -61,7 +63,7 @@ weiui.networkUtils('setMobileDataEnabled', enabled)
 let variable = weiui.networkUtils('isMobileData')
 ```
 
-#### 判断网络是否是 4G
+## 判断网络是否是 4G
 ```js
 /**
 * @参数一      固定值
@@ -71,7 +73,7 @@ let variable = weiui.networkUtils('isMobileData')
 let variable = weiui.networkUtils('is4G')
 ```
 
-#### 判断 wifi 是否打开
+## 判断 wifi 是否打开
 ```js
 /**
 * @参数一      固定值
@@ -81,7 +83,7 @@ let variable = weiui.networkUtils('is4G')
 let variable = weiui.networkUtils('getWifiEnabled')
 ```
 
-#### 打开或关闭 wifi
+## 打开或关闭 wifi
 ```js
 /**
 * @参数一      固定值
@@ -90,7 +92,7 @@ let variable = weiui.networkUtils('getWifiEnabled')
 weiui.networkUtils('setWifiEnabled', enabled)
 ```
 
-#### 判断 wifi 是否连接状态
+## 判断 wifi 是否连接状态
 ```js
 /**
 * @参数一      固定值
@@ -100,7 +102,7 @@ weiui.networkUtils('setWifiEnabled', enabled)
 let variable = weiui.networkUtils('isWifiConnected')
 ```
 
-#### 判断 wifi 数据是否可用
+## 判断 wifi 数据是否可用
 ```js
 /**
 * @参数一      固定值
@@ -110,7 +112,7 @@ let variable = weiui.networkUtils('isWifiConnected')
 let variable = weiui.networkUtils('isWifiAvailable')
 ```
 
-#### 获取移动网络运营商名称
+## 获取移动网络运营商名称
 ```js
 /**
 * @参数一      固定值
@@ -120,7 +122,7 @@ let variable = weiui.networkUtils('isWifiAvailable')
 let variable = weiui.networkUtils('getNetworkOperatorName')
 ```
 
-#### 获取当前网络类型
+## 获取当前网络类型
 ```js
 /**
 * @参数一      固定值
@@ -130,7 +132,7 @@ let variable = weiui.networkUtils('getNetworkOperatorName')
 let variable = weiui.networkUtils('getNetworkType')
 ```
 
-#### 获取 IP 地址
+## 获取 IP 地址
 ```js
 /**
 * @参数一      固定值
@@ -141,7 +143,7 @@ let variable = weiui.networkUtils('getNetworkType')
 let variable = weiui.networkUtils('getIPAddress', useIPv4)
 ```
 
-#### 获取 IP 地址
+## 获取 IP 地址
 ```js
 /**
 * @参数一      固定值
