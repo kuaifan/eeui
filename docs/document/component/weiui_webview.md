@@ -99,6 +99,34 @@ this.$refs.reflectName.setContent(string);
  * 参数一：地址，如果：http://kuaifan.vip
  */
 this.$refs.reflectName.setUrl(url);
+
+/**
+* 是否可以后退
+* 
+* 回调 result: true|false
+ */
+this.$refs.reflectName.canGoBack(callback(result));
+
+/**
+* 后退并返回是否后退成功
+* 
+* 回调 result: true|false
+ */
+this.$refs.reflectName.goBack(callback(result));
+
+/**
+* 是否可以前进
+* 
+* 回调 result: true|false
+ */
+this.$refs.reflectName.canGoForward(callback(result));
+
+/**
+* 前进并返回是否前进成功
+* 
+* 回调 result: true|false
+ */
+this.$refs.reflectName.goForward(callback(result));
 ```
 
 

@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.weex.plugin.annotation.WeexComponent;
+import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
+import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
 
@@ -117,6 +119,14 @@ public class WebView extends WXVContainer<ViewGroup> {
         }
     }
 
+    private boolean __canGoBack() {
+        return v_webview != null && v_webview.canGoBack();
+    }
+
+    private boolean __canGoForward() {
+        return v_webview != null && v_webview.canGoForward();
+    }
+
     /***************************************************************************************************/
     /***************************************************************************************************/
     /***************************************************************************************************/
@@ -147,6 +157,56 @@ public class WebView extends WXVContainer<ViewGroup> {
                     "</header>" +
                     "<body>"+ content + "</body>" +
                     "</html>", "text/html; charset=UTF-8", null);
+        }
+    }
+
+    /**
+     * 是否可以后退
+     */
+    @JSMethod
+    public void canGoBack(JSCallback callback) {
+        if (callback != null) {
+            callback.invoke(__canGoBack());
+        }
+    }
+
+    /**
+     * 后退
+     */
+    @JSMethod
+    public void goBack(JSCallback callback){
+        boolean canBack = false;
+        if (__canGoBack()) {
+            v_webview.goBack();
+            canBack = true;
+        }
+        if (callback != null) {
+            callback.invoke(canBack);
+        }
+    }
+
+    /**
+     * 是否可以前进
+     */
+    @JSMethod
+    public void canGoForward(JSCallback callback) {
+        if (callback != null) {
+            callback.invoke(__canGoForward());
+        }
+    }
+
+    /**
+     * 前进
+     */
+    @JSMethod
+    public void goForward(JSCallback callback){
+        boolean canForward = false;
+        if (__canGoForward()) {
+            v_webview.goForward();
+            canForward = true;
+        }
+        if (callback != null) {
+            callback.invoke(canForward);
         }
     }
 }

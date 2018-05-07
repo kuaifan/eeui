@@ -416,7 +416,7 @@
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
             //
             let variable = parseInt(weiui.getLocalVersion());
-            if (variable < 9) {
+            if (variable < 11) {
                 this.newApp = true;
                 weiui.confirm({
                     title: "版本更新",
