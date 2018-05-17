@@ -11,7 +11,7 @@
             </weiui_navbar_item>
         </weiui_navbar>
 
-        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips: false}">
+        <weiui_list class="list" :weiui="{ pullTips: false}">
 
             <text class="list-title">预设样式</text>
 

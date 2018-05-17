@@ -149,14 +149,14 @@ public class WebView extends WXVContainer<ViewGroup> {
     @JSMethod
     public void setContent(String content){
         if (v_webview != null) {
-            v_webview.loadData("<html>" +
+            v_webview.loadDataWithBaseURL("about:blank", "<html>" +
                     "<header>" +
                     "<meta charset='utf-8'>" +
                     "<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'>" +
-                    "<style type='text/css'> " + ProgressWebView.commonStyle() + "</style>" +
+                    "<style type='text/css'>" + ProgressWebView.commonStyle() + "</style>" +
                     "</header>" +
-                    "<body>"+ content + "</body>" +
-                    "</html>", "text/html; charset=UTF-8", null);
+                    "<body>" + content + "</body>" +
+                    "</html>", "text/html", "utf-8", null);
         }
     }
 

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import java.util.List;
 import vip.kuaifan.weiui.R;
 
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
-import vip.kuaifan.weiui.ui.component.recyler.bean.SwipeButtonBean;
 
 /**
  * Created by WDM on 2018/3/1.
@@ -37,21 +34,11 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean hasMore = false;
     private boolean fadeFooter = false;
     private OnItemClickListener mOnItemClickListener;
-    private List<SwipeButtonBean> mSwipeItems = new ArrayList<>();
 
     private boolean pullTips = true;
     private String pullTipsDefault = "正在加载数据...";
     private String pullTipsLoad = "正在加载更多...";
     private String pullTipsNo = "没有更多数据了";
-
-    private String dividerColor = "#e8e8e8";
-    private int dividerHeight = 1;
-
-    private int itemSpaceTop = 0;
-    private int itemSpaceRight = 0;
-    private int itemSpaceBottom = 0;
-    private int itemSpaceLeft = 0;
-    private int itemBackgroundColor = 0x00ffffff;
 
     public RecylerAdapter(Context context) {
         this.context = context;
@@ -59,7 +46,7 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == normalType) {
             return new NormalHolder(LayoutInflater.from(context).inflate(R.layout.layout_weiui_recyler_item, null));
         } else {
@@ -130,54 +117,21 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class NormalHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private LinearLayout v_parent;
         private FrameLayout v_container;
-        private LinearLayout v_swipeView;
-        private View v_divider, v_swipedivider;
 
         NormalHolder(View itemView) {
             super(itemView);
-            v_parent = itemView.findViewById(R.id.v_parent);
             v_container = itemView.findViewById(R.id.v_container);
-            v_swipeView = itemView.findViewById(R.id.v_swipeview);
-            v_divider = itemView.findViewById(R.id.v_divider);
-            v_swipedivider = itemView.findViewById(R.id.v_swipedivider);
-            //
-            if (itemSpaceLeft > 0 || itemSpaceTop > 0 || itemSpaceRight > 0 || itemSpaceBottom > 0) {
-                weiuiCommon.setMargins(v_parent, itemSpaceLeft, itemSpaceTop, itemSpaceRight, itemSpaceBottom);
-            }
-            v_parent.setBackgroundColor(itemBackgroundColor);
             //
             v_container.setOnClickListener(this);
             v_container.setOnLongClickListener(this);
-            //
-            if (dividerHeight > 0) {
-                v_divider.setVisibility(View.VISIBLE);
-                v_divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
-                v_divider.setBackgroundColor(Color.parseColor(dividerColor));
-            }else{
-                v_divider.setVisibility(View.GONE);
-            }
-            //
-            if (mSwipeItems.size() > 0) {
-                for (int i = 0; i < mSwipeItems.size(); i++) {
-                    v_swipeView.addView(newView(mSwipeItems.get(i), i));
-                }
-            }
         }
 
         @Override
         public void onClick(View view) {
             int id = view.getId();
-            if (id == R.id.v_container) {
-                if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onClick(getAdapterPosition());
-                }
-            }else if (view instanceof TextView){
-                if (mOnItemClickListener != null) {
-                    TextView temp = (TextView) view;
-                    mOnItemClickListener.onSwipeClick(getAdapterPosition(), (int) temp.getTag(), temp.getText().toString());
-                }
+            if (id == R.id.v_container && mOnItemClickListener != null) {
+                mOnItemClickListener.onClick(getAdapterPosition());
             }
         }
 
@@ -190,41 +144,6 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             return true;
-        }
-
-        private View newView(SwipeButtonBean bean, int position) {
-            TextView mView = new TextView(context);
-            mView.setLayoutParams(new LinearLayout.LayoutParams(bean.getWidth() > 0 ? bean.getWidth() : LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-            mView.setGravity(Gravity.CENTER);
-            mView.setText(bean.getText());
-            if (bean.getSize() > 0) {
-                mView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bean.getSize());
-            }
-            if (bean.getPadding() > 0) {
-                mView.setPadding(bean.getPadding(), 0, bean.getPadding(), 0);
-            }
-            if (!bean.getColor().isEmpty()) {
-                mView.setTextColor(Color.parseColor(bean.getColor()));
-            }
-            if (!bean.getBackgroundColor().isEmpty()) {
-                mView.setBackgroundColor(Color.parseColor(bean.getBackgroundColor()));
-            }
-            if (dividerHeight > 0) {
-                v_swipedivider.setVisibility(View.VISIBLE);
-                v_swipedivider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dividerHeight));
-                v_swipedivider.setBackgroundColor(Color.parseColor(dividerColor));
-            }else{
-                v_swipedivider.setVisibility(View.GONE);
-            }
-            //
-            ViewGroup parentViewGroup = (ViewGroup) mView.getParent();
-            if (parentViewGroup != null ) {
-                parentViewGroup.removeView(mView);
-            }
-            //
-            mView.setTag(position);
-            mView.setOnClickListener(this);
-            return mView;
         }
     }
 
@@ -249,15 +168,10 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public interface OnItemClickListener {
         void onClick(int position);
         void onLongClick(int position);
-        void onSwipeClick(int position, int swipePosition, String swipeText);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
-    }
-
-    public void setSwipeItems(List<SwipeButtonBean> buttonList) {
-        this.mSwipeItems = buttonList;
     }
 
     public int getRealLastPosition() {
@@ -296,33 +210,5 @@ public class RecylerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setPullTipsNo(String var) {
         pullTipsNo = var;
-    }
-
-    public void setDividerColor(String var) {
-        dividerColor = var;
-    }
-
-    public void setDividerHeight(int var) {
-        dividerHeight = var;
-    }
-
-    public void setItemSpaceTop(int var) {
-        itemSpaceTop = var;
-    }
-
-    public void setItemSpaceRight(int var) {
-        itemSpaceRight = var;
-    }
-
-    public void setItemSpaceBottom(int var) {
-        itemSpaceBottom = var;
-    }
-
-    public void setItemSpaceLeft(int var) {
-        itemSpaceLeft = var;
-    }
-
-    public void setItemBackgroundColor(int var) {
-        itemBackgroundColor = var;
     }
 }

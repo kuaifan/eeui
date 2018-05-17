@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.alibaba.weex.plugin.annotation.WeexComponent;
@@ -25,9 +24,7 @@ import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXVContainer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
@@ -38,12 +35,10 @@ import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.recyler.adapter.RecylerAdapter;
-import vip.kuaifan.weiui.ui.component.recyler.bean.SwipeButtonBean;
 import vip.kuaifan.weiui.ui.component.recyler.listener.RecylerOnBottomScrollListener;
-import vip.kuaifan.weiui.ui.component.recyler.view.SwipeItemLayout;
 
 
-@WeexComponent(names = {"weiui_recyler", "weiui_list", "wi_recyler", "wi_list"})
+@WeexComponent(names = {"weiui_recyler", "wi_recyler", "weiui_list", "wi_list"})
 public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "Recyler";
@@ -55,15 +50,19 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
 
     private boolean isSwipeRefresh;
     private boolean isRefreshAuto;
+
     private int gridRow = 1;
+    private int footIdentify;
     private int lastVisibleItem = 0;
+
     private boolean hasMore = false;
     private boolean isLoading = false;
+    private boolean isRefreshing = false;
+
     private GridLayoutManager mLayoutManager;
     private RecylerAdapter mAdapter;
     private Runnable listUpdateRunnable;
     private Handler mHandler = new Handler();
-    private int footIdentify;
 
     public Recyler(WXSDKInstance instance, WXDomObject dom, WXVContainer parent) {
         super(instance, dom, parent);
@@ -163,6 +162,7 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         isLoading = true;
+        isRefreshing = true;
         v_swipeRefresh.setRefreshing(true);
         if (getDomObject().getEvents().contains(weiuiConstants.Event.REFRESH_LISTENER)) {
             Map<String, Object> data = new HashMap<>();
@@ -188,45 +188,6 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                 }
                 return true;
 
-            case "swipe":
-                List<SwipeButtonBean> swipes = new ArrayList<>();
-                JSONArray swipeArray = weiuiJson.parseArray(weiuiParse.parseStr(val, null));
-                for (int i = 0; i < swipeArray.size(); i++) {
-                    JSONObject swipeObject = weiuiJson.parseObject(weiuiParse.parseStr(swipeArray.get(i), null));
-                    SwipeButtonBean bean = new SwipeButtonBean();
-                    for (Map.Entry<String, Object> entry : swipeObject.entrySet()) {
-                        switch (weiuiCommon.camelCaseName(entry.getKey())) {
-                            case "width":
-                                bean.setWidth(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 0));
-                                break;
-
-                            case "title":
-                                bean.setText(weiuiParse.parseStr(entry.getValue(), "按钮" + i));
-                                break;
-
-                            case "fontSize":
-                                bean.setSize(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 24));
-                                break;
-
-                            case "padding":
-                                bean.setPadding(weiuiScreenUtils.weexPx2dp(getInstance(), entry.getValue(), 5));
-                                break;
-
-                            case "color":
-                                bean.setColor(weiuiParse.parseStr(entry.getValue(), "#000000"));
-                                break;
-
-                            case "backgroundColor":
-                                bean.setBackgroundColor(weiuiParse.parseStr(entry.getValue(), "#ffffff"));
-                                break;
-                        }
-                    }
-                    swipes.add(bean);
-                }
-                mAdapter.setSwipeItems(swipes);
-                v_recyler.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getContext()));
-                return true;
-
             case "row":
                 gridRow = weiuiParse.parseInt(val, 1);
                 mLayoutManager.setSpanCount(gridRow);
@@ -246,34 +207,6 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
 
             case "pullTipsNo":
                 mAdapter.setPullTipsNo(weiuiParse.parseStr(val, ""));
-                return true;
-
-            case "dividerColor":
-                mAdapter.setDividerColor(weiuiParse.parseStr(val, ""));
-                return true;
-
-            case "dividerHeight":
-                mAdapter.setDividerHeight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
-                return true;
-
-            case "itemSpaceTop":
-                mAdapter.setItemSpaceTop(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
-                return true;
-
-            case "itemSpaceRight":
-                mAdapter.setItemSpaceRight(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
-                return true;
-
-            case "itemSpaceBottom":
-                mAdapter.setItemSpaceBottom(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
-                return true;
-
-            case "itemSpaceLeft":
-                mAdapter.setItemSpaceLeft(weiuiScreenUtils.weexPx2dp(getInstance(), val, 0));
-                return true;
-
-            case "itemBackgroundColor":
-                mAdapter.setItemBackgroundColor(Color.parseColor(weiuiParse.parseStr(val, "")));
                 return true;
 
             case "itemDefaultAnimator":
@@ -318,6 +251,13 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                         loadData();
                     }
                 }
+                if (getDomObject().getEvents().contains(weiuiConstants.Event.SCROLL_STATE_CHANGED)) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("x", recyclerView.computeHorizontalScrollOffset());
+                    data.put("y", recyclerView.computeVerticalScrollOffset());
+                    data.put("newState", newState);
+                    fireEvent(weiuiConstants.Event.SCROLL_STATE_CHANGED, data);
+                }
             }
 
             @Override
@@ -325,7 +265,19 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
                 if (isSwipeRefresh) {
-                    v_swipeRefresh.setEnabled(mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+                    boolean isFirst = mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0;
+                    if (isFirst && !isRefreshing && v_swipeRefresh.isRefreshing()) {
+                        v_swipeRefresh.setRefreshing(false);
+                    }
+                    v_swipeRefresh.setEnabled(isFirst);
+                }
+                if (getDomObject().getEvents().contains(weiuiConstants.Event.SCROLLED)) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("x", recyclerView.computeHorizontalScrollOffset());
+                    data.put("y", recyclerView.computeVerticalScrollOffset());
+                    data.put("dx", dx);
+                    data.put("dy", dy);
+                    fireEvent(weiuiConstants.Event.SCROLLED, data);
                 }
             }
 
@@ -346,17 +298,6 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
                     Map<String, Object> data = new HashMap<>();
                     data.put("position", position);
                     fireEvent(weiuiConstants.Event.ITEM_LONG_CLICK, data);
-                }
-            }
-
-            @Override
-            public void onSwipeClick(int position, int swipePosition, String swipeText) {
-                if (getDomObject().getEvents().contains(weiuiConstants.Event.ITEM_SWIPE_CLICK)) {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("position", position);
-                    data.put("swipePosition", swipePosition);
-                    data.put("swipeText", swipeText);
-                    fireEvent(weiuiConstants.Event.ITEM_SWIPE_CLICK, data);
                 }
             }
         });
@@ -422,7 +363,10 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
             }
         }else{
             isLoading = false;
-            v_swipeRefresh.post(()-> v_swipeRefresh.setRefreshing(false));
+            v_swipeRefresh.post(()-> {
+                isRefreshing = false;
+                v_swipeRefresh.setRefreshing(false);
+            });
         }
     }
 
@@ -432,7 +376,10 @@ public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayo
     @JSMethod
     public void refreshed() {
         isLoading = false;
-        v_swipeRefresh.post(()-> v_swipeRefresh.setRefreshing(false));
+        v_swipeRefresh.post(()-> {
+            isRefreshing = false;
+            v_swipeRefresh.setRefreshing(false);
+        });
     }
 
     /**

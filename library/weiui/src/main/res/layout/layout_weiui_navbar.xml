@@ -1,80 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/weiui_navbar"
-    android:orientation="vertical">
+    android:background="@color/weiui_navbar">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/v_middle_box"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/v_middle_box"
+            android:id="@+id/v_middle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/v_middle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/v_left_box"
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/v_left_box"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/v_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/v_back"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/back"
-                android:visibility="gone"/>
-
-            <LinearLayout
-                android:id="@+id/v_left"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-        </LinearLayout>
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back"
+            android:visibility="gone"/>
 
         <LinearLayout
-            android:id="@+id/v_right_box"
+            android:id="@+id/v_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/v_right"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-            </LinearLayout>
 
         </LinearLayout>
 
-    </FrameLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/v_right_box"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/v_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

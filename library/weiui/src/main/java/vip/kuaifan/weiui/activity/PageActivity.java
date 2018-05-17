@@ -69,10 +69,8 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.view.ProgressWebView;
 import vip.kuaifan.weiui.extend.view.SwipeCaptchaView;
+import vip.kuaifan.weiui.ui.weiui;
 
-/**
- * 默认透明底色窗口
- */
 public class PageActivity extends AppCompatActivity {
 
     private static final String TAG = "PageActivity";
@@ -90,7 +88,7 @@ public class PageActivity extends AppCompatActivity {
     private Map<String, JSCallback> mOnPageStatusListeners = new HashMap<>();
 
     //模板部分
-    private ViewGroup mBody, mWeex, mWeb, mAuto, mError;
+    private ViewGroup mBody, mWeb, mAuto, mError;
     private TextView mErrorCode;
     private ViewGroup mWeexView;
     private FrameLayout mWeexProgress;
@@ -576,17 +574,28 @@ public class PageActivity extends AppCompatActivity {
             case "fullscreen":
                 //全屏
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                if (mPageInfo.getSoftInputMode().equals("auto")) {
+                    mPageInfo.setSoftInputMode("pan");
+                }
                 break;
             case "immersion":
                 //沉浸式
                 setImmersionStatusBar();
+                if (mPageInfo.getSoftInputMode().equals("auto")) {
+                    mPageInfo.setSoftInputMode("pan");
+                }
                 break;
             default:
                 //默认
-                StatusBarUtil.setColorForSwipeBack(this, Color.parseColor(mPageInfo.getStatusBarColor()), mPageInfo.getStatusBarAlpha());
+                if (mPageInfo.isSwipeBack()) {
+                    StatusBarUtil.setColorForSwipeBack(this, Color.parseColor(mPageInfo.getStatusBarColor()), mPageInfo.getStatusBarAlpha());
+                }else{
+                    StatusBarUtil.setColor(this, Color.parseColor(mPageInfo.getStatusBarColor()), mPageInfo.getStatusBarAlpha());
+                }
                 break;
         }
         //
+        setSoftInputMode(mPageInfo.getSoftInputMode());
         initDefaultPageView();
     }
 
@@ -633,13 +642,12 @@ public class PageActivity extends AppCompatActivity {
                 break;
 
             case "weex":
-                mWeex = findViewById(R.id.v_weex);
-                mWeex.setVisibility(View.VISIBLE);
                 mWeexView = findViewById(R.id.v_weexview);
                 mWeexProgress = findViewById(R.id.v_weexprogress);
                 mWeexProgressBg = findViewById(R.id.v_weexprogressbg);
 
                 mWeexSwipeRefresh = findViewById(R.id.v_weexswiperefresh);
+                mWeexSwipeRefresh.setVisibility(View.VISIBLE);
                 mWeexSwipeRefresh.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
                 mWeexSwipeRefresh.setOnRefreshListener(() -> {
                     if (mOnRefreshListener != null) mOnRefreshListener.refresh(mPageInfo.getPageName());
@@ -963,7 +971,9 @@ public class PageActivity extends AppCompatActivity {
 
             @Override
             public void onRefreshSuccess(WXSDKInstance instance, int width, int height) {
-
+                if (mWeexProgress != null) {
+                    mWeexProgress.setVisibility(View.GONE);
+                }
             }
 
             /**
@@ -977,14 +987,20 @@ public class PageActivity extends AppCompatActivity {
                 if (mWeexProgress != null) {
                     mWeexProgress.setVisibility(View.GONE);
                 }
-                mError.setVisibility(View.VISIBLE);
-                mErrorCode.setText(String.valueOf(errCode));
+                if (errCode == null) {
+                    errCode = "";
+                }
                 //
                 Map<String, Object> retData = new HashMap<>();
                 retData.put("errCode", errCode);
                 retData.put("errMsg", errMsg);
                 retData.put("errUrl", instance.getBundleUrl());
                 invokeAndKeepAlive("error", retData);
+                //
+                if (weiui.debug || errCode.equals("-1002") || errCode.equals("-1003")) {
+                    mError.setVisibility(View.VISIBLE);
+                    mErrorCode.setText(String.valueOf(errCode));
+                }
             }
         };
     }
@@ -1089,6 +1105,28 @@ public class PageActivity extends AppCompatActivity {
     }
 
     /**
+     * 设置键盘弹出方式
+     * @param mode
+     */
+    public void setSoftInputMode(String mode) {
+        if (mPageInfo == null || mode == null) {
+            return;
+        }
+        switch (mode) {
+            case "resize":
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                break;
+            case "pan":
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                break;
+            case "auto":
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED);
+                break;
+        }
+        mPageInfo.setSoftInputMode(mode);
+    }
+
+    /**
      * 设置是否允许滑动返回
      * @param var
      */
@@ -1139,26 +1177,46 @@ public class PageActivity extends AppCompatActivity {
 
     /**
      * 监听页面状态
-     * @param name
+     * @param listenerName
      * @param mOnPageStatusListener
      */
-    public void setPageStatusListener(String name, JSCallback mOnPageStatusListener){
-        if (name == null) {
-            name = weiuiCommon.randomString(8);
+    public void setPageStatusListener(String listenerName, JSCallback mOnPageStatusListener){
+        if (listenerName == null) {
+            listenerName = weiuiCommon.randomString(8);
         }
         if (mOnPageStatusListener != null) {
-            this.mOnPageStatusListeners.put(name, mOnPageStatusListener);
+            this.mOnPageStatusListeners.put(listenerName, mOnPageStatusListener);
         }
     }
 
     /**
      * 取消监听页面状态
-     * @param name
+     * @param listenerName
      */
-    public void clearPageStatusListener(String name){
-        if (name == null) {
+    public void clearPageStatusListener(String listenerName){
+        if (listenerName == null) {
             return;
         }
-        this.mOnPageStatusListeners.remove(name);
+        this.mOnPageStatusListeners.remove(listenerName);
+    }
+
+    /**
+     * 手动执行(触发)页面状态
+     * @param listenerName
+     * @param status
+     */
+    public void onPageStatusListener(String listenerName, String status, Object extra) {
+        Map<String, Object> retData = new HashMap<>();
+        retData.put("extra", extra);
+        if (listenerName == null || listenerName.isEmpty()) {
+            invokeAndKeepAlive(status, retData);
+            return;
+        }
+        JSCallback callback = this.mOnPageStatusListeners.get(listenerName);
+        if (callback != null) {
+            retData.put("pageName", mPageInfo.getPageName());
+            retData.put("status", status);
+            callback.invokeAndKeepAlive(retData);
+        }
     }
 }

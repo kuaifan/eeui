@@ -21108,7 +21108,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     style: (_vm.$processStyle(undefined)),
     attrs: {
       "weiui": {
-        dividerHeight: 0,
         pullTips: false
       }
     }
@@ -21119,11 +21118,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Expand Module")]), _vm._v(" "), _c('weiui_recyler', {
     staticStyle: _vm.$processStyle(undefined),
     style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.expandModuleClick
     }

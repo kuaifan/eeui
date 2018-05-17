@@ -33,7 +33,8 @@ public class FakeServer {
 
     public static void getToken(UserInfo user, final HttpUtil.OnResponse callback) {
         final String post = "userId=" + user.getUserId() + "&name=" + user.getName() + "&portraitUri=" + user.getPortraitUri();
-        String token = weiuiCommon.getCachesString(weiui.getApplication(), "rongimToken", md5(post), "");
+        final String md5Id = md5(weiui_rongim.appKey + "@" + weiui_rongim.appSecret + "@" + post);
+        String token = weiuiCommon.getCachesString(weiui.getApplication(), "rongimToken", md5Id, "");
         if (!"".equals(token)) {
             if (callback != null) {
                 callback.onResponse(200, token);
@@ -52,7 +53,7 @@ public class FakeServer {
                     if ("".equals(token)) {
                         code = -1;
                     } else {
-                        weiuiCommon.setCachesString(weiui.getApplication(), "rongimToken", md5(post), token, 3600);
+                        weiuiCommon.setCachesString(weiui.getApplication(), "rongimToken", md5Id, token, 3600);
                     }
                 }
                 callback.onResponse(code, token);

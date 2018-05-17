@@ -7,12 +7,12 @@
         <activity
             android:name=".activity.PageActivityTransparent"
             android:theme="@style/transparentTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <activity
             android:name=".activity.PageActivityNoTransparent"
             android:theme="@style/noTransparentTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
     </application>
 

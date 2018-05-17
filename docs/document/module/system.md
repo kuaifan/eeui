@@ -73,3 +73,24 @@ let variable = weiui.compareVersion(version1, version2)
 let variable = weiui.getImei()
 ```
 
+## 获取设备系统版本号
+```js
+/**
+* @参数一      固定值
+* 
+* @返回 Number
+ */
+let variable = weiui.getSDKVersionCode()
+```
+
+## 获取设备系统版本名称
+```js
+/**
+* @参数一      固定值
+* 
+* @返回 String
+ */
+let variable = weiui.getSDKVersionName()
+```
+
+

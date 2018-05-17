@@ -98,7 +98,16 @@ weiui_rongim.removeEventHandler()
 
 ```js
 /**
- * @param text  发送的文本内容
+ * @param text      发送的文本内容
+ * @param callback  回调事件
  */
-weiui_rongim.sendTextMessage(rtext)
+weiui_rongim.sendTextMessage(rtext, callback(result))
 ``` 
+
+> callback 回调`result`说明
+
+```js
+{
+    status: 'success',   //状态，success|error
+}
+```

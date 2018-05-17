@@ -5,6 +5,7 @@
 ## 子组件
 
 支持包括 `<div>` 在内的任何组件作为自己的子组件。因此，在写一个组件时，推荐外层使用 `<div>` 作为根容器。
+**注意：android 4.x.x 嵌套层级最多支持5层**
 
 ## 预览效果
 
@@ -22,26 +23,8 @@
                 :weiui="{
                         row: 1,
                         pullTips: true,
-                        dividerColor: '#ffffff',
-                        dividerHeight: '1',
                     }"
-                :swipe="[
-                    {
-                        text: '选项1',
-                        fontSize: '24',
-                        padding: '20',
-                        color: '#ffff00',
-                        backgroundColor: '#ff0000',
-                    },{
-                        text: '选项2',
-                        fontSize: '24',
-                        padding: '30',
-                        color: '#ecedf0',
-                        backgroundColor: '#00ffff',
-                    }
-                    ]"
                 @itemClick="itemClick"
-                @itemSwipeClick="itemSwipeClick"
                 @pullLoadListener="pullLoadListener"
                 @refreshListener="refreshListener">
             <div class="panel" v-for="num in lists">
@@ -104,8 +87,6 @@
             itemClick(params) {
                 weiui.toast("点击了" + (params.position + 1) + "项");
             },
-            itemSwipeClick(params) {
-                weiui.toast("点击了" + (params.position + 1) + "项侧滑的第" + (params.swipePosition + 1) + "个菜单");
             },
             pullLoadListener() {
                 let count = this.lists.length;
@@ -152,13 +133,6 @@
 | pullTipsDefault |`String`  | 上拉加载默认的提示语           | 正在加载数据...       |
 | pullTipsLoad |`String`  | 上拉加载正在加载的提示语           | 正在加载更多...       |
 | pullTipsNo |`String`  | 上拉加载没有更多的提示语           | 没有更多数据了       |
-| dividerColor |`String`  | 行分割线颜色           | #e8e8e8       |
-| dividerHeight |`Number`  | 行分割线高度           | 1       |
-| itemSpaceTop |`Number`  | 项目边距上           | 0       |
-| itemSpaceRight |`Number`  | 项目边距右           | 0       |
-| itemSpaceBottom |`Number`  | 项目边距下           | 0       |
-| itemSpaceLeft |`Number`  | 项目边距左           | 0       |
-| itemBackgroundColor |`String`  | 项目背景颜色           | -       |
 | itemDefaultAnimator |`Boolean`  | 打开关闭局部刷新默认动画           | false       |
 
 > 例如：
@@ -169,41 +143,7 @@
     :weiui="{
         row: 1,
         pullTips: true,
-        dividerColor: '#ffffff',
-        dividerHeight: '1',
     }"></weiui_navbar>
-```
-
-## 配置参数 `swipe`
->说明：项目侧滑菜单；数据格式：数组对象。
-
-| 属性名           | 类型     | 描述                          | 默认值     |
-| ------------- | ------ | -------------------------- | ------- |
-| width |`Number`、`String`  | 菜单显示宽度           | 0       |
-| title |`String`  | 菜单名称           | 按钮1       |
-| fontSize |`Number`  | 菜单字体大小           | -       |
-| padding |`Number`、`String`  | 菜单内边距           | 0       |
-| color |`String`  | 菜单字体颜色           | #000000       |
-| backgroundColor |`String`  | 菜单背景颜色           | #ffffff       |
-
-> 例如：
-
-```vue
-<weiui_recyler
-    ref="reflectName"
-    :swipe="[{
-        text: '选项1',
-        fontSize: '24',
-        padding: '20',
-        color: '#ffff00',
-        backgroundColor: '#ff0000',
-    }, {
-        text: '选项2',
-        fontSize: '24',
-        padding: '30',
-        color: '#ecedf0',
-        backgroundColor: '#00ffff',
-    }]"></weiui_navbar>
 ```
 
 ## 事件回调 `callback`
@@ -227,12 +167,6 @@
 @itemLongClick = function(data) { ... }
 
 /**
- * 项目侧滑菜单点击事件
- * 返回参数：data = {position: 1, swipePosition: 0,  swipeText: '按钮1'}
- */
-@itemSwipeClick = function(data) { ... }
-
-/**
  * 下拉刷新事件
  * 返回参数：data = {realLastPosition: 1, lastVisibleItem: 0}
  */
@@ -244,6 +178,17 @@
  */
 @pullLoadListener = function(data) { ... }
 
+/**
+ * 标签页视图滚动事件（滚动完成后调用）
+ * 返回参数：data = {x: 0, y: 100, dx: 0, dy: 3}
+ */
+@scrolled = function(data) { ... }
+
+/**
+ * 标签页视图滚动状态发生变化
+ * 返回参数：data = {x: 0, y: 100, newState: 0}
+ */
+@scrollStateChanged = function(data) { ... }
 ```
 
 ## 调用方法 `methods`

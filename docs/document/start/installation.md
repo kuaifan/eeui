@@ -4,7 +4,7 @@
 
 > 注意对版本的要求如下（>=）：
 
-* minSdkVersion  = 18
+* minSdkVersion  = 16
 * targetSdkVersion = 27
 * supportLibVersion = 27.1.0
 

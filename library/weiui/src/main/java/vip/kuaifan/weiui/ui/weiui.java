@@ -23,6 +23,8 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 
 public class weiui {
 
+    public static boolean debug = true;
+
     private static Application application;
 
     private static LinkedList<Activity> mActivityList = new LinkedList<>();
@@ -37,6 +39,15 @@ public class weiui {
 
     public static void init(Application application) {
         register(application);
+    }
+
+    public static void init(Application application, boolean debug) {
+        register(application);
+        setDebug(debug);
+    }
+
+    public static void setDebug(boolean debug) {
+        weiui.debug = debug;
     }
 
     private static void setTopActivity(final Activity activity) {

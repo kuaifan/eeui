@@ -1,53 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vip.kuaifan.weiui.ui.component.recyler.view.SwipeItemLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/v_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:id="@+id/v_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/v_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"/>
-
-        <View
-            android:id="@+id/v_divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#e8e8e8"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/v_swipeview"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/v_swipedivider"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#e8e8e8"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-</vip.kuaifan.weiui.ui.component.recyler.view.SwipeItemLayout>
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true" />

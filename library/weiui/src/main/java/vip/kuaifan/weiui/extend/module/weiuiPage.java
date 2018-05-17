@@ -15,6 +15,7 @@ import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.activity.PageActivityNoTransparent;
 import vip.kuaifan.weiui.activity.PageActivityTransparent;
 import vip.kuaifan.weiui.extend.bean.PageBean;
+import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
 
 /**
  * Created by WDM on 2018/3/25.
@@ -137,6 +138,7 @@ public class weiuiPage {
         if (activity == null) {
             return;
         }
+        BGAKeyboardUtil.closeKeyboard(activity);
         activity.finish();
     }
 

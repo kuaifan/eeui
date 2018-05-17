@@ -10,11 +10,11 @@
         </weiui_navbar>
 
 
-        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips:false}">
+        <weiui_list class="list" :weiui="{ pullTips:false}">
 
             <text class="list-title">Expand Module</text>
 
-            <weiui_recyler @itemClick="expandModuleClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler @itemClick="expandModuleClick" >
 
                 <div class="list-item" v-for="item in expand_module">
                     <div class="list-item-left">

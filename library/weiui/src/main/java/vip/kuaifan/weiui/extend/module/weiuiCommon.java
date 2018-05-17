@@ -396,40 +396,6 @@ public class weiuiCommon {
     }
 
     /**
-     * EditText获取焦点并显示软键盘
-     * @param activity
-     * @param editText
-     */
-    public static void showSoftInputFromWindow(Activity activity, EditText editText) {
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
-        editText.requestFocus();
-        //
-        InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm == null) {
-            return;
-        }
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    /**
-     * 关闭键盘
-     * @param activity
-     * @param editText
-     */
-    public static void closeInputMethod(Activity activity, EditText editText) {
-        editText.clearFocus();
-        //
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm == null) {
-            return;
-        }
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
-
-    /**
      * 动态设置ListView高度
      * @param listView
      */

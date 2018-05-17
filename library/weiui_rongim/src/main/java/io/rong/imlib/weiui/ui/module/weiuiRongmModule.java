@@ -14,6 +14,7 @@ import com.taobao.weex.common.WXModule;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.library.fakeserver.FakeServer;
 import io.rong.imlib.library.fakeserver.HttpUtil;
@@ -32,6 +33,7 @@ public class weiuiRongmModule extends WXModule {
 
     private static final String TAG = "weiuiRongmModule";
 
+    //事件接收者（用于防止重复监听）
     private Handler mEventHandler;
     private JSCallback mEventHandlerJSCallback;
 
@@ -79,9 +81,10 @@ public class weiuiRongmModule extends WXModule {
             @Override
             public void onResponse(int code, String body) {
                 if (code != 200) {
+                    JSONObject json = weiuiJson.parseObject(body);
                     data.put("status", "error");
-                    data.put("errorCode", -801);
-                    data.put("errorMsg", body);
+                    data.put("errorCode", weiuiJson.getInt(json, "code", -801));
+                    data.put("errorMsg", weiuiJson.getString(json, "errorMessage", body));
                     invoke(callback, data);
                     return;
                 }
@@ -271,12 +274,32 @@ public class weiuiRongmModule extends WXModule {
     /**
      * 当前聊天室发送文本消息
      * @param text
+     * @param callback
      */
     @JSMethod
-    public void sendTextMessage(String text) {
+    public void sendTextMessage(String text, final JSCallback callback) {
         if (text == null) {
             return;
         }
-        weiui_rongim.sendMessage(TextMessage.obtain(text));
+        weiui_rongim.sendMessage(TextMessage.obtain(text), new IRongCallback.ISendMessageCallback() {
+            @Override
+            public void onAttached(io.rong.imlib.model.Message message) {
+
+            }
+
+            @Override
+            public void onSuccess(io.rong.imlib.model.Message message) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "success");
+                invoke(callback, data);
+            }
+
+            @Override
+            public void onError(io.rong.imlib.model.Message message, RongIMClient.ErrorCode errorCode) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("status", "error");
+                invoke(callback, data);
+            }
+        });
     }
 }

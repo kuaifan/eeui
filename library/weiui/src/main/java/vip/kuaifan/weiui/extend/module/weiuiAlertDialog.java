@@ -5,11 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Selection;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import vip.kuaifan.weiui.R;
-import vip.kuaifan.weiui.extend.module.utilcode.util.SizeUtils;
+import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
 
 
 public class weiuiAlertDialog {
@@ -137,9 +137,10 @@ public class weiuiAlertDialog {
                     temp.put("type", inputs.get(i));
                 }
                 //
+                boolean autoFocus = false;
                 EditText mEditText = new EditText(context);
                 for (Map.Entry<String, Object> entry : temp.entrySet()) {
-                    switch (entry.getKey().toLowerCase()) {
+                    switch (weiuiCommon.camelCaseName(entry.getKey())) {
                         case "type":
                             switch (weiuiParse.parseStr(entry.getValue())) {
                                 case "datetime":
@@ -176,38 +177,31 @@ public class weiuiAlertDialog {
                             mEditText.setText(weiuiParse.parseStr(entry.getValue()));
                             break;
 
-                        case "maxlength":
-                        case "max-length":
+                        case "maxLength":
                             mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(weiuiParse.parseInt(entry.getValue()))});
                             break;
 
-                        case "hint":
                         case "placeholder":
                             mEditText.setHint(weiuiParse.parseStr(entry.getValue()));
                             break;
 
-                        case "singleline":
-                        case "single-line":
+                        case "singleLine":
                             mEditText.setSingleLine(weiuiParse.parseBool(entry.getValue()));
                             break;
 
-                        case "autofocus":
-                        case "auto-focus":
-                            mEditText.setSingleLine(weiuiParse.parseBool(entry.getValue()));
+                        case "autoFocus":
+                            autoFocus = true;
                             break;
 
-                        case "textsize":
-                        case "text-size":
+                        case "textSize":
                             mEditText.setTextSize(weiuiParse.parseFloat(entry.getValue()));
                             break;
 
-                        case "textcolor":
-                        case "text-color":
+                        case "textColor":
                             mEditText.setTextColor(Color.parseColor(weiuiParse.parseStr(entry.getValue())));
                             break;
 
-                        case "backgroundcolor":
-                        case "background-color":
+                        case "backgroundColor":
                             mEditText.setBackgroundColor(Color.parseColor(weiuiParse.parseStr(entry.getValue())));
                             break;
 
@@ -215,8 +209,7 @@ public class weiuiAlertDialog {
                             mEditText.setEms(weiuiParse.parseInt(entry.getValue()));
                             break;
 
-                        case "maxems":
-                        case "max-ems":
+                        case "maxEms":
                             mEditText.setMaxEms(weiuiParse.parseInt(entry.getValue()));
                             break;
 
@@ -224,8 +217,7 @@ public class weiuiAlertDialog {
                             mEditText.setLines(weiuiParse.parseInt(entry.getValue()));
                             break;
 
-                        case "maxlines":
-                        case "max-lines":
+                        case "maxLines":
                             mEditText.setMaxLines(weiuiParse.parseInt(entry.getValue()));
                             break;
                     }
@@ -236,6 +228,10 @@ public class weiuiAlertDialog {
                 //
                 editTextList.add(i, mEditText);
                 mInput.addView(mEditText, mLayoutParams);
+                //
+                if (autoFocus) {
+                    BGAKeyboardUtil.openKeyboard(context, mEditText);
+                }
             }
             localBuilder.setView(mView);
         }
@@ -275,7 +271,7 @@ public class weiuiAlertDialog {
                             for (int e = 0; e < editTextList.size(); e++) {
                                 inputData.add(editTextList.get(e).getText().toString());
                             }
-                            weiuiCommon.closeInputMethod((Activity) context, editTextList.get(0));
+                            new Handler().postDelayed(() -> BGAKeyboardUtil.closeKeyboard((Activity) context), 100);
                         }
                         data.put("data", inputData);
                         //

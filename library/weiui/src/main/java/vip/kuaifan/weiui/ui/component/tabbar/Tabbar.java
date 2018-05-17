@@ -3,6 +3,7 @@ package vip.kuaifan.weiui.ui.component.tabbar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -42,6 +43,7 @@ import vip.kuaifan.weiui.extend.view.NoAnimationViewPager;
 import vip.kuaifan.weiui.ui.component.tabbar.bean.TabbarBean;
 import vip.kuaifan.weiui.ui.component.tabbar.bean.WXSDKBean;
 import vip.kuaifan.weiui.ui.component.tabbar.entity.TabbarEntity;
+import vip.kuaifan.weiui.ui.weiui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -454,7 +456,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         sdkBean.setParams(barBean.getParams());
         sdkBean.setView(barBean.getView());
         //
-        if (!barBean.getStatusBarColor().isEmpty()) {
+        if (!barBean.getStatusBarColor().isEmpty() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             View statusBar = view.findViewById(R.id.v_statusBar);
             statusBar.setVisibility(View.VISIBLE);
             statusBar.setBackgroundColor(Color.parseColor(barBean.getStatusBarColor()));
@@ -591,8 +593,13 @@ public class Tabbar extends WXVContainer<ViewGroup> {
             }
             @Override
             public void onException(WXSDKInstance instance, String errCode, String msg) {
-                sdkBean.getErrorView().setVisibility(View.VISIBLE);
-                sdkBean.getErrorCodeView().setText(String.valueOf(errCode));
+                if (errCode == null) {
+                    errCode = "";
+                }
+                if (weiui.debug || errCode.equals("-1002") || errCode.equals("-1003")) {
+                    sdkBean.getErrorView().setVisibility(View.VISIBLE);
+                    sdkBean.getErrorCodeView().setText(String.valueOf(errCode));
+                }
             }
         });
         //

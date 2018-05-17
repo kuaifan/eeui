@@ -638,8 +638,13 @@ exports.default = {
             }],
 
             third_module: [{
+                title: '城市选择器',
+                title_en: 'citypicker',
+                icon: 'android-pin',
+                url: 'third_citypicker.js'
+            }, {
                 title: '图片选择器',
-                title_en: 'third_picture',
+                title_en: 'pictureSelector',
                 icon: 'ios-camera-outline',
                 url: 'third_picture.js'
             }],
@@ -672,7 +677,7 @@ exports.default = {
         this.history = JSON.parse(weiui.getCachesString("scaner", []));
         //
         var variable = parseInt(weiui.getLocalVersion());
-        if (variable < 11) {
+        if (variable < 12) {
             this.newApp = true;
             weiui.confirm({
                 title: "版本更新",
@@ -830,18 +835,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["list"],
     attrs: {
       "weiui": {
-        dividerHeight: 0,
         pullTips: false
       }
     }
   }, [_c('text', {
     staticClass: ["list-title"]
   }, [_vm._v("Components")]), _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.componentsClick
     }
@@ -874,11 +873,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })), _c('text', {
     staticClass: ["list-title"]
   }, [_vm._v("Module")]), _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.moduleClick
     }
@@ -911,11 +905,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })), _c('text', {
     staticClass: ["list-title"]
   }, [_vm._v("Third Module")]), _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.thirdModuleClick
     }
@@ -948,11 +937,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })), _c('text', {
     staticClass: ["list-title"]
   }, [_vm._v("About Weiui")]), _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.aboutListsClick
     }
@@ -994,11 +978,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("清空历史")])]) : _vm._e(), (_vm.history.length > 0) ? _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.historyClick
     }

@@ -446,7 +446,7 @@ public class utilcodeModule {
         //
         ToastUtils.setGravity(-1, -1, -1);
         ToastUtils.setMsgColor(0xFDFFFFFF);
-        ToastUtils.setBgColor(0xF9000000);
+        ToastUtils.setBgColor(0xE6000000);
         //
         JSONObject param = weiuiJson.parseObject(obj);
         String message = param.getString("message");

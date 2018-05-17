@@ -29,9 +29,10 @@ weiui.openPage({params}, callback(result))
 | cache | `Number` | - | 页面缓存时间，仅`weex`类型有效，<br/>设置`0`不缓存（单位：毫秒） | 0 |
 | loading | `Boolean` | - | 是否显示等待效果：`true`、`false` | true |
 | swipeBack | `Boolean` | - | 是否支持滑动返回：`true`、`false` | false |
-| statusBarType | `String` | - | 状态栏样式：<br/>正常: `normal`<br/>全屏: `fullscreen`<br/>沉浸式: `immersion`<br/>_非默认下`statusBarType`、`statusBarAlpha`无效_ | normal |
+| statusBarType | `String` | - | 状态栏样式：<br/>`normal` 正常<br/>`fullscreen` 全屏<br/>`immersion` 沉浸式<br/>_非默认下`statusBarType`、`statusBarAlpha`无效_ | normal |
 | statusBarColor | `String` | - | 状态栏颜色值 | #3EB4FF |
 | statusBarAlpha | `Number` | - | 状态栏透明度， 0-255 | 0 |
+| softInputMode | `String` | - | 键盘弹出方式：<br/>`auto` 默认值，由系统决定如何处理<br/>`pan` 若键盘盖住输入框，页面不会自动上移<br/>`resize` 若键盘盖住输入框，页面会自动上移 | auto |
 | translucent | `Boolean` | - | 透明底色窗口：`true`、`false`<br/>_启用滑动返回时建议true_ | false |
 | backgroundColor | `String` | - | 页面背景颜色 | #f4f8f9 |
 | backPressedClose | `Boolean` | - | 允许按返回键关闭页面 | true |
@@ -131,16 +132,20 @@ let variable = weiui.getPageInfo('pageName_1');
 
 //variable返回示例
 {
-　　"backgroundColor":"#f4f8f9",
-　　"pageType":"weex",
-　　"swipeBack":true,
-　　"statusBarColor":"#3EB4FF",
-　　"backPressedClose":true,
-　　"statusBarAlpha":0,
-　　"loading":true,
-　　"statusBarType":"default",
-　　"pageName":"open_qGRQ9fHP",
-　　"url":"http://....../dist/index.js"
+　　"url": "http://....../dist/index.js",
+　　"pageName": "open_qGRQ9fHP",
+　　"pageType": "weex",
+　　"params": { },
+　　"cache": 0,
+　　"loading": true,
+　　"swipeBack": true,
+　　"statusBarType": "default",
+　　"statusBarColor": "#3EB4FF",
+　　"statusBarAlpha": 0,
+　　"softInputMode": "auto",
+　　"translucent": false,
+　　"backgroundColor": "#f4f8f9",
+　　"backPressedClose": true,
 }
 ```
 
@@ -171,6 +176,38 @@ weiui.reloadPage({
 
 //示例②
 weiui.reloadPage('pageName_1');
+```
+
+## weiui.setSoftInputMode
+
+* 设置键盘弹出方式
+
+```js
+/**
+ * @param params        页面名称参数
+ * @param mode          键盘弹出方式：
+                           auto 默认值，由系统决定如何处理
+                           pan 若键盘盖住输入框，页面不会自动上移
+                           resize 若键盘盖住输入框，页面会自动上移
+ */
+weiui.setSoftInputMode({params}, mode)
+```
+> params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| pageName | `String` | - | 页面名称，留空表示当前页面（不建议） | - |
+
+> 简单示例
+
+```js
+//示例①
+weiui.setSoftInputMode({
+    pageName: 'pageName_1',
+}, 'pan');
+
+//示例②
+weiui.setSoftInputMode('pageName_1', 'resize');
 ```
 
 ## weiui.setPageBackPressed
@@ -221,7 +258,7 @@ weiui.setOnRefreshListener({params}, callback(pageName))
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
-| pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
+| pageName | `String` | - | 页面名称，留空表示当前页面（不建议） | - |
 
 > 简单示例
 
@@ -256,7 +293,7 @@ weiui.setRefreshing({params}, refreshing)
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
-| pageName | `String` | - | 页面名称，留空拦截当前页面（不建议） | - |
+| pageName | `String` | - | 页面名称，留空表示当前页面（不建议） | - |
 
 
 ## weiui.setPageStatusListener
@@ -265,41 +302,99 @@ weiui.setRefreshing({params}, refreshing)
 
 ```js
 /**
- * @param name    监听名称，用于防止重复监听
- * @param callback  回调事件，参数详见【weiui.openPage】的回调事件（留空取消监听）
+ * @param params        监听名称(参数)
+ * @param callback      回调事件，参数详见【weiui.openPage】的回调事件
  */
-weiui.setPageStatusListener(name, callback(result))
+weiui.setPageStatusListener({params}, callback(result))
 ```
 > params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
-| name | `String` | √ | 监听名称，用于防止重复监听 | - |
+| listenerName | `String` | √ | 监听名称（用于防止重复监听） | - |
+| pageName | `String` | - | 页面名称，留空表示当前页面 | - |
 
 > 简单示例
 
 ```js
-//示例
-weiui.setPageStatusListener('name_1', function(pageName){
+//示例①
+weiui.setPageStatusListener('listenerName_1', function(pageName){
+    //回调事件，参数详见【weiui.openPage】的回调事件
+});
+
+//示例②
+weiui.setPageStatusListener({
+    listenerName: 'listenerName_1',
+    pageName: 'pageName_1',
+}, function(pageName){
     //回调事件，参数详见【weiui.openPage】的回调事件
 });
 ```
+
 ## weiui.clearPageStatusListener
 
 * 清除监听页面状态变化
 
 ```js
 /**
- * @param name    监听名称
+* @param params        监听名称(参数)
  */
-weiui.clearPageStatusListener(name)
+weiui.clearPageStatusListener({params})
 ```
 > params 参数说明
 
 | 属性名 | 类型 | 必须 | 描述 | 默认值 |
 | --- | --- | :-: | --- | --- |
-| name | `String` | √ | 监听名称 | - |
+| listenerName | `String` | √ | 监听名称 | - |
+| pageName | `String` | - | 页面名称，留空表示当前页面 | - |
 
+> 简单示例
+
+```js
+//示例①
+weiui.clearPageStatusListener('listenerName');
+
+//示例②
+weiui.clearPageStatusListener({
+    listenerName: 'listenerName_1',
+    pageName: 'pageName_1',
+});
+```
+
+## weiui.onPageStatusListener
+
+* 手动执行(触发)页面状态
+
+```js
+/**
+ * @param params        监听名称(参数)
+ * @param status        状态标识
+ */
+weiui.onPageStatusListener({params}, status)
+```
+> params 参数说明
+
+| 属性名 | 类型 | 必须 | 描述 | 默认值 |
+| --- | --- | :-: | --- | --- |
+| listenerName | `String` | - | 监听名称，留空表示当前页面所有 | - |
+| pageName | `String` | - | 页面名称，留空表示当前页面 | - |
+| extra | `Object` | - | 额外传递参数 | - |
+
+> 简单示例
+
+```js
+//示例①
+weiui.onPageStatusListener('status_1');
+
+//示例②
+weiui.onPageStatusListener('listenerName_1', 'status_1');
+
+//示例③
+weiui.onPageStatusListener({
+    listenerName: 'listenerName_1',
+    pageName: 'pageName_1',
+}, 'status_1');
+```
 
 ## weiui.getCacheSizePage
 

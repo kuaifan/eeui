@@ -21,11 +21,11 @@
             <text class="version-button">立即下载</text>
         </div>
 
-        <weiui_list class="list" :weiui="{dividerHeight: 0, pullTips:false}">
+        <weiui_list class="list" :weiui="{ pullTips:false}">
 
             <text class="list-title">Components</text>
 
-            <weiui_recyler @itemClick="componentsClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler @itemClick="componentsClick" >
 
                 <div class="list-item" v-for="item in components">
                     <div class="list-item-left">
@@ -42,7 +42,7 @@
 
             <text class="list-title">Module</text>
 
-            <weiui_recyler @itemClick="moduleClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler @itemClick="moduleClick" >
 
                 <div class="list-item" v-for="item in module">
                     <div class="list-item-left">
@@ -59,7 +59,7 @@
 
             <text class="list-title">Third Module</text>
 
-            <weiui_recyler @itemClick="thirdModuleClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler @itemClick="thirdModuleClick" >
 
                 <div class="list-item" v-for="item in third_module">
                     <div class="list-item-left">
@@ -76,7 +76,7 @@
 
             <text class="list-title">About Weiui</text>
 
-            <weiui_recyler @itemClick="aboutListsClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler @itemClick="aboutListsClick" >
 
                 <div class="list-item" v-for="item in about_lists">
                     <div class="list-item-left">
@@ -96,7 +96,7 @@
                 <text class="list-subtitle" @click="clearHistory()">清空历史</text>
             </div>
 
-            <weiui_recyler v-if="history.length > 0" @itemClick="historyClick" :weiui="{ dividerHeight: 0 }">
+            <weiui_recyler v-if="history.length > 0" @itemClick="historyClick" >
 
                 <div class="list-item" v-for="text in history">
                     <div class="list-item-left">
@@ -383,8 +383,13 @@
                 }],
 
                 third_module: [{
+                    title: '城市选择器',
+                    title_en: 'citypicker',
+                    icon: 'android-pin',
+                    url: 'third_citypicker.js',
+                }, {
                     title: '图片选择器',
-                    title_en: 'third_picture',
+                    title_en: 'pictureSelector',
                     icon: 'ios-camera-outline',
                     url: 'third_picture.js',
                 }],
@@ -416,7 +421,7 @@
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
             //
             let variable = parseInt(weiui.getLocalVersion());
-            if (variable < 11) {
+            if (variable < 12) {
                 this.newApp = true;
                 weiui.confirm({
                     title: "版本更新",

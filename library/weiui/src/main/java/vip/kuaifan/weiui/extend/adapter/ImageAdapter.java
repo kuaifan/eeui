@@ -1,12 +1,13 @@
 package vip.kuaifan.weiui.extend.adapter;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
 import vip.kuaifan.weiui.activity.PageActivity;
-import vip.kuaifan.weiui.R;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
 import vip.kuaifan.weiui.extend.integration.glide.load.DataSource;
@@ -30,12 +31,14 @@ public class ImageAdapter implements IWXImgLoaderAdapter {
 
     private static final String TAG = "ImageAdapter";
 
+    private Handler mHandler = new Handler();
+
     public ImageAdapter() {
     }
 
     @Override
     public void setImage(String url, ImageView view, WXImageQuality quality, WXImageStrategy strategy) {
-        WXSDKManager.getInstance().postOnUiThread(() -> {
+        Runnable runnable = () -> {
             if (view == null || view.getLayoutParams() == null) {
                 return;
             }
@@ -43,46 +46,60 @@ public class ImageAdapter implements IWXImgLoaderAdapter {
                 view.setImageBitmap(null);
                 return;
             }
-            if (view.getLayoutParams().width <= 0 || view.getLayoutParams().height <= 0) {
-                return;
+            loadImage(0, url, view, strategy);
+        };
+        if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+            runnable.run();
+        } else {
+            WXSDKManager.getInstance().postOnUiThread(runnable, 0);
+        }
+    }
+
+    /**
+     * 加载图片程序
+     *
+     * @param loadNum
+     * @param url
+     * @param view
+     * @param strategy
+     */
+    private void loadImage(int loadNum, String url, ImageView view, WXImageStrategy strategy) {
+        if (view.getLayoutParams().width <= 0 || view.getLayoutParams().height <= 0) {
+            if (loadNum < 5) {
+                mHandler.postDelayed(() -> view.post(() -> loadImage(loadNum + 1, url, view, strategy)), 200);
             }
-            //
-            String newUrl = url;
-            if (newUrl.startsWith("//")) {
-                newUrl = "http:" + url;
-            }else if (!newUrl.startsWith("http") && !newUrl.startsWith("ftp:") && !newUrl.startsWith("file:") && !newUrl.startsWith("data:")) {
-                if (view.getContext() instanceof PageActivity) {
-                    PageBean mPageBean = ((PageActivity) view.getContext()).getPageInfo();
-                    if (mPageBean != null) {
-                        newUrl = weiuiHtml.repairUrl(newUrl, mPageBean.getUrl());
-                    }
+            return;
+        }
+        //
+        String tempUrl = url;
+        if (tempUrl.startsWith("//")) {
+            tempUrl = "http:" + url;
+        } else if (!tempUrl.startsWith("http") && !tempUrl.startsWith("ftp:") && !tempUrl.startsWith("file:") && !tempUrl.startsWith("data:")) {
+            if (view.getContext() instanceof PageActivity) {
+                PageBean mPageBean = ((PageActivity) view.getContext()).getPageInfo();
+                if (mPageBean != null) {
+                    tempUrl = weiuiHtml.repairUrl(tempUrl, mPageBean.getUrl());
                 }
             }
-            //
-            try {
-                Glide.with(view.getContext())
-                        .load(newUrl)
-                        .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                if (strategy.getImageListener() != null) {
-                                    strategy.getImageListener().onImageFinish(url, view, false, null);
-                                }
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                if (strategy.getImageListener() != null) {
-                                    strategy.getImageListener().onImageFinish(url, view, true, null);
-                                }
-                                return false;
-                            }
-                        }).into(view);
-            } catch (Exception ignored) {
-                view.setImageResource(R.drawable.load_before);
+        }
+        //
+        RequestOptions myOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
+        Glide.with(view.getContext()).load(tempUrl).apply(myOptions).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                if (strategy.getImageListener() != null) {
+                    strategy.getImageListener().onImageFinish(url, view, false, null);
+                }
+                return false;
             }
-        }, 0);
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                if (strategy.getImageListener() != null) {
+                    strategy.getImageListener().onImageFinish(url, view, true, null);
+                }
+                return false;
+            }
+        }).into(view);
     }
 }

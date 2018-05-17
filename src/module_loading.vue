@@ -11,7 +11,7 @@
             </weiui_navbar_item>
         </weiui_navbar>
 
-        <weiui_list class="content" :weiui="{row:2, dividerHeight: 0, pullTips:false}">
+        <weiui_list class="content" :weiui="{row:2,  pullTips:false}">
             <div class="item" v-for="(item, index) in lists" :key="index">
                 <text class="button" @click="loading(item)">样式:{{item}}</text>
             </div>

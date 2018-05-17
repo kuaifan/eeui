@@ -241,6 +241,8 @@ exports.default = {
         this.lists.push("获取本地软件版本号：" + weiui.getLocalVersion());
         this.lists.push("获取本地软件版本号名称：" + weiui.getLocalVersionName());
         this.lists.push("获取手机的IMEI：" + weiui.getImei());
+        this.lists.push("获取设备系统版本号：" + weiui.getSDKVersionCode());
+        this.lists.push("获取设备系统版本名称：" + weiui.getSDKVersionName());
     },
 
 

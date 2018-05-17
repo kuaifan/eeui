@@ -50,17 +50,17 @@ public class weiuiPictureModule extends WXModule {
             for (int i = 0; i <  selectedList.size(); i++) {
                 JSONObject tempJson = weiuiJson.parseObject(selectedList.get(i));
                 LocalMedia tempMedia = new LocalMedia();
-                tempMedia.setDuration(tempJson.getInteger("duration"));
-                tempMedia.setPath(tempJson.getString("path"));
-                tempMedia.setCut(tempJson.getBoolean("cut"));
-                tempMedia.setNum(tempJson.getInteger("num"));
-                tempMedia.setWidth(tempJson.getInteger("width"));
-                tempMedia.setHeight(tempJson.getInteger("height"));
-                tempMedia.setChecked(tempJson.getBoolean("checked"));
-                tempMedia.setMimeType(tempJson.getInteger("mimeType"));
-                tempMedia.setPosition(tempJson.getInteger("position"));
-                tempMedia.setCompressed(tempJson.getBoolean("compressed"));
-                tempMedia.setPictureType(tempJson.getString("pictureType"));
+                tempMedia.setDuration(weiuiJson.getInt(tempJson, "duration"));
+                tempMedia.setPath(weiuiJson.getString(tempJson, "path"));
+                tempMedia.setCut(weiuiJson.getBoolean(tempJson, "cut"));
+                tempMedia.setNum(weiuiJson.getInt(tempJson, "num"));
+                tempMedia.setWidth(weiuiJson.getInt(tempJson, "width"));
+                tempMedia.setHeight(weiuiJson.getInt(tempJson, "height"));
+                tempMedia.setChecked(weiuiJson.getBoolean(tempJson, "checked"));
+                tempMedia.setMimeType(weiuiJson.getInt(tempJson, "mimeType"));
+                tempMedia.setPosition(weiuiJson.getInt(tempJson, "position"));
+                tempMedia.setCompressed(weiuiJson.getBoolean(tempJson, "compressed"));
+                tempMedia.setPictureType(weiuiJson.getString(tempJson, "pictureType"));
                 selected.add(tempMedia);
             }
         }

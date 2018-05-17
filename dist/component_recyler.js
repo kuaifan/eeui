@@ -158,7 +158,10 @@ module.exports = {
     "flex": 1
   },
   "panel": {
-    "width": "750"
+    "width": "750",
+    "borderBottomColor": "#e4e4e4",
+    "borderBottomStyle": "solid",
+    "borderBottomWidth": "1"
   },
   "panel-item": {
     "width": "750",
@@ -262,25 +265,10 @@ var weiui = weex.requireModule('weiui'); //
 //
 //
 //
-//
 
 exports.default = {
     data: function data() {
         return {
-            swipe: [{
-                text: '选项1',
-                size: '12',
-                padding: '20',
-                color: '#ffff00',
-                backgroundColor: '#ff0000'
-            }, {
-                text: '选项2',
-                size: '12',
-                padding: '30',
-                color: '#ecedf0',
-                backgroundColor: '#00ffff'
-            }],
-
             lists: []
         };
     },
@@ -304,9 +292,6 @@ exports.default = {
         },
         itemClick: function itemClick(params) {
             weiui.toast("点击了" + (params.position + 1) + "项");
-        },
-        itemSwipeClick: function itemSwipeClick(params) {
-            weiui.toast("点击了" + (params.position + 1) + "项侧滑的第" + (params.swipePosition + 1) + "个菜单");
         },
         pullLoadListener: function pullLoadListener() {
             var _this2 = this;
@@ -380,14 +365,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "weiui": {
         row: 1,
         pullTips: true,
-        dividerColor: '#e4e4e4',
-        dividerHeight: '1',
-      },
-      "swipe": _vm.swipe
+      }
     },
     on: {
       "itemClick": _vm.itemClick,
-      "itemSwipeClick": _vm.itemSwipeClick,
       "pullLoadListener": _vm.pullLoadListener,
       "refreshListener": _vm.refreshListener
     }

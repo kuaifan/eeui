@@ -20,7 +20,9 @@ import java.util.Map;
 
 import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.extend.bean.PageBean;
+import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
 import vip.kuaifan.weiui.extend.module.rxtools.rxtoolsModule;
+import vip.kuaifan.weiui.extend.module.utilcode.util.DeviceUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.util.FileUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.utilcodeModule;
 import vip.kuaifan.weiui.extend.module.weiuiAdDialog;
@@ -183,10 +185,32 @@ public class weiuiModule extends WXModule {
     public void closePage(String object) {
         String pageName = weiuiPage.getPageName(object);
         if (pageName.isEmpty()) {
+            BGAKeyboardUtil.closeKeyboard((Activity) mWXSDKInstance.getContext());
             ((Activity) mWXSDKInstance.getContext()).finish();
             return;
         }
         weiuiPage.closeWin(pageName);
+    }
+
+    /**
+     * 设置键盘弹出方式
+     * @param object
+     * @param mode
+     */
+    @JSMethod
+    public void setSoftInputMode(String object, String mode) {
+        String pageName = weiuiPage.getPageName(object);
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        mPageActivity.setSoftInputMode(mode);
     }
 
     /**
@@ -265,45 +289,88 @@ public class weiuiModule extends WXModule {
 
     /**
      * 监听页面状态变化
-     * @param name
+     * @param object
      * @param callback
      */
     @JSMethod
-    public void setPageStatusListener(String name, JSCallback callback) {
-        if (name == null) {
+    public void setPageStatusListener(String object, JSCallback callback) {
+        if (object == null) {
             return;
         }
-        String pageName = null;
-        if (mWXSDKInstance.getContext() instanceof PageActivity) {
-            pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+        JSONObject json = weiuiJson.parseObject(object);
+        String listenerName = weiuiJson.getString(json, "listenerName", object);
+        if (listenerName.isEmpty()) {
+            return;
+        }
+        String pageName = weiuiJson.getString(json, "pageName");
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
         }
         PageBean mPageBean = weiuiPage.getWinInfo(pageName);
         if (mPageBean == null) {
             return;
         }
         PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
-        mPageActivity.setPageStatusListener(name, callback);
+        mPageActivity.setPageStatusListener(listenerName, callback);
     }
 
     /**
      * 取消监听页面状态变化
-     * @param name
+     * @param object
      */
     @JSMethod
-    public void clearPageStatusListener(String name) {
-        if (name == null) {
+    public void clearPageStatusListener(String object) {
+        if (object == null) {
             return;
         }
-        String pageName = null;
-        if (mWXSDKInstance.getContext() instanceof PageActivity) {
-            pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+        JSONObject json = weiuiJson.parseObject(object);
+        String listenerName = weiuiJson.getString(json, "listenerName", object);
+        if (listenerName.isEmpty()) {
+            return;
+        }
+        String pageName = weiuiJson.getString(json, "pageName");
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
         }
         PageBean mPageBean = weiuiPage.getWinInfo(pageName);
         if (mPageBean == null) {
             return;
         }
         PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
-        mPageActivity.clearPageStatusListener(name);
+        mPageActivity.clearPageStatusListener(listenerName);
+    }
+
+    /**
+     * 手动执行(触发)页面状态
+     * @param object
+     * @param status
+     */
+    @JSMethod
+    public void onPageStatusListener(String object, String status) {
+        if (status == null) {
+            status = object;
+            object = null;
+        }
+        if (status == null) {
+            return;
+        }
+        JSONObject json = weiuiJson.parseObject(object);
+        String pageName = weiuiJson.getString(json, "pageName");
+        if (pageName.isEmpty()) {
+            if (mWXSDKInstance.getContext() instanceof PageActivity) {
+                pageName = ((PageActivity) mWXSDKInstance.getContext()).getPageInfo().getPageName();
+            }
+        }
+        PageBean mPageBean = weiuiPage.getWinInfo(pageName);
+        if (mPageBean == null) {
+            return;
+        }
+        PageActivity mPageActivity = ((PageActivity) mPageBean.getContext());
+        mPageActivity.onPageStatusListener(weiuiJson.getString(json, "listenerName", object), status, weiuiJson.getString(json, "extra"));
     }
 
     /**
@@ -444,6 +511,32 @@ public class weiuiModule extends WXModule {
         if (var == null) {
             var = weiuiCommon.getImei(mWXSDKInstance.getContext());
             weiuiCommon.setVariate("__weiuiModule::getImei", var);
+        }
+        return weiuiParse.parseStr(var);
+    }
+
+    /**
+     * 获取设备系统版本号
+     */
+    @JSMethod(uiThread = false)
+    public int getSDKVersionCode() {
+        Object var = weiuiCommon.getVariate("__weiuiModule::getSDKVersionCode");
+        if (var == null) {
+            var = DeviceUtils.getSDKVersionCode();
+            weiuiCommon.setVariate("__weiuiModule::getSDKVersionCode", var);
+        }
+        return weiuiParse.parseInt(var);
+    }
+
+    /**
+     * 获取设备系统版本名称
+     */
+    @JSMethod(uiThread = false)
+    public String getSDKVersionName() {
+        Object var = weiuiCommon.getVariate("__weiuiModule::getSDKVersionName");
+        if (var == null) {
+            var = DeviceUtils.getSDKVersionName();
+            weiuiCommon.setVariate("__weiuiModule::getSDKVersionName", var);
         }
         return weiuiParse.parseStr(var);
     }

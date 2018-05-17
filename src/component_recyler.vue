@@ -17,12 +17,8 @@
                 :weiui="{
                         row: 1,
                         pullTips: true,
-                        dividerColor: '#e4e4e4',
-                        dividerHeight: '1',
                     }"
-                :swipe="swipe"
                 @itemClick="itemClick"
-                @itemSwipeClick="itemSwipeClick"
                 @pullLoadListener="pullLoadListener"
                 @refreshListener="refreshListener">
             <div class="panel" v-for="num in lists">
@@ -58,6 +54,9 @@
 
     .panel {
         width: 750px;
+        border-bottom-color: #e4e4e4;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
     }
 
     .panel-item {
@@ -82,20 +81,6 @@
     export default {
         data() {
             return {
-                swipe: [{
-                    text: '选项1',
-                    size: '12',
-                    padding: '20',
-                    color: '#ffff00',
-                    backgroundColor: '#ff0000',
-                }, {
-                    text: '选项2',
-                    size: '12',
-                    padding: '30',
-                    color: '#ecedf0',
-                    backgroundColor: '#00ffff',
-                }],
-
                 lists: [],
             }
         },
@@ -116,9 +101,6 @@
             },
             itemClick(params) {
                 weiui.toast("点击了" + (params.position + 1) + "项");
-            },
-            itemSwipeClick(params) {
-                weiui.toast("点击了" + (params.position + 1) + "项侧滑的第" + (params.swipePosition + 1) + "个菜单");
             },
             pullLoadListener() {
                 let count = this.lists.length;

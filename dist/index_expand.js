@@ -434,18 +434,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: ["list"],
     attrs: {
       "weiui": {
-        dividerHeight: 0,
         pullTips: false
       }
     }
   }, [_c('text', {
     staticClass: ["list-title"]
   }, [_vm._v("Expand Module")]), _c('weiui_recyler', {
-    attrs: {
-      "weiui": {
-        dividerHeight: 0
-      }
-    },
     on: {
       "itemClick": _vm.expandModuleClick
     }

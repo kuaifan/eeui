@@ -15,7 +15,7 @@
 
             <weiui_list v-if="lists.length > 0"
                         :style="{width:'750px', height: (Math.ceil(lists.length / 5) * 150) + 'px'}"
-                        :weiui="{dividerHeight:0,row:5,pullTips:false}">
+                        :weiui="{row:5,pullTips:false}">
                 <div v-for="(item, position) in lists" class="imgbox" @click="pictureView(position)">
                     <image :src="'file://' + item.path" class="image" resize="cover"></image>
                 </div>
@@ -102,13 +102,11 @@
                 openViewCode(str);
             },
             openPicture() {
-                const weiui_picture = weex.requireModule('weiui_picture');
                 weiui_picture.create({
                     gallery: 1,
                     selected: this.lists
                 }, (result) => {
-                    console.log("aaaaaaaaaa", result);
-                    if (result.status == "success") {
+                    if (result.status === "success") {
                         this.lists = result.lists;
                     }
                 });

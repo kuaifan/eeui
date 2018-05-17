@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import io.rong.imlib.AnnotationNotFoundException;
+import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.library.message.BaseMsgView;
 import io.rong.imlib.model.Conversation;
@@ -186,37 +187,18 @@ public class weiui_rongim {
 
     /**
      * 向当前聊天室发送消息。
-     * </p>
-     * <strong>注意：</strong>此函数为异步函数，发送结果将通过handler事件返回。
+     * 注意：此函数为异步函数，发送结果将通过handler事件返回。
      *
      * @param msgContent 消息对象
      */
-    public static void sendMessage(final MessageContent msgContent) {
+    public static void sendMessage(final MessageContent msgContent, IRongCallback.ISendMessageCallback callback) {
         if (currentUser == null) {
             throw new RuntimeException("currentUser should not be null.");
         }
 
         msgContent.setUserInfo(currentUser);
         Message msg = Message.obtain(currentRoomId, Conversation.ConversationType.CHATROOM, msgContent);
-        RongIMClient.getInstance().sendMessage(msg, null, null, new RongIMClient.SendMessageCallback() {
-            @Override
-            public void onSuccess(Integer integer) {
-                handleEvent(MESSAGE_SEND, msgContent);
-            }
-
-            @Override
-            public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
-                handleEvent(MESSAGE_SEND_ERROR, errorCode.getValue(), 0, msgContent);
-            }
-        }, new RongIMClient.ResultCallback<Message>() {
-            @Override
-            public void onSuccess(Message message) {
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode e) {
-            }
-        });
+        RongIMClient.getInstance().sendMessage(msg, null, null, callback);
     }
 
     /**

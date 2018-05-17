@@ -21184,7 +21184,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     style: (_vm.$processStyle(undefined)),
     attrs: {
       "weiui": {
-        dividerHeight: 0,
         pullTips: false
       }
     }

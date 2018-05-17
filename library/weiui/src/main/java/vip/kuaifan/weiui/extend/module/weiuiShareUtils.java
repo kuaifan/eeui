@@ -53,7 +53,7 @@ public class weiuiShareUtils {
                     imageIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(imageUri));
                     context.startActivity(Intent.createChooser(imageIntent, "分享"));
                 }else{
-                    Toast.makeText(context, "图片读取失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "分享图片失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -71,7 +71,7 @@ public class weiuiShareUtils {
      * @return
      */
     private static String insertImageToSystem(Context context, String imagePath) {
-        String url = null;
+        String url = imagePath;
         try {
             url = MediaStore.Images.Media.insertImage(context.getContentResolver(), imagePath, "分享", "分享图片");
         } catch (FileNotFoundException e) {
