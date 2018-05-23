@@ -408,7 +408,10 @@ public class CommonTabLayout extends FrameLayout implements ValueAnimator.Animat
         if (mIndicatorWidth < 0) {   //indicatorWidth小于0时,原jpardogo's PagerSlidingTabStrip
 
         } else {//indicatorWidth大于0时,圆角矩形以及三角形
-            float indicatorLeft = p.left + (currentTabView.getWidth() - mIndicatorWidth) / 2;
+            float indicatorLeft = 0;
+            try {
+                indicatorLeft = p.left + (currentTabView.getWidth() - mIndicatorWidth) / 2;
+            }catch (NullPointerException ignored) {}
 
             mIndicatorRect.left = (int) indicatorLeft;
             mIndicatorRect.right = (int) (mIndicatorRect.left + mIndicatorWidth);

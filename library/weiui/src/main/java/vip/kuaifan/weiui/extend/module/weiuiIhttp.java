@@ -309,7 +309,11 @@ public class weiuiIhttp {
                     data.put("size", 0);
                 }else{
                     LruDiskCache mLruDiskCache = LruDiskCache.getDiskCache(cacheDirName + "/" + cacheLabel);
-                    data.put("size", mLruDiskCache.getCacheSize());
+                    if (mLruDiskCache != null) {
+                        data.put("size", mLruDiskCache.getCacheSize());
+                    } else {
+                        data.put("size", 0);
+                    }
                 }
                 callback.invoke(data);
             }
@@ -332,7 +336,9 @@ public class weiuiIhttp {
                 return;
             }
             LruDiskCache mLruDiskCache = LruDiskCache.getDiskCache(cacheDirName + "/" + cacheLabel);
-            mLruDiskCache.clearCache();
+            if (mLruDiskCache != null) {
+                mLruDiskCache.clearCache();
+            }
         }
     }
 

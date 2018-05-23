@@ -41,7 +41,7 @@ public class FakeServer {
             }
             return;
         }
-        String url = "https://api.cn.ronghub.com/user/getToken.json";
+        String url = "http://api.cn.ronghub.com/user/getToken.json";
         HttpUtil.Header header = HttpUtil.getRcHeader(weiui_rongim.appKey, weiui_rongim.appSecret);
         HttpUtil httpUtil = new HttpUtil();
         httpUtil.post(url, header, post, new HttpUtil.OnResponse() {

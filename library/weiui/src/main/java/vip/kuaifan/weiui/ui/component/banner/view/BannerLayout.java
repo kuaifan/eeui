@@ -414,16 +414,21 @@ public class BannerLayout extends RelativeLayout {
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
             return view == object;
         }
 
+        @NonNull
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
             if (views.size() > 0) {
                 View view = views.get(position % views.size());
-                if (container.equals(view.getParent())) {
+                /*if (container.equals(view.getParent())) {
                     container.removeView(view);
+                }*/
+                ViewGroup parentViewGroup = (ViewGroup) view.getParent();
+                if (parentViewGroup != null ) {
+                    parentViewGroup.removeView(view);
                 }
                 container.addView(view);
                 return view;
@@ -432,7 +437,7 @@ public class BannerLayout extends RelativeLayout {
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         }
     }
 

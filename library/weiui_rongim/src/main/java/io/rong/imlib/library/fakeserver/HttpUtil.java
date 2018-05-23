@@ -1,5 +1,6 @@
 package io.rong.imlib.library.fakeserver;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v4.util.ArrayMap;
 
@@ -93,6 +94,7 @@ public class HttpUtil {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class HttpAsyncTask extends AsyncTask<Void, Void, Response> {
 
         private String url;
@@ -101,7 +103,7 @@ public class HttpUtil {
         private OnResponse callback;
         private HttpURLConnection conn;
 
-        public HttpAsyncTask(String url, Header header, String body, OnResponse callback) {
+        HttpAsyncTask(String url, Header header, String body, OnResponse callback) {
             this.url = url;
             this.header = header;
             this.body = body;

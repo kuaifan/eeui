@@ -196,12 +196,14 @@ public class Banner extends WXVContainer<ViewGroup> {
         int tempId = addIdentify;
         mHandler.postDelayed(()-> {
             if (tempId == addIdentify) {
-                v_banner.post(()-> {
-                    if (restView) {
-                        v_banner.setViews(banner_views);
-                    }
-                    v_banner.notifyDataSetChanged();
-                });
+                try {
+                    v_banner.post(()-> {
+                        if (restView) {
+                            v_banner.setViews(banner_views);
+                        }
+                        v_banner.notifyDataSetChanged();
+                    });
+                }catch (NullPointerException ignored) { }
             }
         }, 100);
     }

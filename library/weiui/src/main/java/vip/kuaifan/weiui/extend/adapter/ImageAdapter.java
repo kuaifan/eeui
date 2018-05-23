@@ -83,6 +83,10 @@ public class ImageAdapter implements IWXImgLoaderAdapter {
             }
         }
         //
+        if (view.getContext() == null) {
+            return;
+        }
+        //
         RequestOptions myOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(view.getContext()).load(tempUrl).apply(myOptions).listener(new RequestListener<Drawable>() {
             @Override
