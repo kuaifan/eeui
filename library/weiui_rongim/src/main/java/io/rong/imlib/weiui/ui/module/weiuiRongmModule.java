@@ -76,7 +76,7 @@ public class weiuiRongmModule extends WXModule {
             return;
         }
         //
-        final UserInfo user = new UserInfo(json.getString("userid"), weiuiJson.getString(json, "username", json.getString("userid")), Uri.parse(json.getString("userimg")));
+        final UserInfo user = new UserInfo(json.getString("userid"), weiuiJson.getString(json, "username", json.getString("userid")), Uri.parse(weiuiJson.getString(json, "userimg")));
         FakeServer.getToken(user, new HttpUtil.OnResponse() {
             @Override
             public void onResponse(int code, String body) {
@@ -205,14 +205,22 @@ public class weiuiRongmModule extends WXModule {
                             if (msg.obj instanceof TextMessage) {
                                 TextMessage message = (TextMessage) msg.obj;
                                 MessageContent content = (MessageContent) msg.obj;
+                                UserInfo mUserInfo = content.getUserInfo();
                                 //
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "arrived");
-                                data.put("userid", content.getUserInfo().getUserId());
-                                data.put("username", content.getUserInfo().getName());
-                                data.put("userimg", content.getUserInfo().getPortraitUri().toString());
                                 data.put("body", message.getContent());
                                 data.put("extra", message.getExtra());
+                                if (mUserInfo == null) {
+                                    data.put("userid", 0);
+                                    data.put("username", "");
+                                    data.put("userimg", "");
+                                }else{
+                                    data.put("userid", mUserInfo.getUserId());
+                                    data.put("username", mUserInfo.getName());
+                                    Uri mUri = mUserInfo.getPortraitUri();
+                                    data.put("userimg", mUri == null ? "" : mUri.toString());
+                                }
                                 invokeAndKeepAlive(mEventHandlerJSCallback, data);
                             }
                             break;
@@ -222,14 +230,22 @@ public class weiuiRongmModule extends WXModule {
                             if (msg.obj instanceof TextMessage) {
                                 TextMessage message = (TextMessage) msg.obj;
                                 MessageContent content = (MessageContent) msg.obj;
+                                UserInfo mUserInfo = content.getUserInfo();
                                 //
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "send");
-                                data.put("userid", content.getUserInfo().getUserId());
-                                data.put("username", content.getUserInfo().getName());
-                                data.put("userimg", content.getUserInfo().getPortraitUri().toString());
                                 data.put("body", message.getContent());
                                 data.put("extra", message.getExtra());
+                                if (mUserInfo == null) {
+                                    data.put("userid", 0);
+                                    data.put("username", "");
+                                    data.put("userimg", "");
+                                }else{
+                                    data.put("userid", mUserInfo.getUserId());
+                                    data.put("username", mUserInfo.getName());
+                                    Uri mUri = mUserInfo.getPortraitUri();
+                                    data.put("userimg", mUri == null ? "" : mUri.toString());
+                                }
                                 invokeAndKeepAlive(mEventHandlerJSCallback, data);
                             }
                             break;
@@ -239,14 +255,22 @@ public class weiuiRongmModule extends WXModule {
                             if (msg.obj instanceof TextMessage) {
                                 TextMessage message = (TextMessage) msg.obj;
                                 MessageContent content = (MessageContent) msg.obj;
+                                UserInfo mUserInfo = content.getUserInfo();
                                 //
                                 Map<String, Object> data = new HashMap<>();
                                 data.put("status", "send_error");
-                                data.put("userid", content.getUserInfo().getUserId());
-                                data.put("username", content.getUserInfo().getName());
-                                data.put("userimg", content.getUserInfo().getPortraitUri().toString());
                                 data.put("body", message.getContent());
                                 data.put("extra", message.getExtra());
+                                if (mUserInfo == null) {
+                                    data.put("userid", 0);
+                                    data.put("username", "");
+                                    data.put("userimg", "");
+                                }else{
+                                    data.put("userid", mUserInfo.getUserId());
+                                    data.put("username", mUserInfo.getName());
+                                    Uri mUri = mUserInfo.getPortraitUri();
+                                    data.put("userimg", mUri == null ? "" : mUri.toString());
+                                }
                                 invokeAndKeepAlive(mEventHandlerJSCallback, data);
                             }
                             break;

@@ -124,7 +124,7 @@
 | tabHeight |`Number`  | 设置tab高度           | 100       |
 | tabPadding |`Number`  |   设置tab的左右内边距         |  -     |
 | tabBackgroundColor |`String`  |   设置tab的背景颜色         |  -     |
-| tabSpaceEqual |`Boolean`  |  设置tab大小等分          |  true     |
+| tabSpaceEqual |`Boolean`  |  设置tab大小等分<br/>_tabType:slidingTop时无效_          |  true     |
 | tabWidth |`Number`  |   设置tab固定大小         |  -     |
 | indicatorStyle |`Number`  | 设置tab显示器样式，<br/>常规:`0`<br/>三角形:`1`<br/>背景色块:`2`           | 0      |
 | indicatorGravity |`Number`  |  设置tab显示器位置，<br/>上方:`1`<br/>下方:`0`          | 0      |
@@ -140,7 +140,7 @@
 | underlineHeight |`Number`  | 设置tab下划线高度           |  0     |
 | dividerColor |`String`  |  设置tab分割线颜色          |  #ffffff     |
 | dividerWidth |`Number`  |  设置tab分割线宽度          |  0     |
-| dividerPadding |`Number`  |  设置tab分割线的左右内边距          |  -     |
+| dividerPadding |`Number`  |  设置tab分割线的上下内边距          |  12     |
 | textBold |`Number`  | 设置tab字体加粗，<br/>不加粗:`0`<br/>选择加粗:`1`<br/>全部加粗:`2`           |  0     |
 | textSize |`Number`  |  设置tab字体大小          |  24     |
 | fontSize |`Number`  |  同`textSize`          |  -     |
@@ -151,7 +151,6 @@
 | iconWidth |`Number`  |  设置tab图标宽度          |  -     |
 | iconHeight |`Number`  |   设置tab图标高度         |  -     |
 | iconMargin |`Number`  |  设置tab图标与文字间距          |  2.5     |
-| sideLine |`Number`  |  设置tab边线          |  1     |
 
 > 例如：
 
@@ -384,12 +383,6 @@ this.$refs.reflectName.setTabIconWidth(50);
  * 参数一：高度
  */
 this.$refs.reflectName.setTabIconHeight(50);
-
-/**
- * 设置tab边线
- * 参数一：高度
- */
-this.$refs.reflectName.setSideline(1);
 ```
 
 

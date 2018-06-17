@@ -10,6 +10,7 @@ import com.taobao.weex.WXSDKInstance;
 
 import vip.kuaifan.weiui.extend.module.utilcode.util.AppUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.util.DeviceUtils;
+import vip.kuaifan.weiui.extend.module.utilcode.util.KeyboardUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.util.NetworkUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.util.PermissionUtils;
 import vip.kuaifan.weiui.extend.module.utilcode.util.PhoneUtils;
@@ -134,6 +135,35 @@ public class utilcodeModule {
             case "reboot2Bootloader":
                 DeviceUtils.reboot2Bootloader();
                 break;
+        }
+        return null;
+    }
+
+    /**
+     * 键盘相关
+     * @param activity
+     * @param method
+     * @return
+     */
+    public static Object KeyboardUtils(Activity activity, String method) {
+        if (method == null) {
+            return null;
+        }
+        switch (method) {
+            case "showSoftInput":
+                KeyboardUtils.showSoftInput(activity);
+                break;
+
+            case "hideSoftInput":
+                KeyboardUtils.hideSoftInput(activity);
+                break;
+
+            case "toggleSoftInput":
+                KeyboardUtils.toggleSoftInput();
+                break;
+
+            case "isSoftInputVisible":
+                return KeyboardUtils.isSoftInputVisible(activity);
         }
         return null;
     }

@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import vip.kuaifan.weiui.BuildConfig;
 import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.extend.bean.PageBean;
 import vip.kuaifan.weiui.extend.integration.swipebacklayout.BGAKeyboardUtil;
@@ -458,6 +459,32 @@ public class weiuiModule extends WXModule {
     @JSMethod(uiThread = false)
     public int getNavigationBarHeightPx() {
         return weiuiScreenUtils.weexDp2px(mWXSDKInstance, weiuiCommon.getNavigationBarHeight(mWXSDKInstance.getContext()));
+    }
+
+    /**
+     * 获取weiui版本号
+     */
+    @JSMethod(uiThread = false)
+    public int getVersion() {
+        Object var = weiuiCommon.getVariate("__weiuiModule::getVersion");
+        if (var == null) {
+            var = BuildConfig.VERSION_CODE;
+            weiuiCommon.setVariate("__weiuiModule::getVersion", var);
+        }
+        return weiuiParse.parseInt(var);
+    }
+
+    /**
+     * 获取weiui版本号名称
+     */
+    @JSMethod(uiThread = false)
+    public String getVersionName() {
+        Object var = weiuiCommon.getVariate("__weiuiModule::getVersionName");
+        if (var == null) {
+            var = BuildConfig.VERSION_NAME;
+            weiuiCommon.setVariate("__weiuiModule::getVersionName", var);
+        }
+        return weiuiParse.parseStr(var);
     }
 
     /**
@@ -994,6 +1021,16 @@ public class weiuiModule extends WXModule {
     @JSMethod(uiThread = false)
     public Object deviceUtils(String method) {
         return utilcodeModule.DeviceUtils(method);
+    }
+
+    /**
+     * 键盘相关
+     * @param method
+     * @return
+     */
+    @JSMethod(uiThread = false)
+    public Object keyboardUtils(String method) {
+        return utilcodeModule.KeyboardUtils((Activity) mWXSDKInstance.getContext(), method);
     }
 
     /**

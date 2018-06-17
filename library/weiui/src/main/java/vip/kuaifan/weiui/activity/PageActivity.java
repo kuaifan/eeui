@@ -39,6 +39,7 @@ import vip.kuaifan.weiui.extend.module.rxtools.tool.RxBeepTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxPhotoTool;
 import vip.kuaifan.weiui.extend.module.rxtools.tool.RxQrBarTool;
 import vip.kuaifan.weiui.extend.module.utilcode.constant.PermissionConstants;
+import vip.kuaifan.weiui.extend.module.weiuiConstants;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import com.alibaba.fastjson.JSONObject;
 import vip.kuaifan.weiui.extend.integration.glide.Glide;
@@ -49,8 +50,11 @@ import vip.kuaifan.weiui.extend.integration.zxing.Result;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.bridge.JSCallback;
+import com.taobao.weex.bridge.WXBridgeManager;
 import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.dom.WXEvent;
+import com.taobao.weex.ui.component.WXComponent;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -69,6 +73,7 @@ import vip.kuaifan.weiui.extend.module.weiuiIhttp;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.view.ProgressWebView;
 import vip.kuaifan.weiui.extend.view.SwipeCaptchaView;
+import vip.kuaifan.weiui.ui.component.tabbar.bean.WXSDKBean;
 import vip.kuaifan.weiui.ui.weiui;
 
 public class PageActivity extends AppCompatActivity {
@@ -207,7 +212,7 @@ public class PageActivity extends AppCompatActivity {
         if (mPageInfo == null) {
             mPageInfo = new PageBean();
         } else {
-            setPageStatusListener("_", mPageInfo.getCallback());
+            setPageStatusListener("__" + mPageInfo.getPageName(), mPageInfo.getCallback());
         }
 
         switch (mPageInfo.getPageType()) {
@@ -1043,10 +1048,12 @@ public class PageActivity extends AppCompatActivity {
     }
 
     private void invoke(String status, Map<String, Object> retData) {
-        if (retData == null) {
-            retData = new HashMap<>();
-        }
+        lifecycleListener(status);
+        //
         if (mOnPageStatusListeners.size() > 0) {
+            if (retData == null) {
+                retData = new HashMap<>();
+            }
             retData.put("pageName", mPageInfo.getPageName());
             retData.put("status", status);
             for (String name : mOnPageStatusListeners.keySet()) {
@@ -1059,21 +1066,48 @@ public class PageActivity extends AppCompatActivity {
     }
 
     private void invokeAndKeepAlive(String status, Map<String, Object> retData) {
-        if (retData == null) {
-            retData = new HashMap<>();
-        }
+        lifecycleListener(status);
+        //
         if (mOnPageStatusListeners.size() > 0) {
-            retData.put("pageName", mPageInfo.getPageName());
-            retData.put("status", status);
             for (String name : mOnPageStatusListeners.keySet()) {
                 JSCallback call = mOnPageStatusListeners.get(name);
                 if (call != null) {
+                    if (retData == null) retData = new HashMap<>();
+                    retData.put("pageName", mPageInfo.getPageName());
+                    retData.put("status", status);
                     call.invokeAndKeepAlive(retData);
                 }
             }
         }
         if (status.equals("success") && weiuiJson.getBoolean(mPageInfo.getOtherObject(), "successClose")) {
             finish();
+        }
+    }
+
+    private void lifecycleListener(String status) {
+        if (mWXSDKInstance != null) {
+            switch (status) {
+                case "viewCreated":
+                    status = "ready";
+                    break;
+
+                case "resume":
+                case "pause":
+                    break;
+
+                default:
+                    return;
+            }
+            WXComponent mWXComponent = mWXSDKInstance.getRootComponent();
+            if (mWXComponent != null) {
+                WXEvent events = mWXComponent.getDomObject().getEvents();
+                boolean hasEvent = events.contains(weiuiConstants.Event.LIFECYCLE);
+                if (hasEvent) {
+                    Map<String, Object> retData = new HashMap<>();
+                    retData.put("status", status);
+                    WXBridgeManager.getInstance().fireEventOnNode(mWXSDKInstance.getInstanceId(), mWXComponent.getRef(), weiuiConstants.Event.LIFECYCLE, retData, null);
+                }
+            }
         }
     }
 

@@ -2,9 +2,10 @@ package vip.kuaifan.weiui.extend.module;
 
 public class weiuiConstants {
 
-    public static final String WEEX_TPL_KEY = "_wx_tpl";
-
     public interface Event {
+
+        //生命周期
+        String LIFECYCLE = "lifecycle";
 
         //组件已经加载
         String READY = "ready";

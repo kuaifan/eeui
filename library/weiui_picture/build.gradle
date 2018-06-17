@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion project.appMinSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode project.versionCode
-        versionName project.versionName
+        versionCode project.weiuiVersionCode
+        versionName project.weiuiVersionName
 
         javaCompileOptions {
             annotationProcessorOptions {

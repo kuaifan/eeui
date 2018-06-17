@@ -125,7 +125,7 @@ public class weiuiPictureModule extends WXModule {
                                 .glideOverride(weiuiJson.getInt(json, "overrideWidth", 100), weiuiJson.getInt(json, "overrideHeight", 100))     // int glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
                                 .withAspectRatio(weiuiJson.getInt(json, "ratioX", 1), weiuiJson.getInt(json, "ratioY", 1))                      // int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                                 .hideBottomControls(weiuiJson.getBoolean(json, "cropControls", false))  // 是否显示uCrop工具栏，默认不显示 true or false
-                                .isGif(weiuiJson.getBoolean(json, "git", false))                        // 是否显示gif图片 true or false
+                                .isGif(weiuiJson.getBoolean(json, "gif", false))                        // 是否显示gif图片 true or false
                                 .freeStyleCropEnabled(weiuiJson.getBoolean(json, "freeCrop", false))    // 裁剪框是否可拖拽 true or false
                                 .circleDimmedLayer(weiuiJson.getBoolean(json, "circle", false))         // 是否圆形裁剪 true or false
                                 .showCropFrame(weiuiJson.getBoolean(json, "cropFrame", true))           // 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false

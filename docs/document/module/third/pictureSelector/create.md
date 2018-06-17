@@ -44,7 +44,7 @@ weiui_picture.create({params}, callback(result))
 | ratioX | `Number` | - | 裁剪比例 | 1 |
 | ratioY | `Number` | - | 裁剪比例 | 1 |
 | cropControls | `Boolean` | - | 是否显示uCrop工具栏 | false |
-| git | `Boolean` | - | 是否显示gif图片 | false  |
+| gif | `Boolean` | - | 是否显示gif图片 | false  |
 | freeCrop | `Boolean` | - | 裁剪框是否可拖拽 | false |
 | circle | `Boolean` | - | 是否圆形裁剪 | false |
 | cropFrame | `Boolean` | - | 是否显示裁剪矩形边框 圆形裁剪时建议设为false | true |

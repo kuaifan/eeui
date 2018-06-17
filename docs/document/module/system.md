@@ -38,6 +38,22 @@ let variable = weiui.getNavigationBarHeight()
 let variable = weiui.getNavigationBarHeightPx()
 ```
 
+## 获取weiui版本号 <font color="red">[新]</font>
+```js
+/**
+ * @return int
+ */
+let variable = weiui.getVersion()
+```
+
+## 获取weiui版本号名称 <font color="red">[新]</font>
+```js
+/**
+ * @return String
+ */
+let variable = weiui.getVersionName()
+```
+
 ## 获取本地软件版本号
 ```js
 /**

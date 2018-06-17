@@ -35,13 +35,14 @@
     - [scaner 二维码扫描](module/scaner)
     - [share 文字图片分享](module/share)
     - [storage 数据储存](module/storage)
-    - [system 系统信息](module/system)
+    - [system 系统信息 <font color="red">[新]</font>](module/system)
     - [toast 吐司提示](module/toast)
     - [weex px单位转换](module/weexpx)
     
 - 拓展模块 Expand Module
     - [appUtils APP相关](module/expand/appUtils)
     - [deviceUtils 设备相关](module/expand/deviceUtils)
+    - [keyboardUtils 键盘相关 <font color="red">[新]</font>](module/expand/keyboardUtils)
     - [networkUtils 网络相关](module/expand/networkUtils)
     - [permissionUtils 权限相关](module/expand/permissionUtils)
     - [phoneUtils 手机相关](module/expand/phoneUtils)

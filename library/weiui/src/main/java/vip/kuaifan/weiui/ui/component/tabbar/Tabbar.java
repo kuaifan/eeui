@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,10 @@ import android.widget.FrameLayout;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import vip.kuaifan.weiui.activity.PageActivity;
 import vip.kuaifan.weiui.extend.module.weiuiConstants;
 
+import vip.kuaifan.weiui.extend.module.weiuiMap;
 import vip.kuaifan.weiui.extend.module.weiuiPage;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
@@ -28,8 +31,11 @@ import vip.kuaifan.weiui.extend.view.tablayout.listener.OnTabSelectListener;
 import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.annotation.JSMethod;
+import com.taobao.weex.bridge.JSCallback;
+import com.taobao.weex.bridge.WXBridgeManager;
 import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXRenderStrategy;
+import com.taobao.weex.dom.WXEvent;
 import com.taobao.weex.dom.flex.CSSFlexDirection;
 import com.taobao.weex.ui.component.WXComponent;
 import vip.kuaifan.weiui.R;
@@ -57,6 +63,8 @@ public class Tabbar extends WXVContainer<ViewGroup> {
     private Handler mHandler = new Handler();
 
     private View mView;
+
+    private int prevSelectedPosition;
 
     private String tabbarType;
 
@@ -94,6 +102,22 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         //
         if (getDomObject().getEvents().contains(weiuiConstants.Event.READY)) {
             fireEvent(weiuiConstants.Event.READY, null);
+        }
+        //
+        if (context instanceof PageActivity) {
+            ((PageActivity) context).setPageStatusListener("__Tabbar::" + weiuiCommon.randomString(6), new JSCallback() {
+                @Override
+                public void invoke(Object data) {
+                    Map<String, Object> retData = weiuiMap.objectToMap(data);
+                    lifecycleListener(mViewPager.getCurrentItem(), weiuiParse.parseStr(retData.get("status")));
+                }
+
+                @Override
+                public void invokeAndKeepAlive(Object data) {
+                    Map<String, Object> retData = weiuiMap.objectToMap(data);
+                    lifecycleListener(mViewPager.getCurrentItem(), weiuiParse.parseStr(retData.get("status")));
+                }
+            });
         }
         //
         return (ViewGroup) mView;
@@ -406,6 +430,11 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                 fireEvent(weiuiConstants.Event.PAGE_SELECTED, data);
             }
             loadedView(position);
+            //
+            lifecycleListener(prevSelectedPosition, "pause");
+            lifecycleListener(position, "resume");
+            //
+            prevSelectedPosition = position;
         }
 
         @Override
@@ -515,7 +544,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
         if (position < WXSDKList.size()) {
             String getTabName = getTabName(position);
             WXSDKBean sdkBean = WXSDKList.get(getTabName);
-            if (sdkBean != null && !sdkBean.isLoaded()) {
+            if (sdkBean != null) {
                 if (!sdkBean.isLoaded()) {
                     sdkBean.setLoaded(true);
                     WXSDKList.put(getTabName, sdkBean);
@@ -582,6 +611,7 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                     data.put("url", url);
                     fireEvent(weiuiConstants.Event.VIEW_CREATED, data);
                 }
+                lifecycleListener(mViewPager.getCurrentItem(), "WXSDKViewCreated");
             }
             @Override
             public void onRenderSuccess(WXSDKInstance instance, int width, int height) {
@@ -703,6 +733,44 @@ public class Tabbar extends WXVContainer<ViewGroup> {
                         showDot(tabName);
                     } else {
                         hideMsg(tabName);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 生命周期
+     * @param position
+     * @param status
+     */
+    private void lifecycleListener(int position, String status) {
+        if (position < WXSDKList.size()) {
+            String getTabName = getTabName(position);
+            WXSDKBean sdkBean = WXSDKList.get(getTabName);
+            if (sdkBean != null) {
+                if (sdkBean.getInstance() != null) {
+                    switch (status) {
+                        case "WXSDKViewCreated":
+                            status = "ready";
+                            break;
+
+                        case "resume":
+                        case "pause":
+                            break;
+
+                        default:
+                            return;
+                    }
+                    WXComponent mWXComponent = sdkBean.getInstance().getRootComponent();
+                    if (mWXComponent != null) {
+                        WXEvent events = mWXComponent.getDomObject().getEvents();
+                        boolean hasEvent = events.contains(weiuiConstants.Event.LIFECYCLE);
+                        if (hasEvent) {
+                            Map<String, Object> retData = new HashMap<>();
+                            retData.put("status", status);
+                            WXBridgeManager.getInstance().fireEventOnNode(sdkBean.getInstance().getInstanceId(), mWXComponent.getRef(), weiuiConstants.Event.LIFECYCLE, retData, null);
+                        }
                     }
                 }
             }
