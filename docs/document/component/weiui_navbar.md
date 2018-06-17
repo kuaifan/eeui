@@ -141,9 +141,8 @@
 
 /**
  * 子组件`<weiui_navbar_item type="back">`的返回事件
- * 返回参数：data = { }
  */
-@goBack = function(data) { ... }
+@goBack = function() { ... }
 ```
 
 ## 调用方法 `methods`

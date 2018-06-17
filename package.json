@@ -6,9 +6,7 @@
     "scripts": {
         "start": "webpack-dev-server --env.NODE_ENV=development --progress",
         "build": "webpack --env.NODE_ENV=common",
-        "dev": "webpack --env.NODE_ENV=common --progress --watch",
-
-        "start-docs": "docsify serve ./docs"
+        "dev": "webpack --env.NODE_ENV=common --progress --watch"
     },
     "keywords": [
         "weex"
