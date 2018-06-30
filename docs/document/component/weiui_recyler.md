@@ -87,7 +87,6 @@
             itemClick(params) {
                 weiui.toast("点击了" + (params.position + 1) + "项");
             },
-            },
             pullLoadListener() {
                 let count = this.lists.length;
                 if (count >= 100) {
@@ -127,7 +126,7 @@
 
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
-| autoRefresh |`Boolean`  | 初始化自动加载下拉刷新           | false       |
+| refreshAuto |`Boolean`  | 初始化自动加载下拉刷新           | false       |
 | row |`Number`  | 每行显示列数           | 1       |
 | pullTips |`Boolean`  | 是否显示上拉加载更多的提示           | true       |
 | pullTipsDefault |`String`  | 上拉加载默认的提示语           | 正在加载数据...       |
@@ -179,19 +178,19 @@
 @pullLoadListener = function(data) { ... }
 
 /**
- * 标签页视图滚动事件（滚动完成后调用）
+ * 视图滚动事件（滚动完成后调用）
  * 返回参数：data = {x: 0, y: 100, dx: 0, dy: 3}
  */
 @scrolled = function(data) { ... }
 
 /**
- * 标签页视图滚动状态发生变化
+ * 视图滚动状态发生变化
  * 返回参数：data = {x: 0, y: 100, newState: 0}
  */
 @scrollStateChanged = function(data) { ... }
 ```
 
-## 调用方法 `methods`
+## 调用方法 `methods` <font color="red">[新]</font>
 
 ```js
 /**
@@ -204,6 +203,12 @@ this.$refs.reflectName.setRefreshing(true);
  * 下拉刷新结束标记
  */
 this.$refs.reflectName.refreshed();
+
+/**
+ * 设置下拉刷新是否可用【新】
+ * 参数一：true|false
+ */
+ this.$refs.reflectName.refreshEnabled(true);
 
 /**
  * 设置是否有上拉加载更多的数据

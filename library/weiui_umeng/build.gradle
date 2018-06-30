@@ -29,6 +29,15 @@ android {
 
 }
 
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url  "https://dl.bintray.com/kuaifan/maven/"
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //
@@ -36,5 +45,5 @@ dependencies {
     compileOnly "com.taobao.android:weex_sdk:0.18.0"
     compileOnly "com.taobao.android:weexplugin-processor:1.3"
     //
-    compileOnly "vip.kuaifan:weiui:0.0.22"
+    compileOnly "vip.kuaifan:weiui:0.0.25"
 }

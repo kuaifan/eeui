@@ -10,7 +10,7 @@
     - [weiui_marquee 跑马文字](component/weiui_marquee)
     - [weiui_navbar 导航栏](component/weiui_navbar)
     - [weiui_navbar_item 导航栏子组件](component/weiui_navbar_item)
-    - [weiui_recyler 列表容器](component/weiui_recyler)
+    - [weiui_recyler 列表容器 <font color="red">[新]</font>](component/weiui_recyler)
     - [weiui_ripple 涟漪效果容器](component/weiui_ripple)
     - [weiui_scroll_text 滚动文字](component/weiui_scroll_text)
     - [weiui_side_panel 侧边栏抽屉](component/weiui_side_panel)
