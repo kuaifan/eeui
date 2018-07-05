@@ -1,6 +1,9 @@
-package io.rong.imlib.weiui;
+package io.rong.imlib.weiui.ui;
 
 import android.os.Handler;
+
+import com.taobao.weex.WXSDKEngine;
+import com.taobao.weex.common.WXException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
+import io.rong.imlib.weiui.ui.module.weiuiRongmModule;
 import vip.kuaifan.weiui.ui.weiui;
 
 /**
@@ -93,6 +97,18 @@ public class weiui_rongim {
         }
         RongIMClient.init(weiui.getApplication(), appKey);
         RongIMClient.setOnReceiveMessageListener(onReceiveMessageListener);
+        init();
+    }
+    private static boolean isRegister = false;
+    public static void init() {
+        if (!isRegister) {
+            isRegister = true;
+            try {
+                WXSDKEngine.registerModule("weiui_rongim", weiuiRongmModule.class);
+            } catch (WXException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

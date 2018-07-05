@@ -1,4 +1,4 @@
-package vip.kuaifan.weiui.umeng;
+package vip.kuaifan.weiui.umeng.ui;
 
 import android.app.Activity;
 import android.app.Application.ActivityLifecycleCallbacks;
@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.taobao.weex.WXSDKEngine;
 import com.taobao.weex.bridge.JSCallback;
+import com.taobao.weex.common.WXException;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -24,6 +26,7 @@ import java.util.Map;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiMap;
 import vip.kuaifan.weiui.ui.weiui;
+import vip.kuaifan.weiui.umeng.ui.module.weiuiUmengModule;
 
 /**
  * Created by WDM on 2018/3/27.
@@ -80,6 +83,12 @@ public class weiui_umeng {
                 }
             }
         });
+        //注册模块
+        try {
+            WXSDKEngine.registerModule("weiui_umeng", weiuiUmengModule.class);
+        } catch (WXException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void addNotificationClickHandler(Context context, JSCallback callback) {
