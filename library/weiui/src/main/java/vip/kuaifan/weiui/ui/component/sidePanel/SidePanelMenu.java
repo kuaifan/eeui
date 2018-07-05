@@ -3,7 +3,6 @@ package vip.kuaifan.weiui.ui.component.sidePanel;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXAttr;
 import com.taobao.weex.dom.WXDomObject;
@@ -14,7 +13,6 @@ import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.extend.module.weiuiParse;
 
-@WeexComponent(names = {"weiui_side_panel_menu", "wi_side_panel_menu"})
 public class SidePanelMenu extends WXVContainer<SidePanelMenuView> {
 
     public SidePanelMenu(WXSDKInstance instance, WXDomObject node, WXVContainer parent) {

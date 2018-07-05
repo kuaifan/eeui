@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -33,7 +32,6 @@ import vip.kuaifan.weiui.ui.component.banner.view.BannerLayout;
 /**
  * Created by WDM on 2018/4/10.
  */
-@WeexComponent(names = {"weiui_banner", "wi_banner"})
 public class Banner extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Banner";

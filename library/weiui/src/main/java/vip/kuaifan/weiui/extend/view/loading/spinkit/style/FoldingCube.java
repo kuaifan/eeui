@@ -38,7 +38,7 @@ public class FoldingCube extends SpriteContainer {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        bounds = clipSquare(bounds);
+        bounds = clipSquare(bounds, 0.7f);
         int size = Math.min(bounds.width(), bounds.height());
         if (wrapContent) {
             size = (int) Math.sqrt(

@@ -46,7 +46,7 @@ public class ChasingDots extends SpriteContainer {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        bounds = clipSquare(bounds);
+        bounds = clipSquare(bounds, 0.9f);
         int drawW = (int) (bounds.width() * 0.6f);
         getChildAt(0).setDrawBounds(
                 bounds.right - drawW,

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.lljjcoder.weiui.library.city.CityPickerView;
 import com.lljjcoder.weiui.library.city.bean.CityBean;
 import com.lljjcoder.weiui.library.city.bean.DistrictBean;
@@ -19,7 +18,6 @@ import java.util.Map;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 
 
-@WeexModule(name = "weiui_citypicker")
 public class weiuiCitypickerModule extends WXModule {
 
     private static final String TAG = "weiuiCitypickerModule";

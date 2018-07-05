@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -28,7 +27,6 @@ import vip.kuaifan.weiui.extend.module.weiuiParse;
 import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.grid.view.GridPager;
 
-@WeexComponent(names = {"weiui_grid", "wi_grid"})
 public class Grid extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Grid";

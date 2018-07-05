@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -175,7 +174,7 @@ public class LoadingDialog extends weiuiDialog {
     }
 
     public boolean show(JSONObject obj) {
-        int style = 0;
+        int style = R.style.SpinKitView_ThreeBounce;
         switch (weiuiJson.getString(obj, "style").toLowerCase()) {
             case "rotatingplane":
                 style = R.style.SpinKitView_RotatingPlane;
@@ -214,21 +213,9 @@ public class LoadingDialog extends weiuiDialog {
                 style = R.style.SpinKitView_RotatingCircle;
                 break;
         }
-        if (style == 0) {
-            LoadingView view = new LoadingView(getContext());
-            view.setIcon(R.drawable.loading);
-            view.setPadding(0);
-            view.setBackgroundColor(Color.TRANSPARENT);
-            v_body.addView(view);
-            v_main.setBackgroundResource(R.drawable.dialog_circle_bg_black);
-            view.startAnimation();
-            obj.put("amount", weiuiJson.getFloat(obj, "amount", 0f));
-            obj.put("titleColor", weiuiJson.getString(obj, "titleColor", "#ffffff"));
-        }else{
-            SpinKitView view = new SpinKitView(getContext(), null, R.style.SpinKitView, style);
-            view.setColor(Color.parseColor(weiuiJson.getString(obj, "styleColor", "#5F97F1")));
-            v_body.addView(view);
-        }
+        SpinKitView view = new SpinKitView(getContext(), null, R.style.SpinKitView, style);
+        view.setColor(Color.parseColor(weiuiJson.getString(obj, "styleColor", "#5F97F1")));
+        v_body.addView(view);
         //
         float amount = weiuiJson.getFloat(obj, "amount", -1f);
         if (amount != -1f) {

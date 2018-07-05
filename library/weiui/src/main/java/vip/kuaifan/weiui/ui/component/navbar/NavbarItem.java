@@ -3,7 +3,6 @@ package vip.kuaifan.weiui.ui.component.navbar;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXAttr;
 import com.taobao.weex.dom.WXDomObject;
@@ -18,7 +17,6 @@ import vip.kuaifan.weiui.extend.module.weiuiParse;
  * Created by WDM on 2018/3/6.
  */
 
-@WeexComponent(names = {"weiui_navbar_item", "wi_navbar_item"})
 public class NavbarItem extends WXVContainer<NavbarItemView> {
 
     private static final String TAG = "NavbarItem";

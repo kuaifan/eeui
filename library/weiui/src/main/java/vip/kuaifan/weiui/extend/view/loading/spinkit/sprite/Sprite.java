@@ -317,6 +317,21 @@ public abstract class Sprite extends Drawable implements
         );
     }
 
+    public Rect clipSquare(Rect rect, float multiple) {
+        int w = (int) (rect.width() * multiple);
+        int h = (int) (rect.height() * multiple);
+        int min = Math.min(w, h);
+        int cx = rect.centerX();
+        int cy = rect.centerY();
+        int r = min / 2;
+        return new Rect(
+                cx - r,
+                cy - r,
+                cx + r,
+                cy + r
+        );
+    }
+
     public static final Property<Sprite, Integer> ROTATE_X = new IntProperty<Sprite>("rotateX") {
         @Override
         public void setValue(Sprite object, int value) {

@@ -1,6 +1,7 @@
 - 开始 Start
     - [introduce 介绍](start/introduce)
     - [installation 安装](start/installation)
+    - [lifecycle 生命周期 <font color="red">[新]</font>](start/lifecycle)
     
 - 组件 Component
     - [weiui_banner 轮播控件](component/weiui_banner)
@@ -17,8 +18,8 @@
     - [weiui_side_panel_item 侧边栏子组件](component/weiui_side_panel_item)
     - [weiui_tabbar 标签页面](component/weiui_tabbar)
     - [weiui_tabbar_page 标签页子组件](component/weiui_tabbar_page)
-    - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar2)
-    - [weiui_tabbar :tabPages模式示例](component/weiui_tabbar3)
+    - [weiui_tabbar :tabPages模式示例①](component/weiui_tabbar2)
+    - [weiui_tabbar :tabPages模式示例②](component/weiui_tabbar3)
     - [weiui_webview 浏览器组件](component/weiui_webview)
     
 - 模块 Module

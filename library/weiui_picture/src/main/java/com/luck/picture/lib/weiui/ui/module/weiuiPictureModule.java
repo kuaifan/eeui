@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 
-import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.luck.picture.lib.weiui.library.PictureSelectionModel;
 import com.luck.picture.lib.weiui.library.PictureSelector;
 import com.luck.picture.lib.weiui.library.compress.Luban;
@@ -36,8 +35,6 @@ import vip.kuaifan.weiui.extend.module.weiuiParse;
 
 import static android.app.Activity.RESULT_OK;
 
-
-@WeexModule(name = "weiui_picture")
 public class weiuiPictureModule extends WXModule {
 
     private static final String TAG = "weiuiPictureModule";

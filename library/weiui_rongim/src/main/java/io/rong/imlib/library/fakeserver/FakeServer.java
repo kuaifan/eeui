@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import io.rong.imlib.model.UserInfo;
-import io.rong.imlib.weiui.weiui_rongim;
+import io.rong.imlib.weiui.ui.weiui_rongim;
 import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 import vip.kuaifan.weiui.ui.weiui;

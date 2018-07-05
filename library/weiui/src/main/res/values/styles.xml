@@ -27,10 +27,10 @@
     <!-- SpinKit -->
     <style name="SpinKitView">
         <item name="android:indeterminateOnly">true</item>
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
+        <item name="android:minWidth">42dip</item>
+        <item name="android:maxWidth">42dip</item>
+        <item name="android:minHeight">42dip</item>
+        <item name="android:maxHeight">42dip</item>
     </style>
 
     <style name="SpinKitView.ChasingDots">

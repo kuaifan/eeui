@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -37,8 +36,6 @@ import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 import vip.kuaifan.weiui.ui.component.recyler.adapter.RecylerAdapter;
 import vip.kuaifan.weiui.ui.component.recyler.listener.RecylerOnBottomScrollListener;
 
-
-@WeexComponent(names = {"weiui_recyler", "wi_recyler", "weiui_list", "wi_list"})
 public class Recyler extends WXVContainer<ViewGroup> implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "Recyler";

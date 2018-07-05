@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexComponent;
-import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
@@ -27,7 +25,6 @@ import vip.kuaifan.weiui.extend.view.ProgressWebView;
 /**
  * Created by WDM on 2018/4/13.
  */
-@WeexComponent(names = {"weiui_webview", "wi_webview"})
 public class WebView extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "WebView";

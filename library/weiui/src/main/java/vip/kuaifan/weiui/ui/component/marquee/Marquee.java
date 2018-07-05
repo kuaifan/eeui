@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -32,7 +31,6 @@ import vip.kuaifan.weiui.extend.view.FocusedTextView;
  * Created by WDM on 2018/3/5.
  */
 
-@WeexComponent(names = {"weiui_marquee", "wi_marquee"})
 public class Marquee extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Marquee";

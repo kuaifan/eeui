@@ -23,7 +23,7 @@ SDK已上传至github，[https://github.com/kuaifan/weiui](https://github.com/ku
 
 ### 3、初始化SDK
 
-> 必须在 Application 的 onCreate 方法中执行 weiui_umeng.init 来初始化工程
+> 在 Application 的 onCreate 方法中初始化工程
 
 ```js
 public class App extends Application {
@@ -35,7 +35,7 @@ public class App extends Application {
         weiui.init(this);
         
          /**
-         * 必须在【weiui.init】之后执行 weiui_umeng.init 来初始化工程
+         * 在【weiui.init】之后执行初始化工程
          * 第一个参数：友盟 app key
          * 第一个参数：友盟 Push推送业务的secret
          * 第三个参数：友盟 channel（可留空）
@@ -46,4 +46,6 @@ public class App extends Application {
 }
 ```
 
+## iOS 接入
+> 暂不支持iOS系统
 

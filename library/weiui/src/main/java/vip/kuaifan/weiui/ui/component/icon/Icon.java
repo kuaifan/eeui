@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -32,7 +31,6 @@ import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
  * Created by WDM on 2018/3/13.
  */
 @SuppressLint("SetTextI18n")
-@WeexComponent(names = {"weiui_icon", "wi_icon"})
 public class Icon extends WXComponent<IconView> {
 
     private static final String TAG = "Icon";

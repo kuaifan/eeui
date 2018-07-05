@@ -9,7 +9,6 @@ import android.net.Uri;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
@@ -39,8 +38,6 @@ import vip.kuaifan.weiui.extend.module.weiuiCommon;
 import vip.kuaifan.weiui.extend.module.weiuiShareUtils;
 import vip.kuaifan.weiui.extend.view.loading.LoadingDialog;
 
-
-@WeexModule(name = "weiui")
 public class weiuiModule extends WXModule {
 
     private static final String TAG = "weiuiModule";

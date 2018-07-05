@@ -121,6 +121,7 @@
 | 属性名           | 类型     | 描述                          | 默认值     |
 | ------------- | ------ | -------------------------- | ------- |
 | titleType |`String`  | 标题对齐方式，`left`、`right`、`middle`         | middle       |
+| backgroundColor |`String`  | 背景颜色         | #3EB4FF       |
 
 > 例如：
 

@@ -23,7 +23,7 @@ SDK已上传至github，[https://github.com/kuaifan/weiui](https://github.com/ku
 
 ### 3、初始化SDK
 
-> 可在应用中任何地方执行 weiui_rongim.init 来初始化工程，**但必须在 weiui.init 之后**
+> 在 Application 的 onCreate 方法中初始化工程
 
 ```js
 public class App extends Application {
@@ -31,18 +31,20 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-    
+
         weiui.init(this);
         
-         /**
-         * 必须在【weiui.init】之后执行 weiui_rongim.init 来初始化工程
+        /**
+         * 在【weiui.init】之后执行初始化工程
          * 第一个参数：融云注册应用的AppKey
          * 第一个参数：融云注册应用的AppSecret
          */
         weiui_rongim.init(String appKey, String appSecret);
-        
     }
 }
 ```
+
+## iOS 接入
+> 暂不支持iOS系统
 
 

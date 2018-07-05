@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
@@ -23,7 +22,6 @@ import vip.kuaifan.weiui.ui.component.tabbar.bean.TabbarBean;
  * Created by WDM on 2018/3/9.
  */
 
-@WeexComponent(names = {"weiui_tabbar_page", "wi_tabbar_page"})
 public class TabbarPage extends WXVContainer<TabbarPageView> {
 
     private TabbarPageView mView;

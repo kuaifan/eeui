@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.ui.component.WXVContainer;
@@ -18,7 +17,6 @@ import vip.kuaifan.weiui.extend.module.weiuiConstants;
 /**
  * Created by WDM on 2018/4/12.
  */
-@WeexComponent(names = {"weiui_ripple", "wi_ripple", "ripple"})
 public class Ripple extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Ripple";

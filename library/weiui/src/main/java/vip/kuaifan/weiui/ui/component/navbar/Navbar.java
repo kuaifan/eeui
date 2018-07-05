@@ -2,6 +2,7 @@ package vip.kuaifan.weiui.ui.component.navbar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -36,12 +36,13 @@ import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
  * Created by WDM on 2018/3/5.
  */
 
-@WeexComponent(names = {"weiui_navbar", "wi_navbar"})
 public class Navbar extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Navbar";
 
     private View mView;
+
+    private FrameLayout l_main;
 
     private ImageView v_back;
 
@@ -138,6 +139,10 @@ public class Navbar extends WXVContainer<ViewGroup> {
                 setTitleType(weiuiParse.parseStr(val, "center"));
                 return true;
 
+            case "backgroundColor":
+                l_main.setBackgroundColor(Color.parseColor(weiuiParse.parseStr(val, "#3EB4FF")));
+                return true;
+
             default:
                 return false;
         }
@@ -172,6 +177,7 @@ public class Navbar extends WXVContainer<ViewGroup> {
     }
 
     private void initPagerView() {
+        l_main = mView.findViewById(R.id.l_main);
         v_back = mView.findViewById(R.id.v_back);
         v_back.setOnClickListener((View view)->{
             if (getDomObject().getEvents().contains(weiuiConstants.Event.GO_BACK_OVERRIDE)) {

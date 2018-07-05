@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -35,7 +34,6 @@ import vip.kuaifan.weiui.ui.component.sidePanel.view.SlidingMenu;
  * Created by WDM on 2018/3/4.
  */
 
-@WeexComponent(names = {"weiui_side_panel", "wi_side_panel"})
 public class SidePanel extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "SidePanel";

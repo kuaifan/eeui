@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.dom.WXDomObject;
@@ -31,7 +30,6 @@ import vip.kuaifan.weiui.extend.module.weiuiScreenUtils;
 /**
  * Created by WDM on 2018/3/13.
  */
-@WeexComponent(names = {"weiui_button", "wi_button"})
 public class Button extends WXVContainer<ViewGroup> implements View.OnClickListener {
 
     private static final String TAG = "Button";

@@ -28,7 +28,6 @@ import vip.kuaifan.weiui.extend.view.tablayout.SlidingTabLayout;
 import vip.kuaifan.weiui.extend.view.tablayout.listener.CustomTabEntity;
 import vip.kuaifan.weiui.extend.view.tablayout.listener.OnTabSelectListener;
 
-import com.alibaba.weex.plugin.annotation.WeexComponent;
 import com.taobao.weex.IWXRenderListener;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
@@ -55,7 +54,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@WeexComponent(names = {"weiui_tabbar", "wi_tabbar"})
 public class Tabbar extends WXVContainer<ViewGroup> {
 
     private static final String TAG = "Tabbar";

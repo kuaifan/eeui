@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
@@ -20,7 +19,7 @@ import io.rong.imlib.library.fakeserver.FakeServer;
 import io.rong.imlib.library.fakeserver.HttpUtil;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
-import io.rong.imlib.weiui.weiui_rongim;
+import io.rong.imlib.weiui.ui.weiui_rongim;
 import io.rong.message.TextMessage;
 import vip.kuaifan.weiui.extend.module.weiuiJson;
 
@@ -28,7 +27,6 @@ import vip.kuaifan.weiui.extend.module.weiuiJson;
  * Created by WDM on 2018/4/29.
  */
 
-@WeexModule(name = "weiui_rongim")
 public class weiuiRongmModule extends WXModule {
 
     private static final String TAG = "weiuiRongmModule";
