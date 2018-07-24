@@ -457,7 +457,7 @@
 
         methods: {
             downApp() {
-                weiui.openWeb("http://kuaifan.vip/weiui/app/android.apk");
+                weiui.openWeb("http://kuaifan.vip/weiui/app/android-13.apk");
             },
 
             scaner() {

@@ -1169,7 +1169,7 @@ exports.default = {
 
     methods: {
         downApp: function downApp() {
-            weiui.openWeb("http://kuaifan.vip/weiui/app/android.apk");
+            weiui.openWeb("http://kuaifan.vip/weiui/app/android-13.apk");
         },
         scaner: function scaner() {
             var _this2 = this;
