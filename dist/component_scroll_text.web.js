@@ -62,12 +62,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports) {
 
 var g;
@@ -94,8 +93,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 1:
+/* 1 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -285,29 +283,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-
-/***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var weiui = weex.requireModule('weiui');
-
-var app = {
-    openViewCode: function openViewCode(str) {
-        weiui.openPage({
-            url: "http://kuaifan.vip/weiui/#/" + str,
-            pageType: 'web'
-        });
-    }
-};
-
-module.exports = app;
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8223,8 +8199,7 @@ Vue$3.nextTick(function () {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1), __webpack_require__(0), __webpack_require__(3).setImmediate))
 
 /***/ }),
-
-/***/ 3:
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -8283,8 +8258,7 @@ exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-
-/***/ 4:
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -8477,8 +8451,7 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(1)))
 
 /***/ }),
-
-/***/ 5:
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20315,343 +20288,7 @@ module.exports = weex;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-
-/***/ 53:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _vue = __webpack_require__(2);
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _weexVueRender = __webpack_require__(5);
-
-var _weexVueRender2 = _interopRequireDefault(_weexVueRender);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// import render-core.
-// import weex from 'weex-vue-render/dist/index.core';
-
-// need to run `npm i weex-vue-slider weex-vue-stream --save` frist.
-// import the plugins (components and modules) you want to use.
-// import slider from 'weex-vue-slider';
-// import stream from 'weex-vue-stream';
-
-// install the plugins.
-// weex.install(slider);
-// weex.install(stream);
-
-_weexVueRender2.default.init(_vue2.default);
-
-var App = __webpack_require__(54);
-App.el = '#root';
-new _vue2.default(App);
-
-/***/ }),
-
-/***/ 54:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(55)
-}
-var Component = __webpack_require__(9)(
-  /* script */
-  __webpack_require__(57),
-  /* template */
-  __webpack_require__(58),
-  /* styles */
-  injectStyle,
-  /* scopeId */
-  "data-v-b2a31ebc",
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/WEIDONGMING/wwwroot/weex_weiui/src/component_scroll_text.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] component_scroll_text.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b2a31ebc", Component.options)
-  } else {
-    hotAPI.reload("data-v-b2a31ebc", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 55:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(56);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(7)("6831bf35", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b2a31ebc\",\"scoped\":true,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_scroll_text.vue", function() {
-     var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b2a31ebc\",\"scoped\":true,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_scroll_text.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 56:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.app[data-v-b2a31ebc] {\n    width: 750px;\n    flex: 1;\n}\n.title[data-v-b2a31ebc] {\n    font-size: 28px;\n    color: #ffffff\n}\n.iconr[data-v-b2a31ebc] {\n    width: 100px;\n    color: #ffffff;\n}\n.scroll_text[data-v-b2a31ebc] {\n    width: 750px;\n    margin-top: 50px;\n    height: 60px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 57:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _app = __webpack_require__(10);
-
-var weiui = weex.requireModule('weiui'); //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-exports.default = {
-    data: function data() {
-        return {
-            scrollText: "这是一段滚动的文字，可以自定义调整速度的滚动文字~~~~~感谢你对weiui的支持！"
-        };
-    },
-
-    methods: {
-        viewCode: function viewCode(str) {
-            (0, _app.openViewCode)(str);
-        },
-        itemClick: function itemClick(params) {
-            var starting = params.isStarting ? "运行中" : "停止了";
-            weiui.toast("我被点击了，当前状态：" + starting);
-        }
-    }
-};
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "app",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined))
-  }, [_c('weiui_navbar', [_c('weiui_navbar_item', {
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "type": "back"
-    }
-  }), _vm._v(" "), _c('weiui_navbar_item', {
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "type": "title"
-    }
-  }, [_c('text', {
-    staticClass: "title",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined))
-  }, [_vm._v("滚动文字")])]), _vm._v(" "), _c('weiui_navbar_item', {
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "type": "right"
-    },
-    on: {
-      "click": function($event) {
-        _vm.viewCode('component/weiui_scroll_text')
-      }
-    }
-  }, [_c('weiui_icon', {
-    staticClass: "iconr",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "content": "code-working"
-    }
-  })], 1)], 1), _vm._v(" "), _c('weiui_scroll_text', {
-    ref: "reflectName",
-    staticClass: "scroll_text",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "weiui": {
-        text: _vm.scrollText,
-        speed: 2,
-        fontSize: 32,
-      }
-    },
-    on: {
-      "itemClick": _vm.itemClick
-    }
-  }), _vm._v(" "), _c('weiui_scroll_text', {
-    ref: "reflectName2",
-    staticClass: "scroll_text",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "weiui": {
-        text: _vm.scrollText,
-        speed: 10,
-        fontSize: 32,
-        color: '#ff0000',
-        backgroundColor: '#00ffff'
-      }
-    },
-    on: {
-      "itemClick": _vm.itemClick
-    }
-  }), _vm._v(" "), _c('weiui_scroll_text', {
-    ref: "reflectName3",
-    staticClass: "scroll_text",
-    staticStyle: _vm.$processStyle(undefined),
-    style: (_vm.$processStyle(undefined)),
-    attrs: {
-      "weiui": {
-        text: _vm.scrollText,
-        speed: 5,
-        fontSize: 24,
-        color: '#6e0a92',
-        backgroundColor: '#c8e7ff'
-      }
-    },
-    on: {
-      "itemClick": _vm.itemClick
-    }
-  })], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b2a31ebc", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 6:
+/* 6 */
 /***/ (function(module, exports) {
 
 /*
@@ -20733,8 +20370,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-
-/***/ 7:
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -20955,8 +20591,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-
-/***/ 8:
+/* 8 */
 /***/ (function(module, exports) {
 
 /**
@@ -20989,8 +20624,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-
-/***/ 9:
+/* 9 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -21086,6 +20720,830 @@ module.exports = function normalizeComponent (
 }
 
 
-/***/ })
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/******/ });
+"use strict";
+
+
+var _global = __webpack_require__(11);
+
+var weiui = weex.requireModule('weiui');
+
+var app = {
+    openViewCode: function openViewCode(str) {
+        weiui.openPage({
+            url: "http://kuaifan.vip/weiui/#/" + str,
+            pageType: 'web'
+        });
+    },
+    checkVersion: function checkVersion(compareVersion) {
+        if (typeof weiui.getVersion !== "function") {
+            return false;
+        }
+        return (0, _global.runNum)(weiui.getVersion()) >= (0, _global.runNum)(compareVersion);
+    }
+};
+
+module.exports = app;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
+
+var global = {
+    isFunction: function isFunction(value) {
+        return typeof value === "function";
+    },
+    isObject: function isObject(obj) {
+        return obj === null ? false : (typeof obj === "undefined" ? "undefined" : _typeof(obj)) === "object";
+    },
+    likeArray: function likeArray(obj) {
+        return typeof obj.length === 'number';
+    },
+    getObject: function getObject(obj, keys) {
+        var object = obj;
+        if (global.count(obj) > 0 && global.count(keys) > 0) {
+            var arr = keys.replace(/,/g, "|").replace(/\./g, "|").split("|");
+            global.each(arr, function (index, key) {
+                if (typeof object[key] !== "undefined") {
+                    object = object[key];
+                }
+            });
+        }
+        return object;
+    },
+
+
+    /**
+     * 遍历数组、对象
+     * @param elements
+     * @param callback
+     * @returns {*}
+     */
+    each: function each(elements, callback) {
+        var i = void 0,
+            key = void 0;
+        if (global.likeArray(elements)) {
+            if (typeof elements.length === "number") {
+                for (i = 0; i < elements.length; i++) {
+                    if (callback.call(elements[i], i, elements[i]) === false) return elements;
+                }
+            }
+        } else {
+            for (key in elements) {
+                if (!elements.hasOwnProperty(key)) continue;
+                if (callback.call(elements[key], key, elements[key]) === false) return elements;
+            }
+        }
+
+        return elements;
+    },
+
+
+    /**
+     * 获取数组最后一个值
+     * @param array
+     * @returns {*}
+     */
+    last: function last(array) {
+        var str = false;
+        if ((typeof array === "undefined" ? "undefined" : _typeof(array)) === 'object' && array.length > 0) {
+            str = array[array.length - 1];
+        }
+        return str;
+    },
+
+
+    /**
+     * 删除数组最后一个值
+     * @param array
+     * @returns {Array}
+     */
+    delLast: function delLast(array) {
+        var newArray = [];
+        if ((typeof array === "undefined" ? "undefined" : _typeof(array)) === 'object' && array.length > 0) {
+            global.each(array, function (index, item) {
+                if (index < array.length - 1) {
+                    newArray.push(item);
+                }
+            });
+        }
+        return newArray;
+    },
+
+
+    /**
+     * 字符串是否包含
+     * @param string
+     * @param find
+     * @returns {boolean}
+     */
+    strExists: function strExists(string, find) {
+        string += "";
+        find += "";
+        return string.indexOf(find) !== -1;
+    },
+
+
+    /**
+     * 字符串是否左边包含
+     * @param string
+     * @param find
+     * @returns {boolean}
+     */
+    leftExists: function leftExists(string, find) {
+        string += "";
+        find += "";
+        return string.substring(0, find.length) === find;
+    },
+
+
+    /**
+     * 字符串是否右边包含
+     * @param string
+     * @param find
+     * @returns {boolean}
+     */
+    rightExists: function rightExists(string, find) {
+        string += "";
+        find += "";
+        return string.substring(string.length - find.length) === find;
+    },
+
+
+    /**
+     * 取字符串中间
+     * @param string
+     * @param start
+     * @param end
+     * @returns {*}
+     */
+    getMiddle: function getMiddle(string, start, end) {
+        string += "";
+        if (global.ishave(start) && global.strExists(string, start)) {
+            string = string.substring(string.indexOf(start) + start.length);
+        }
+        if (global.ishave(end) && global.strExists(string, end)) {
+            string = string.substring(0, string.indexOf(end));
+        }
+        return string;
+    },
+
+
+    /**
+     * 截取字符串
+     * @param string
+     * @param start
+     * @param end
+     * @returns {string}
+     */
+    subString: function subString(string, start, end) {
+        string += "";
+        if (!global.ishave(end)) {
+            end = string.length;
+        }
+        return string.substring(start, end);
+    },
+
+
+    /**
+     * 随机字符
+     * @param len
+     * @returns {string}
+     */
+    randomString: function randomString(len) {
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678oOLl9gqVvUuI1';
+        var maxPos = $chars.length;
+        var pwd = '';
+        for (var i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    },
+
+
+    /**
+     * 判断是否有
+     * @param set
+     * @returns {boolean}
+     */
+    ishave: function ishave(set) {
+        return !!(set !== null && set !== "null" && set !== undefined && set !== "undefined" && set);
+    },
+
+
+    /**
+     * 补零
+     * @param str
+     * @param length
+     * @param after
+     * @returns {*}
+     */
+    zeroFill: function zeroFill(str, length, after) {
+        str += "";
+        if (str.length >= length) {
+            return str;
+        }
+        var _str = '',
+            _ret = '';
+        for (var i = 0; i < length; i++) {
+            _str += '0';
+        }
+        if (after || typeof after === 'undefined') {
+            _ret = (_str + "" + str).substr(length * -1);
+        } else {
+            _ret = (str + "" + _str).substr(0, length);
+        }
+        return _ret;
+    },
+
+
+    /**
+     * 时间戳转时间格式
+     * @param format
+     * @param v
+     * @returns {string}
+     */
+    formatDate: function formatDate(format, v) {
+        if (format === '') {
+            format = 'Y-m-d H:i:s';
+        }
+        if (typeof v === 'undefined') {
+            v = new Date().getTime();
+        } else if (/^(-)?\d{1,10}$/.test(v)) {
+            v = v * 1000;
+        } else if (/^(-)?\d{1,13}$/.test(v)) {
+            v = v * 1000;
+        } else if (/^(-)?\d{1,14}$/.test(v)) {
+            v = v * 100;
+        } else if (/^(-)?\d{1,15}$/.test(v)) {
+            v = v * 10;
+        } else if (/^(-)?\d{1,16}$/.test(v)) {
+            v = v * 1;
+        } else {
+            return v;
+        }
+        var dateObj = new Date(v);
+        if (parseInt(dateObj.getFullYear()) + "" === "NaN") {
+            return v;
+        }
+        //
+        format = format.replace(/Y/g, dateObj.getFullYear());
+        format = format.replace(/m/g, global.zeroFill(dateObj.getMonth() + 1, 2));
+        format = format.replace(/d/g, global.zeroFill(dateObj.getDate(), 2));
+        format = format.replace(/H/g, global.zeroFill(dateObj.getHours(), 2));
+        format = format.replace(/i/g, global.zeroFill(dateObj.getMinutes(), 2));
+        format = format.replace(/s/g, global.zeroFill(dateObj.getSeconds(), 2));
+        return format;
+    },
+
+
+    /**
+     * 检测手机号码格式
+     * @param str
+     * @returns {boolean}
+     */
+    isMobile: function isMobile(str) {
+        return (/^1(3|4|5|7|8)\d{9}$/.test(str)
+        );
+    },
+
+
+    /**
+     * 手机号码中间换成****
+     * @param phone
+     * @returns {string}
+     */
+    formatMobile: function formatMobile(phone) {
+        if (global.count(phone) === 0) {
+            return "";
+        }
+        return phone.substring(0, 3) + "****" + phone.substring(phone.length - 4);
+    },
+
+
+    /**
+     * 设置网页标题
+     * @param title
+     */
+    setTile: function setTile(title) {
+        document.title = title;
+        var mobile = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(mobile)) {
+            var iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.setAttribute('src', '/favicon.ico');
+            var iframeCallback = function iframeCallback() {
+                setTimeout(function () {
+                    iframe.removeEventListener('load', iframeCallback);
+                    document.body.removeChild(iframe);
+                }, 0);
+            };
+            iframe.addEventListener('load', iframeCallback);
+            document.body.appendChild(iframe);
+        }
+    },
+
+
+    /**
+     * 克隆对象
+     * @param myObj
+     * @returns {*}
+     */
+    clone: function clone(myObj) {
+        if ((typeof myObj === "undefined" ? "undefined" : _typeof(myObj)) !== 'object') return myObj;
+        if (myObj === null) return myObj;
+        //
+        if (global.likeArray(myObj)) {
+            var _myObj = _toArray(myObj),
+                myNewObj = _myObj.slice(0);
+
+            return myNewObj;
+        } else {
+            var _myNewObj = _objectWithoutProperties(myObj, []);
+
+            return _myNewObj;
+        }
+    },
+
+
+    /**
+     * 统计数组或对象长度
+     * @param obj
+     * @returns {number}
+     */
+    count: function count(obj) {
+        try {
+            if (typeof obj === "undefined") {
+                return 0;
+            }
+            if (typeof obj === "number") {
+                obj += "";
+            }
+            if (typeof obj.length === 'number') {
+                return obj.length;
+            } else {
+                var i = 0,
+                    key = void 0;
+                for (key in obj) {
+                    i++;
+                }
+                return i;
+            }
+        } catch (e) {
+            return 0;
+        }
+    },
+
+
+    /**
+     * 相当于 intval
+     * @param str
+     * @param fixed
+     * @returns {number}
+     */
+    runNum: function runNum(str, fixed) {
+        var _s = Number(str);
+        if (_s + "" === "NaN") {
+            _s = 0;
+        }
+        if (/^[0-9]*[1-9][0-9]*$/.test(fixed)) {
+            _s = _s.toFixed(fixed);
+            var rs = _s.indexOf('.');
+            if (rs < 0) {
+                _s += ".";
+                for (var i = 0; i < fixed; i++) {
+                    _s += "0";
+                }
+            }
+        }
+        return _s;
+    },
+
+
+    /**
+     * 秒转化为天小时分秒字符串
+     * @param value
+     * @returns {string}
+     */
+    formatSeconds: function formatSeconds(value) {
+        var theTime = parseInt(value); // 秒
+        var theTime1 = 0; // 分
+        var theTime2 = 0; // 小时
+        if (theTime > 60) {
+            theTime1 = parseInt(theTime / 60);
+            theTime = parseInt(theTime % 60);
+            if (theTime1 > 60) {
+                theTime2 = parseInt(theTime1 / 60);
+                theTime1 = parseInt(theTime1 % 60);
+            }
+        }
+        var result = parseInt(theTime) + "秒";
+        if (theTime1 > 0) {
+            result = parseInt(theTime1) + "分" + result;
+        }
+        if (theTime2 > 0) {
+            result = parseInt(theTime2) + "小时" + result;
+        }
+        return result;
+    },
+
+
+    /**
+     * 获取星座
+     * @param m
+     * @param d
+     * @returns {string}
+     */
+    getAstro: function getAstro(m, d) {
+        return "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯".substr(m * 2 - (d < "102223444433".charAt(m - 1) - -19) * 2, 2) + "座";
+    }
+};
+
+module.exports = global;
+
+/***/ }),
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _vue = __webpack_require__(2);
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _weexVueRender = __webpack_require__(5);
+
+var _weexVueRender2 = _interopRequireDefault(_weexVueRender);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import render-core.
+// import weex from 'weex-vue-render/dist/index.core';
+
+// need to run `npm i weex-vue-slider weex-vue-stream --save` frist.
+// import the plugins (components and modules) you want to use.
+// import slider from 'weex-vue-slider';
+// import stream from 'weex-vue-stream';
+
+// install the plugins.
+// weex.install(slider);
+// weex.install(stream);
+
+_weexVueRender2.default.init(_vue2.default);
+
+var App = __webpack_require__(55);
+App.el = '#root';
+new _vue2.default(App);
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(56)
+}
+var Component = __webpack_require__(9)(
+  /* script */
+  __webpack_require__(58),
+  /* template */
+  __webpack_require__(59),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  "data-v-b2a31ebc",
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/GAOYI/wwwroot/weex_weiui/src/component_scroll_text.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] component_scroll_text.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b2a31ebc", Component.options)
+  } else {
+    hotAPI.reload("data-v-b2a31ebc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(57);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(7)("6831bf35", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b2a31ebc\",\"scoped\":true,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_scroll_text.vue", function() {
+     var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b2a31ebc\",\"scoped\":true,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_scroll_text.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(6)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.app[data-v-b2a31ebc] {\n    width: 750px;\n    flex: 1;\n}\n.title[data-v-b2a31ebc] {\n    font-size: 28px;\n    color: #ffffff\n}\n.iconr[data-v-b2a31ebc] {\n    width: 100px;\n    color: #ffffff;\n}\n.scroll_text[data-v-b2a31ebc] {\n    width: 750px;\n    margin-top: 50px;\n    height: 60px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _app = __webpack_require__(10);
+
+var weiui = weex.requireModule('weiui'); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+    data: function data() {
+        return {
+            scrollText: "这是一段滚动的文字，可以自定义调整速度的滚动文字~~~~~感谢你对weiui的支持！"
+        };
+    },
+
+    methods: {
+        viewCode: function viewCode(str) {
+            (0, _app.openViewCode)(str);
+        },
+        itemClick: function itemClick(params) {
+            var starting = params.isStarting ? "运行中" : "停止了";
+            weiui.toast("我被点击了，当前状态：" + starting);
+        }
+    }
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "app",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined))
+  }, [_c('weiui_navbar', [_c('weiui_navbar_item', {
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "type": "back"
+    }
+  }), _vm._v(" "), _c('weiui_navbar_item', {
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "type": "title"
+    }
+  }, [_c('text', {
+    staticClass: "title",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined))
+  }, [_vm._v("滚动文字")])]), _vm._v(" "), _c('weiui_navbar_item', {
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "type": "right"
+    },
+    on: {
+      "click": function($event) {
+        _vm.viewCode('component/weiui_scroll_text')
+      }
+    }
+  }, [_c('weiui_icon', {
+    staticClass: "iconr",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "content": "code-working"
+    }
+  })], 1)], 1), _vm._v(" "), _c('weiui_scroll_text', {
+    ref: "reflectName",
+    staticClass: "scroll_text",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "weiui": {
+        text: _vm.scrollText,
+        speed: 2,
+        fontSize: 32,
+      }
+    },
+    on: {
+      "itemClick": _vm.itemClick
+    }
+  }), _vm._v(" "), _c('weiui_scroll_text', {
+    ref: "reflectName2",
+    staticClass: "scroll_text",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "weiui": {
+        text: _vm.scrollText,
+        speed: 10,
+        fontSize: 32,
+        color: '#ff0000',
+        backgroundColor: '#00ffff'
+      }
+    },
+    on: {
+      "itemClick": _vm.itemClick
+    }
+  }), _vm._v(" "), _c('weiui_scroll_text', {
+    ref: "reflectName3",
+    staticClass: "scroll_text",
+    staticStyle: _vm.$processStyle(undefined),
+    style: (_vm.$processStyle(undefined)),
+    attrs: {
+      "weiui": {
+        text: _vm.scrollText,
+        speed: 5,
+        fontSize: 24,
+        color: '#6e0a92',
+        backgroundColor: '#c8e7ff'
+      }
+    },
+    on: {
+      "itemClick": _vm.itemClick
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b2a31ebc", module.exports)
+  }
+}
+
+/***/ })
+/******/ ]);

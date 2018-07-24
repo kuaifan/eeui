@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 71);
+/******/ 	return __webpack_require__(__webpack_require__.s = 72);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -20600,7 +20600,7 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ 71:
+/***/ 72:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20630,25 +20630,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _weexVueRender2.default.init(_vue2.default);
 
-var App = __webpack_require__(72);
+var App = __webpack_require__(73);
 App.el = '#root';
 new _vue2.default(App);
 
 /***/ }),
 
-/***/ 72:
+/***/ 73:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(73)
+  __webpack_require__(74)
 }
 var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(75),
-  /* template */
   __webpack_require__(76),
+  /* template */
+  __webpack_require__(77),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -20656,7 +20656,7 @@ var Component = __webpack_require__(9)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/WEIDONGMING/wwwroot/weex_weiui/src/component_tabbar2.vue"
+Component.options.__file = "/Users/GAOYI/wwwroot/weex_weiui/src/component_tabbar2.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] component_tabbar2.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20681,13 +20681,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 73:
+/***/ 74:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(74);
+var content = __webpack_require__(75);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -20708,7 +20708,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 74:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)(false);
@@ -20723,7 +20723,7 @@ exports.push([module.i, "\n.app {\n    flex: 1\n}\n.tabbar {\n    flex: 1;\n    
 
 /***/ }),
 
-/***/ 75:
+/***/ 76:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20781,7 +20781,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 76:
+/***/ 77:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -258,6 +258,8 @@
 </style>
 
 <script>
+    import {checkVersion} from "../statics/js/app";
+
     const weiui = weex.requireModule('weiui');
 
     export default {
@@ -420,8 +422,7 @@
         mounted() {
             this.history = JSON.parse(weiui.getCachesString("scaner", []));
             //
-            let variable = parseInt(weiui.getLocalVersion());
-            if (variable < 12) {
+            if (!checkVersion(22)) {
                 this.newApp = true;
                 weiui.confirm({
                     title: "版本更新",

@@ -1,3 +1,5 @@
+import {runNum} from "./global";
+
 let weiui = weex.requireModule('weiui');
 
 let app = {
@@ -7,6 +9,13 @@ let app = {
             url: "http://kuaifan.vip/weiui/#/" + str,
             pageType: 'web'
         });
+    },
+
+    checkVersion(compareVersion) {
+        if (typeof weiui.getVersion !== "function") {
+            return false;
+        }
+        return runNum(weiui.getVersion()) >= runNum(compareVersion);
     },
 
 };

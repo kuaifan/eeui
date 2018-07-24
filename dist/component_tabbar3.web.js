@@ -62,7 +62,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 77);
+/******/ 	return __webpack_require__(__webpack_require__.s = 78);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -20600,7 +20600,7 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 
-/***/ 77:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20630,25 +20630,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _weexVueRender2.default.init(_vue2.default);
 
-var App = __webpack_require__(78);
+var App = __webpack_require__(79);
 App.el = '#root';
 new _vue2.default(App);
 
 /***/ }),
 
-/***/ 78:
+/***/ 79:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(79)
+  __webpack_require__(80)
 }
 var Component = __webpack_require__(9)(
   /* script */
-  __webpack_require__(81),
-  /* template */
   __webpack_require__(82),
+  /* template */
+  __webpack_require__(83),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -20656,7 +20656,7 @@ var Component = __webpack_require__(9)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/WEIDONGMING/wwwroot/weex_weiui/src/component_tabbar3.vue"
+Component.options.__file = "/Users/GAOYI/wwwroot/weex_weiui/src/component_tabbar3.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] component_tabbar3.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20678,33 +20678,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 79:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(80);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(7)("be6e699e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0dd4d758\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_tabbar3.vue", function() {
-     var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0dd4d758\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_tabbar3.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
 
 /***/ }),
 
@@ -20745,6 +20718,33 @@ module.exports = function listToStyles (parentId, list) {
 /***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(81);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(7)("be6e699e", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0dd4d758\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_tabbar3.vue", function() {
+     var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-0dd4d758\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./component_tabbar3.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 81:
+/***/ (function(module, exports, __webpack_require__) {
+
 exports = module.exports = __webpack_require__(6)(false);
 // imports
 
@@ -20757,7 +20757,7 @@ exports.push([module.i, "\n.app {\n    flex: 1\n}\n.tabbar {\n    flex: 1;\n    
 
 /***/ }),
 
-/***/ 81:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20821,7 +20821,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 82:
+/***/ 83:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
