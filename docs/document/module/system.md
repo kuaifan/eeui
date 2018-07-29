@@ -81,12 +81,24 @@ let variable = weiui.getLocalVersionName()
 let variable = weiui.compareVersion(version1, version2)
 ```
 
-## 获取手机的IMEI
+## 获取手机的IMEI <font color="red">[新]</font>
+> 注：Android返回IMEI，iOS返回UDID
+
 ```js
 /**
  * @return String
  */
 let variable = weiui.getImei()
+```
+
+## 获取手机的IFA <font color="red">[新]</font>
+> 注：Android返回空，iOS返回IFA
+
+```js
+/**
+ * @return String
+ */
+let variable = weiui.getIfa()
 ```
 
 ## 获取设备系统版本号

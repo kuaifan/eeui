@@ -540,6 +540,14 @@ public class weiuiModule extends WXModule {
     }
 
     /**
+     * 获取手机的IFA（android没有）
+     */
+    @JSMethod(uiThread = false)
+    public String getIfa() {
+        return "";
+    }
+
+    /**
      * 获取设备系统版本号
      */
     @JSMethod(uiThread = false)
