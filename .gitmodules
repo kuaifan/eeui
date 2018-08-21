@@ -1,0 +1,9 @@
+[submodule "weiui-cli"]
+	path = weiui-cli
+	url = https://github.com/kuaifan/weiui-cli.git
+[submodule "weiui-docs"]
+	path = weiui-docs
+	url = https://github.com/kuaifan/weiui-docs.git
+[submodule "weiui-template"]
+	path = weiui-template
+	url = https://github.com/kuaifan/weiui-template.git

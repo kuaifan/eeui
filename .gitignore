@@ -1,6 +1,3 @@
 /node_modules
-/.temp
-/.wx
 /.idea
-build
 .DS_Store
