@@ -1,6 +1,6 @@
 # 开始使用
 
-> 一个基于 [Weex](https://github.com/apache/incubator-weex) 的富交互、轻量级、高性能的 UI 组件库。
+> 一个基于 Vue.js 的高质量跨平台开发框架。
 
 ## 文档
 
