@@ -7,6 +7,3 @@
 [submodule "eeui-template"]
 	path = eeui-template
 	url = https://github.com/kuaifan/eeui-template.git
-[submodule "eeui-plugins"]
-	path = eeui-plugins
-	url = https://github.com/kuaifan/eeui-plugins.git
