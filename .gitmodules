@@ -4,6 +4,9 @@
 [submodule "eeui-docs"]
 	path = eeui-docs
 	url = https://github.com/kuaifan/eeui-docs.git
+[submodule "eeui-service"]
+	path = eeui-service
+	url = https://github.com/kuaifan/eeui-service.git
 [submodule "eeui-template"]
 	path = eeui-template
 	url = https://github.com/kuaifan/eeui-template.git
