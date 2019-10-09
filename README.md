@@ -20,8 +20,8 @@
 - 轩妈商城 [Android版](http://wechat2.xuanma.cn/xuanma-2.3.1.apk)、[iOS版](https://itunes.apple.com/cn/app/id1202797032)
 <a href="https://eeui.app/cases/xuanma.jpg?__=008" target="_blank"><img src="https://eeui.app/cases/xuanma.jpg?__=008" style="max-height:280px"></a>
 
-- OwO壁纸 [Android版](https://www.coolapk.com/apk/one.owo.app)、iOS版
-<a href="https://eeui.app/cases/owo.jpg?__=008" target="_blank"><img src="https://eeui.app/cases/owo.jpg?__=008" style="max-height:280px"></a>
+- 壁纸喵 [Android版](https://www.lanzous.com/i4yz8xe)、iOS版
+<a href="https://eeui.app/cases/owo2.jpg?__=008" target="_blank"><img src="https://eeui.app/cases/owo2.jpg?__=008" style="max-height:280px"></a>
 
 ## 支持
 
