@@ -43,7 +43,8 @@
 |<img src="https://eeui.app/images/wxdonate.jpg" width="240px" alt="微信支付捐赠">  |
 
 ## 社群
-<img src="https://eeui.app/images/qqgroup.png" width="280px">
+
+<p><img src="https://eeui.app/images/qqgroup.png" width="280px"></p>
 
 ## 协议
 
