@@ -28,8 +28,22 @@
 * 在你的公司或个人项目中使用 eeui
 * 如果你觉得 eeui 还不错，可以通过 Star 来表示你的喜欢
 
+## 捐赠
+
+如果您认可eeui，感觉eeui能给您带来帮助，希望您能进行捐赠，这将是eeui未来持续改进的保障。捐助的资金将用于：
+        
+* 站点服务器、域名费用
+* 站点日常维护
+* 新功能开发和 bug 修复
+
+在捐赠时您可以给我们留言，附上最想添加的新功能（可以用短链接形式附上详情需求），我们会根据需求度尽快开发上线。
+
+| 微信支付捐赠 |
+| --- |
+|<img src="https://eeui.app/images/wxdonate.jpg" width="240px" alt="微信支付捐赠">  |
+
 ## 社群
-<img src="https://raw.githubusercontent.com/kang558/tool/master/904F6052B2D2B7695A782FE47443C8E1.png" width="280px">
+<img src="https://eeui.app/images/qqgroup.png" width="280px">
 
 ## 协议
 
